@@ -154,7 +154,7 @@
 
 /*Header*/
 header{
-    background: rgba(72, 76, 78, 0.8);
+    background: rgba(17, 17, 17, 0.8);
     color: #fff;
     padding-top: 30px;
     min-height: 70px;
@@ -203,7 +203,7 @@ header a:hover{
     transform: translate(-50%,-50%);
     width: 850px;
     padding: 40px;
-    background: rgba(17, 17, 17, 0.8);
+    background: rgba(72, 76, 78, 0.8);
     box-sizing: border-box;
     box-shadow: 0 15px 25px rgba(0, 0, 0, .5);
     border-radius: 10px;
@@ -245,29 +245,17 @@ header a:hover{
     font-weight: bold;
 }
 
-footer{
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    padding: 0px;
-    margin-top: 20px;
-    color: #000;
-    background-color: #cccccca9;
-    text-align: center;
-}
-
 /*Sidebar*/
 .sidebar{
     color: rgba(255, 255, 255, 0.664);
     text-align: center;
     position: absolute;
-    top: 28%;
+    top: 30%;
     left: 18%;
     transform: translate(-50%,-50%);
     width: 200px;
     padding: 40px;
-    background: rgba(17, 17, 17, 0.8);
+    background: rgba(72, 76, 78, 0.8);
     box-sizing: border-box;
     box-shadow: 0 15px 25px rgba(0, 0, 0, .5);
     border-radius: 10px;
@@ -282,3 +270,34 @@ footer{
     cursor: pointer;
     border-radius: 5px;
 }
+.sidebar button{
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+    background: #03a9f4;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.sidebar button a{
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+
+}
+
+
+/*Footer*/
+footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 0px;
+    margin-top: 20px;
+    color: #000;
+    background-color: #cccccca9;
+    text-align: center;
+}
+
