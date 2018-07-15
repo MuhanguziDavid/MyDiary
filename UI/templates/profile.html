@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>MyDiary | Add Entry</title>
+    <title>MyDiary | Profile</title>
     <link rel="stylesheet" href="../css/style.css">
     <script src="../js/dynamic.js"></script>
 </head>
 
-<body class="home">
+<body class="home" onload="entryContents_getTextFromEntry();">
     <header>
         <div class="container">
             <div id="branding">
@@ -19,10 +19,10 @@
             </div>
             <nav>
                 <ul>
-                    <li class="current">
+                    <li>
                         <a href="home.html">Home</a>
                     </li>
-                    <li>
+                    <li class="current">
                         <a href="profile.html">Profile</a>
                     </li>
                     <li>
@@ -32,24 +32,14 @@
             </nav>
         </div>
     </header>
-    <section class="sidebar-addEntry">
+    <section class="profile">
         <div>
-            <a href="home.html">Entry List</a>
-        </div>
-    </section>
-    <section class="add-entry">
-        <div>
-            <h1>Create Entry</h1>
-            <form id="login" method="post" action="home.html">
-                <div class="inputBox">
-                    <label for="username">Title</label>
-                    <input type="text" name="username" required="required" />
-
-                    <label for="entryDetails">Datails</label>
-                    <textarea name="entryDetails" cols="30" rows="10" required="required"></textarea>
-                </div>
-                <input type="submit" name="login_button" value="Submit" />
-            </form>
+            <h1>Samuel Rukundo</h1>
+            <p>Account created: 15/07/18</p>
+            <p>Number of Entries: 4</p>
+            <button>
+                <a href="#">Set Reminder</a>
+            </button>
         </div>
     </section>
 
