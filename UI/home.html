@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>MyDiary | Edit Entry</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <script src="../js/dynamic.js"></script>
+    <title>MyDiary | Welcome</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/dynamic.js"></script>
 </head>
 
-<body class="home" onload="editEntry_autofillEntryFields();">
+<body class="home">
     <header>
         <div class="container">
             <div id="branding">
@@ -32,24 +32,28 @@
             </nav>
         </div>
     </header>
-    <section class="sidebar-addEntry">
+    <section class="sidebar">
         <div>
-            <a href="home.html">Entry List</a>
+            <button><a href="addEntry.html">Create Entry</a></button>
         </div>
     </section>
-    <section class="add-entry">
+    <section class="entries">
         <div>
-            <h1>Edit Entry</h1>
-            <form id="login" action="home.html">
-                <div class="inputBox">
-                    <label for="username">Title</label>
-                    <input type="text" name="username" id="inputTitle" />
-
-                    <label for="entryDetails">Datails</label>
-                    <textarea name="entryDetails" id="textareaDetails" cols="30" rows="10"></textarea>
-                </div>
-                <input type="submit" name="login_button" value="Submit" />
-            </form>
+            <h1>Entries</h1>
+            <ul>
+                <li>
+                    <a href="entryContents.html">A day at the mall</a>
+                </li>
+                <li>
+                    <a href="entryContents.html">Safari to Kidepo Valley</a>
+                </li>
+                <li>
+                    <a href="entryContents.html">My first job interview</a>
+                </li>
+                <li>
+                    <a href="entryContents.html">Graduation day drama</a>
+                </li>
+            </ul>
         </div>
     </section>
 

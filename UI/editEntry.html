@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>MyDiary | Add Entry</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <script src="../js/dynamic.js"></script>
+    <title>MyDiary | Edit Entry</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/dynamic.js"></script>
 </head>
 
-<body class="home">
+<body class="home" onload="editEntry_autofillEntryFields();">
     <header>
         <div class="container">
             <div id="branding">
@@ -39,14 +39,14 @@
     </section>
     <section class="add-entry">
         <div>
-            <h1>Create Entry</h1>
+            <h1>Edit Entry</h1>
             <form id="login" action="home.html">
                 <div class="inputBox">
                     <label for="username">Title</label>
-                    <input type="text" name="username" required="required" />
+                    <input type="text" name="username" id="inputTitle" />
 
                     <label for="entryDetails">Datails</label>
-                    <textarea name="entryDetails" cols="30" rows="10" required="required"></textarea>
+                    <textarea name="entryDetails" id="textareaDetails" cols="30" rows="10"></textarea>
                 </div>
                 <input type="submit" name="login_button" value="Submit" />
             </form>
