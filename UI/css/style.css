@@ -1,3 +1,55 @@
+/*Global*/
+.home{
+    font-family: sans-serif;
+    padding: 0;
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+    background: url(../images/background_image2.jpg) no-repeat;
+    /*background-color: #f4f4f4;*/
+}
+.container{
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+input[type="submit"]{
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+    background: #03a9f4;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+a{
+    color: rgb(103, 194, 247);
+    text-align: left;
+    text-decoration: none;
+    margin: 0 0 30px;
+}
+a:hover{
+    color: #ffffff;
+}
+button{
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+    background: #03a9f4;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 0 0 30px;
+}
+button a{
+    color: rgb(217, 237, 248);
+    text-align: left;
+    text-decoration: none;
+    margin: 0 0 30px;
+}
+
 /*SignUp and login pages*/
 .signup{
     margin: 0;
@@ -136,22 +188,6 @@
 }
 
 /*Home page*/
-/*Global*/
-.home{
-    font-family: sans-serif;
-    padding: 0;
-    margin: 0;
-    font-size: 15px;
-    line-height: 1.5;
-    background: url(../images/background_image2.jpg) no-repeat;
-    /*background-color: #f4f4f4;*/
-}
-.container{
-    width: 80%;
-    margin: auto;
-    overflow: hidden;
-}
-
 /*Header*/
 header{
     background: rgba(17, 17, 17, 0.8);
@@ -194,6 +230,7 @@ header a:hover{
     font-weight: bold;
 }
 
+/*home page*/
 .entries{
     color: rgba(255, 255, 255, 0.664);
     text-align: left;
@@ -245,12 +282,12 @@ header a:hover{
     font-weight: bold;
 }
 
-/*Sidebar*/
+/*Home page Sidebar*/
 .sidebar{
     color: rgba(255, 255, 255, 0.664);
     text-align: center;
     position: absolute;
-    top: 34%;
+    top: 33%;
     left: 18%;
     transform: translate(-50%,-50%);
     width: 200px;
@@ -259,42 +296,6 @@ header a:hover{
     box-sizing: border-box;
     box-shadow: 0 15px 25px rgba(0, 0, 0, .5);
     border-radius: 10px;
-}
-.sidebar input[type="submit"]{
-    background: transparent;
-    border: none;
-    outline: none;
-    color: #fff;
-    background: #03a9f4;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 5px;
-}
-.sidebar button{
-    background: transparent;
-    border: none;
-    outline: none;
-    color: #fff;
-    background: #03a9f4;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 5px;
-    margin: 0 0 30px;
-}
-.sidebar button a{
-    color: rgb(217, 237, 248);
-    text-align: left;
-    text-decoration: none;
-    margin: 0 0 30px;
-}
-.sidebar a{
-    color: rgb(103, 194, 247);
-    text-align: left;
-    text-decoration: none;
-    margin: 0 0 30px;
-}
-.sidebar a:hover{
-    color: #ffffff;
 }
 
 /*Entry contents page*/
@@ -324,14 +325,83 @@ header a:hover{
     color: rgba(255, 255, 255, 0.856);
     text-align: center;
 }
-.entry-contents a{
-    color: rgb(65, 141, 192);
+
+/*Entry contents Sidebar*/
+.sidebar-entry-contents{
+    color: rgba(255, 255, 255, 0.664);
     text-align: center;
-    text-decoration: none;
+    position: absolute;
+    top: 33%;
+    left: 18%;
+    transform: translate(-50%,-50%);
+    width: 200px;
+    padding: 40px;
+    background: rgba(72, 76, 78, 0.8);
+    box-sizing: border-box;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, .5);
+    border-radius: 10px;
 }
-.entry-contents a:hover{
-    color: #ffffff;
-    font-weight: bold;
+
+
+/*addEntry page*/
+.add-entry{
+    color: rgba(255, 255, 255, 0.89);
+    text-align: left;
+    position: absolute;
+    top: 50%;
+    left: 57%;
+    transform: translate(-50%,-50%);
+    width: 850px;
+    padding: 20px;
+    background: rgba(72, 76, 78, 0.8);
+    box-sizing: border-box;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, .5);
+    border-radius: 10px;
+}
+.add-entry form{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    height:280px;
+    width:100%;
+    overflow:hidden;
+    overflow-y:scroll;
+}
+.add-entry .inputBox input{
+    width: 90%;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #fff;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    background: transparent;
+}
+.add-entry .inputBox textarea{
+    width: 95%;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #fff;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    background: transparent;
+}
+
+/*Add Entry Sidebar*/
+.sidebar-addEntry{
+    color: rgba(255, 255, 255, 0.664);
+    text-align: center;
+    position: absolute;
+    top: 28%;
+    left: 18%;
+    transform: translate(-50%,-50%);
+    width: 200px;
+    padding: 40px;
+    background: rgba(72, 76, 78, 0.8);
+    box-sizing: border-box;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, .5);
+    border-radius: 10px;
 }
 
 

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>MyDiary | Welcome</title>
+    <title>MyDiary | Add Entry</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 
@@ -31,28 +31,25 @@
             </nav>
         </div>
     </header>
-    <section class="sidebar">
+    <section class="sidebar-addEntry">
         <div>
-            <button><a href="addEntry.html">Create Entry</a></button>
+            <a href="home.html">Entry List</a>
         </div>
     </section>
-    <section class="entries">
+    <section class="add-entry">
         <div>
-            <h1>Entries</h1>
-            <ul>
-                <li>
-                    <a href="entryContents.html">A day at the mall</a>
-                </li>
-                <li>
-                    <a href="entryContents.html">Safari to Kidepo Valley</a>
-                </li>
-                <li>
-                    <a href="entryContents.html">My first job interview</a>
-                </li>
-                <li>
-                    <a href="entryContents.html">Graduation day drama</a>
-                </li>
-            </ul>
+            <h1>Create Entry</h1>
+            <form id="login" method="post" action="#">
+                <div class="inputBox">
+                    <label for="username">Title</label>
+                    <input type="text" name="username" required="required" />
+                </div>
+                <div class="inputBox">
+                    <label for="entryDetails">Datails</label>
+                    <textarea name="entryDetails" cols="30" rows="10"></textarea>
+                </div>
+                <input type="submit" name="login_button" value="Submit" />
+            </form>
         </div>
     </section>
 
