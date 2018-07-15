@@ -6,6 +6,18 @@ function entryContents_getTextFromEntry() {
 }
 
 function editEntry_autofillEntryFields() {
-    document.getElementById('inputTitle').value=textInside_h1 ;
-    document.getElementById('textareaDetails').value=textInside_p ;
- }
+    document.getElementById('inputTitle').value = textInside_h1;
+    document.getElementById('textareaDetails').value = textInside_p;
+}
+
+function setReminderField() {
+    var x = document.createElement("INPUT");
+    x.setAttribute("type", "date");
+    x.setAttribute("id", "dateField");
+
+    x.style.position = 'absolute';
+    x.style.top = '66%';
+    x.style.left = '44.5%';
+
+    document.body.appendChild(x);
+}
