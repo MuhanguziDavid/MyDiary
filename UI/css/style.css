@@ -1,5 +1,6 @@
 /*Global*/
-.home{
+
+.home {
     font-family: sans-serif;
     padding: 0;
     margin: 0;
@@ -8,12 +9,14 @@
     background: url(../images/background_image2.jpg) no-repeat;
     /*background-color: #f4f4f4;*/
 }
-.container{
+
+.container {
     width: 80%;
     margin: auto;
     overflow: hidden;
 }
-input[type="submit"]{
+
+input[type="submit"] {
     background: transparent;
     border: none;
     outline: none;
@@ -23,16 +26,19 @@ input[type="submit"]{
     cursor: pointer;
     border-radius: 5px;
 }
-a{
+
+a {
     color: rgb(103, 194, 247);
     text-align: left;
     text-decoration: none;
     margin: 0 0 30px;
 }
-a:hover{
+
+a:hover {
     color: #ffffff;
 }
-button{
+
+button {
     background: transparent;
     border: none;
     outline: none;
@@ -43,7 +49,8 @@ button{
     border-radius: 5px;
     margin: 0 0 30px;
 }
-button a{
+
+button a {
     color: rgb(217, 237, 248);
     text-align: left;
     text-decoration: none;
@@ -51,18 +58,20 @@ button a{
 }
 
 /*SignUp and login pages*/
-.signup{
+
+.signup {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
     background: url(../images/background_image.jpg);
     background-size: cover;
 }
-.signup-box{
+
+.signup-box {
     position: absolute;
     top: 50%;
     left: 70%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     width: 400px;
     padding: 40px;
     background: rgba(0, 0, 0, 0.8);
@@ -70,23 +79,27 @@ button a{
     box-shadow: 0 15px 25px rgba(0, 0, 0, .5);
     border-radius: 10px;
 }
-.signup-box h2{
+
+.signup-box h2 {
     margin: 0 0 30px;
     padding: 0;
     color: #fff;
     text-align: center;
 }
-.signup-box p{
+
+.signup-box p {
     color: rgba(255, 255, 255, 0.781);
     text-align: center;
     font-size: 12px;
     margin: 0 0 30px;
     padding: 0;
 }
-.signup-box .inputBox{
+
+.signup-box .inputBox {
     position: relative;
 }
-.signup-box .inputBox input{
+
+.signup-box .inputBox input {
     width: 100%;
     padding: 10px 0;
     font-size: 16px;
@@ -97,7 +110,8 @@ button a{
     outline: none;
     background: transparent;
 }
-.signup-box .inputBox label{
+
+.signup-box .inputBox label {
     position: absolute;
     top: 0;
     left: 0;
@@ -107,13 +121,15 @@ button a{
     pointer-events: none;
     transition: .5s;
 }
-.signup-box .inputBox input:focus ~ label{
+
+.signup-box .inputBox input:focus~label {
     top: -18px;
     left: 0;
     color: #03a9f4;
     font-size: 12px;
 }
-.signup-box input[type="submit"]{
+
+.signup-box input[type="submit"] {
     background: transparent;
     border: none;
     outline: none;
@@ -123,20 +139,23 @@ button a{
     cursor: pointer;
     border-radius: 5px;
 }
-.signup-box .link{
+
+.signup-box .link {
     color: rgba(255, 255, 255, 0.623);
     font-size: 12px;
     text-align: left
 }
-.signup-box .link a{
+
+.signup-box .link a {
     color: #03a9f4;
     font-size: 12px;
 }
-.signup-menu{
+
+.signup-menu {
     position: absolute;
     top: 26%;
     left: 30%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     width: 600px;
     padding: 40px;
     /*background: rgba(0, 0, 0, .3);
@@ -144,14 +163,8 @@ button a{
     box-shadow: 0 15px 25px rgba(0, 0, 0, .5);*/
     border-radius: 10px;
 }
-.signup-menu h1{
-    margin: 0 0 30px;
-    padding: 0;
-    color: rgb(0, 0, 0);
-    border-radius: 10px;
-    border-bottom: 1px solid #000;
-}
-.signup-menu .contents{
+
+.signup-menu h1 {
     margin: 0 0 30px;
     padding: 0;
     color: rgb(0, 0, 0);
@@ -159,11 +172,19 @@ button a{
     border-bottom: 1px solid #000;
 }
 
-.login-menu{
+.signup-menu .contents {
+    margin: 0 0 30px;
+    padding: 0;
+    color: rgb(0, 0, 0);
+    border-radius: 10px;
+    border-bottom: 1px solid #000;
+}
+
+.login-menu {
     position: absolute;
     top: 36%;
     left: 30%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     width: 600px;
     padding: 40px;
     /*background: rgba(0, 0, 0, .3);
@@ -171,7 +192,8 @@ button a{
     box-shadow: 0 15px 25px rgba(0, 0, 0, .5);*/
     border-radius: 10px;
 }
-.login-menu h1{
+
+.login-menu h1 {
     margin: 0 0 30px;
     padding: 0;
     color: rgb(0, 0, 0);
@@ -179,7 +201,8 @@ button a{
     border-radius: 10px;
     border-bottom: 1px solid #000;
 }
-.login-menu .contents{
+
+.login-menu .contents {
     margin: 0 0 30px;
     padding: 0;
     color: rgb(0, 0, 0);
@@ -188,56 +211,66 @@ button a{
 }
 
 /*Home page*/
+
 /*Header*/
-header{
+
+header {
     background: rgba(17, 17, 17, 0.8);
     color: #fff;
     padding-top: 30px;
     min-height: 70px;
     border-bottom: 3px solid #03a9f4;
 }
-header a{
+
+header a {
     color: #fff;
     text-decoration: none;
     text-transform: uppercase;
     font-size: 16px;
 }
-header ul{
+
+header ul {
     margin: 0;
     padding: 0;
 }
-header li{
+
+header li {
     float: left;
     display: inline;
     padding: 0 20px 0 20px;
 }
-header #branding{
+
+header #branding {
     float: left;
 }
-header #branding h1{
+
+header #branding h1 {
     margin: 0;
 }
-header nav{
+
+header nav {
     float: right;
     margin-top: 10px;
 }
-header .highlight, header .current a{
+
+header .highlight,
+header .current a {
     color: #03a9f4;
     font-weight: bold;
 }
-header a:hover{
+
+header a:hover {
     color: #cccccc;
     font-weight: bold;
 }
 
 /*home page*/
-.entries{
+.mainbar {
     color: rgba(255, 255, 255, 0.664);
     text-align: left;
-    position: absolute;
-    top: 50%;
-    left: 57%;
-    transform: translate(-50%,-50%);
+    float: right;
+    margin-top: 20px;
+    margin-bottom: 50px;
     width: 850px;
     padding: 40px;
     background: rgba(72, 76, 78, 0.8);
@@ -245,23 +278,23 @@ header a:hover{
     box-shadow: 0 15px 25px rgba(0, 0, 0, .5);
     border-radius: 10px;
 }
-.entries h1{
+.mainbar h1 {
     margin: 0 0 30px;
     padding: 0;
     color: #fff;
     text-align: left;
     font-size: 40px;
 }
-.entries ul{
+.mainbar ul {
     margin: 0;
     padding: 0;
     list-style-type: none;
-    height:200px;
-    width:100%;
-    overflow:hidden;
-    overflow-y:scroll;
+    height: 200px;
+    width: 100%;
+    overflow: hidden;
+    overflow-y: scroll;
 }
-.entries li{
+.mainbar li {
     width: 100%;
     padding: 10px 0;
     font-size: 16px;
@@ -272,24 +305,22 @@ header a:hover{
     border-bottom: 1px solid #fff;
     outline: none;
 }
-.entries a{
+.mainbar a {
     color: rgba(162, 218, 255, 0.747);
     text-align: center;
     text-decoration: none;
 }
-.entries a:hover{
+.mainbar a:hover {
     color: #ffffff;
     font-weight: bold;
 }
 
 /*Home page Sidebar*/
-.sidebar{
+.sidebar {
     color: rgba(255, 255, 255, 0.664);
     text-align: center;
-    position: absolute;
-    top: 33%;
-    left: 18%;
-    transform: translate(-50%,-50%);
+    float: left;
+    margin-top: 20px;
     width: 200px;
     padding: 40px;
     background: rgba(72, 76, 78, 0.8);
@@ -299,75 +330,21 @@ header a:hover{
 }
 
 /*Entry contents page*/
-.entry-contents{
-    color: rgba(255, 255, 255, 0.664);
-    text-align: center;
-    position: absolute;
-    top: 50%;
-    left: 57%;
-    transform: translate(-50%,-50%);
-    width: 850px;
-    padding: 40px;
-    background: rgba(72, 76, 78, 0.8);
-    box-sizing: border-box;
-    box-shadow: 0 15px 25px rgba(0, 0, 0, .5);
-    border-radius: 10px;
-}
-.entry-contents h1{
+.mainbar .entryContents h1 {
     margin: 0 0 20px;
     padding: 0;
     color: #fff;
     text-align: center;
     font-size: 30px;
 }
-.entry-contents p{
+.mainbar .entryContents p {
     padding: 0;
     color: rgba(255, 255, 255, 0.856);
-    text-align: center;
+    text-align: justify;
 }
-
-/*Entry contents Sidebar*/
-.sidebar-entry-contents{
-    color: rgba(255, 255, 255, 0.664);
-    text-align: center;
-    position: absolute;
-    top: 35%;
-    left: 18%;
-    transform: translate(-50%,-50%);
-    width: 200px;
-    padding: 40px;
-    background: rgba(72, 76, 78, 0.8);
-    box-sizing: border-box;
-    box-shadow: 0 15px 25px rgba(0, 0, 0, .5);
-    border-radius: 10px;
-}
-
 
 /*addEntry page*/
-.add-entry{
-    color: rgba(255, 255, 255, 0.89);
-    text-align: left;
-    position: absolute;
-    top: 53%;
-    left: 57%;
-    transform: translate(-50%,-50%);
-    width: 850px;
-    padding: 20px;
-    background: rgba(72, 76, 78, 0.8);
-    box-sizing: border-box;
-    box-shadow: 0 15px 25px rgba(0, 0, 0, .5);
-    border-radius: 10px;
-}
-.add-entry .inputBox{
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-    height:280px;
-    width:100%;
-    overflow:hidden;
-    overflow-y:scroll;
-}
-.add-entry .inputBox input{
+.mainbar .inputBox input {
     width: 90%;
     padding: 10px 0;
     font-size: 16px;
@@ -377,7 +354,7 @@ header a:hover{
     outline: none;
     background: transparent;
 }
-.add-entry .inputBox textarea{
+.mainbar .inputBox textarea {
     width: 95%;
     padding: 10px 0;
     font-size: 16px;
@@ -388,30 +365,14 @@ header a:hover{
     background: transparent;
 }
 
-/*Add Entry Sidebar*/
-.sidebar-addEntry{
-    color: rgba(255, 255, 255, 0.664);
-    text-align: center;
-    position: absolute;
-    top: 28%;
-    left: 18%;
-    transform: translate(-50%,-50%);
-    width: 200px;
-    padding: 40px;
-    background: rgba(72, 76, 78, 0.8);
-    box-sizing: border-box;
-    box-shadow: 0 15px 25px rgba(0, 0, 0, .5);
-    border-radius: 10px;
-}
-
 /*Profiles*/
-.profile{
+.profile {
     color: rgba(255, 255, 255, 0.89);
     text-align: center;
     position: absolute;
     top: 53%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     width: 850px;
     padding: 20px;
     background: rgba(72, 76, 78, 0.8);
@@ -420,17 +381,45 @@ header a:hover{
     border-radius: 10px;
 }
 
-
 /*Footer*/
-footer{
+
+footer {
     position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
     padding: 0px;
-    margin-top: 20px;
+    margin-top: 0px;
+    height: 40px;
     color: #000;
-    background-color: #cccccca9;
+    background-color: #cccccc;
     text-align: center;
 }
 
+/*Media queries*/
+@media(max-width: 768px) {
+    header #branding,
+    header nav,
+    header nav li {
+        float: none;
+        text-align: center;
+        width: 100%;
+    }
+    header {
+        padding-bottom: 20px;
+    }
+}
+@media(max-width: 1100px) {
+    .mainbar,
+    .profile {
+        float: none;
+        text-align: center;
+        width: 100%;
+    }
+    .mainbar {
+        margin-top: 190px;
+    }
+    .profile{
+        margin-top: 50px;
+    }
+}
