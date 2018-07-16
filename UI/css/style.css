@@ -265,6 +265,7 @@ header a:hover {
 }
 
 /*home page*/
+
 .mainbar {
     color: rgba(255, 255, 255, 0.664);
     text-align: left;
@@ -278,6 +279,7 @@ header a:hover {
     box-shadow: 0 15px 25px rgba(0, 0, 0, .5);
     border-radius: 10px;
 }
+
 .mainbar h1 {
     margin: 0 0 30px;
     padding: 0;
@@ -285,6 +287,7 @@ header a:hover {
     text-align: left;
     font-size: 40px;
 }
+
 .mainbar ul {
     margin: 0;
     padding: 0;
@@ -294,6 +297,7 @@ header a:hover {
     overflow: hidden;
     overflow-y: scroll;
 }
+
 .mainbar li {
     width: 100%;
     padding: 10px 0;
@@ -305,17 +309,20 @@ header a:hover {
     border-bottom: 1px solid #fff;
     outline: none;
 }
+
 .mainbar a {
     color: rgba(162, 218, 255, 0.747);
     text-align: center;
     text-decoration: none;
 }
+
 .mainbar a:hover {
     color: #ffffff;
     font-weight: bold;
 }
 
 /*Home page Sidebar*/
+
 .sidebar {
     color: rgba(255, 255, 255, 0.664);
     text-align: center;
@@ -330,6 +337,7 @@ header a:hover {
 }
 
 /*Entry contents page*/
+
 .mainbar .entryContents h1 {
     margin: 0 0 20px;
     padding: 0;
@@ -337,6 +345,7 @@ header a:hover {
     text-align: center;
     font-size: 30px;
 }
+
 .mainbar .entryContents p {
     padding: 0;
     color: rgba(255, 255, 255, 0.856);
@@ -344,6 +353,7 @@ header a:hover {
 }
 
 /*addEntry page*/
+
 .mainbar .inputBox input {
     width: 90%;
     padding: 10px 0;
@@ -354,6 +364,7 @@ header a:hover {
     outline: none;
     background: transparent;
 }
+
 .mainbar .inputBox textarea {
     width: 95%;
     padding: 10px 0;
@@ -366,6 +377,7 @@ header a:hover {
 }
 
 /*Profiles*/
+
 .profile {
     color: rgba(255, 255, 255, 0.89);
     text-align: center;
@@ -397,6 +409,7 @@ footer {
 }
 
 /*Media queries*/
+
 @media(max-width: 768px) {
     header #branding,
     header nav,
@@ -409,6 +422,7 @@ footer {
         padding-bottom: 20px;
     }
 }
+
 @media(max-width: 1100px) {
     .mainbar,
     .profile {
@@ -419,7 +433,33 @@ footer {
     .mainbar {
         margin-top: 190px;
     }
-    .profile{
+    .profile {
         margin-top: 50px;
+    }
+}
+
+@media(max-width: 1150px) {
+    .signup-box {
+        position: absolute;
+        top: 70%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 400px;
+        padding: 40px;
+        background: rgba(0, 0, 0, 0.8);
+        box-sizing: border-box;
+        box-shadow: 0 15px 25px rgba(0, 0, 0, .5);
+        border-radius: 10px;
+    }
+    .login-menu,
+    .signup-menu {
+        position: absolute;
+        top: 20%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 400px;
+        padding: 40px;
+        border-radius: 10px;
+        text-align: center;
     }
 }
