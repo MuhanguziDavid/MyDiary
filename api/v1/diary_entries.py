@@ -39,13 +39,15 @@ class Entry(Resource):
                         )
 
     def get(self, entry_id):
+        """method to get a specific diary entry"""
         entry = next(
             filter(lambda x: x['entry_id'] == entry_id, entries), None)
         return {'entry': entry}, 200 if entry else 404
 
     def post(self, entry_id):
+        """Method to post a new diary entry"""
         if next(filter(lambda x: x['entry_id'] == entry_id, entries), None):
-            return {'message': "An item with id '{}' already exists.".format(entry_id)}, 400
+            return {'message': "Id '{}' exists.".format(entry_id)}, 400
 
         data = Entry.parser.parse_args()
 
