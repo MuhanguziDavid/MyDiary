@@ -32,4 +32,5 @@ class EntryList(Resource):
 
 api.add_resource(EntryList, '/entries')
 
-app.run(port=5000, debug=True)
+if __name__ == '__main__':
+    app.run(port=5000, debug=True)
