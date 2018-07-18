@@ -37,6 +37,17 @@ class TestDiaryEntries(unittest.TestCase):
                                    content_type='application/json')
 
         self.assertEqual(response.status_code, 201)
+    
+    def test_post_with_existing_id(self):
+        """tests whether it will returen status code 400 (bad request)"""
+        response = self.myapp.post('/entry/3',
+                                   data=json.dumps(dict(
+                                       title='The year 1995',
+                                       description='This is when I was born'
+                                   )),
+                                   content_type='application/json')
+
+        self.assertEqual(response.status_code, 400)
 
 
 if __name__ == '__main__':
