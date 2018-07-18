@@ -1,4 +1,5 @@
-from flask import Flask, request
+"""Get all entries in MyDiary"""
+from flask import Flask
 from flask_restful import Resource, Api
 
 app = Flask(__name__)
@@ -22,8 +23,11 @@ entries = [
     }
 ]
 
+
 class EntryList(Resource):
+    """EntryList class verrides Resource class"""
     def get(self):
+        """method to return all entries"""
         return {'entries': entries}
 
 api.add_resource(EntryList, '/entries')
