@@ -23,6 +23,7 @@ entries = [
     }
 ]
 
+
 class Entry(Resource):
     """Class for Entry resource"""
     def get(self, entry_id):
