@@ -9,7 +9,7 @@ class TestDiaryEntries(unittest.TestCase):
     def test_get_entries(self):
         """Test whether all diary entries are retreived"""
         response = self.myapp.get('/entries')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 20)
 
 if __name__ == '__main__':
     unittest.main()

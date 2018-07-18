@@ -23,6 +23,11 @@ entries = [
     }
 ]
 
+class Entry(Resource):
+    def get(self, name):
+        entry = next(filter(lambda x: x['entry_id'] == name, entries), None)
+        return {'entry': entry}, 200 if entry else 404
+
 
 class EntryList(Resource):
     """EntryList class verrides Resource class"""
@@ -30,6 +35,7 @@ class EntryList(Resource):
         """method to return all entries"""
         return {'entries': entries}
 
+api.add_resource(Entry, '/entry/<string:name>')
 api.add_resource(EntryList, '/entries')
 
 if __name__ == '__main__':
