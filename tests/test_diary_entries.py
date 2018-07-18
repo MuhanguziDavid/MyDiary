@@ -52,17 +52,17 @@ class TestDiaryEntries(unittest.TestCase):
                                    content_type='application/json')
 
         self.assertEqual(response.status_code, 400)
-    
+
     def test_put_existing_entry(self):
         """tests whether an entry will be updates
         returns status code 200 (okay)
         """
         response = self.myapp.put('/entry/3',
-                                   data=json.dumps(dict(
-                                       title='This week',
-                                       description='I started practicing flask'
-                                   )),
-                                   content_type='application/json')
+                                  data=json.dumps(dict(
+                                      title='This week',
+                                      description='I started practicing flask'
+                                  )),
+                                  content_type='application/json')
 
         self.assertEqual(response.status_code, 200)
 
