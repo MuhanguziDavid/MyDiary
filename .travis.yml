@@ -11,7 +11,7 @@ install:
 
 # run tests
 script:
-  - pytest --with-coverage --cover-tests --cover-package=api/tests
+  - pytest tests/test_diary.py
   - coverage report
 
 after_success:
