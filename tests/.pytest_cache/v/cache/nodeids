@@ -1,8 +1,8 @@
 [
-  "test_diary_entries.py::TestDiaryEntries::test_get_entries",
-  "test_diary_entries.py::TestDiaryEntries::test_get_non_existing_entry",
-  "test_diary_entries.py::TestDiaryEntries::test_get_specific_entry",
-  "test_diary_entries.py::TestDiaryEntries::test_post_new_entry",
-  "test_diary_entries.py::TestDiaryEntries::test_post_with_existing_id",
-  "test_diary_entries.py::TestDiaryEntries::test_put_existing_entry"
+  "test_diary.py::TestDiaryEntries::test_get_entries",
+  "test_diary.py::TestDiaryEntries::test_get_non_existing_entry",
+  "test_diary.py::TestDiaryEntries::test_get_specific_entry",
+  "test_diary.py::TestDiaryEntries::test_post_new_entry",
+  "test_diary.py::TestDiaryEntries::test_post_with_existing_id",
+  "test_diary.py::TestDiaryEntries::test_put_existing_entry"
 ]
