@@ -10,7 +10,7 @@ install:
 
 # run tests
 script:
-  - pytest tests/test_diary.py
+  - nosetests --with-coverage --cover-tests --cover-package=api/tests
   - coverage report
 
 after_success:
