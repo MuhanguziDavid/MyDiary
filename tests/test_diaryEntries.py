@@ -1,14 +1,14 @@
 """Tests for get all entries"""
 import unittest
 import json
-from api.v1 import diary_entries
+from api.v1 import diary
 
 
 class TestDiaryEntries(unittest.TestCase):
     """Different test cases for Diary Entries"""
 
     def setUp(self):
-        self.myapp = diary_entries.app.test_client()
+        self.myapp = diary.app.test_client()
 
     def test_get_entries(self):
         """Test whether all diary entries are retreived"""
