@@ -9,7 +9,7 @@ install:
 
 # command to run tests
 script:
-  - pytest --with-coverage tests/test_diaryEntries.py
+  - pytest --with-coverage tests/test_diary.py
 
 after_success:
   - coverage report
