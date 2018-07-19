@@ -29,8 +29,20 @@ class TestDiaryEntries(unittest.TestCase):
         response = self.myapp.get('/entry/{}'.format(_id['entry_id']))
         self.assertEqual(response.status_code, 404)
 
+    def test_get_entry_with_missing_key(self):
+        """Tests that the api will not get an entry with out id"""
+        _id = {"entry_id": None}
+        response = self.myapp.get('/entry/{}'.format(_id['entry_id']))
+        self.assertEqual(response.status_code, 404)
+
+    def test_get_entry_with_non_integer_key(self):
+        """Tests that the api will not get an entry with non integer key"""
+        _id = {"entry_id": 'home'}
+        response = self.myapp.get('/entry/{}'.format(_id['entry_id']))
+        self.assertEqual(response.status_code, 404)
+
     def test_post_new_entry(self):
-        """tests whether new entry will be created"""
+        """tests that a new entry will be created"""
         response = self.myapp.post('/entry/5',
                                    data=json.dumps(dict(
                                        title='The year 1995',
@@ -41,9 +53,7 @@ class TestDiaryEntries(unittest.TestCase):
         self.assertEqual(response.status_code, 201)
 
     def test_post_with_existing_id(self):
-        """tests whether it will returen status code 400 (bad request)
-        if an existing entry_id is entered
-        """
+        """tests that an entry wont be created if an existing entry_id is entered"""
         response = self.myapp.post('/entry/3',
                                    data=json.dumps(dict(
                                        title='The year 1995',
@@ -53,11 +63,42 @@ class TestDiaryEntries(unittest.TestCase):
 
         self.assertEqual(response.status_code, 400)
 
+    def test_post_without_id(self):
+        """tests that an entry wont be created without entering an id"""
+        response = self.myapp.post('/entry/',
+                                   data=json.dumps(dict(
+                                       title='The year 1995',
+                                       description='This is when I was born'
+                                   )),
+                                   content_type='application/json')
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_post_without_string_id(self):
+        """tests that an entry wont be created if a string is entered as id"""
+        response = self.myapp.post('/entry/home',
+                                   data=json.dumps(dict(
+                                       title='The year 1995',
+                                       description='This is when I was born'
+                                   )),
+                                   content_type='application/json')
+
+        self.assertEqual(response.status_code, 404)
+
     def test_put_existing_entry(self):
-        """tests whether an entry will be updates
-        returns status code 200 (okay)
-        """
+        """tests that an entry will be updated"""
         response = self.myapp.put('/entry/3',
+                                  data=json.dumps(dict(
+                                      title='This week',
+                                      description='I started practicing flask'
+                                  )),
+                                  content_type='application/json')
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_put_with_new_id(self):
+        """tests that a new entry will be created if a new id is used"""
+        response = self.myapp.put('/entry/6',
                                   data=json.dumps(dict(
                                       title='This week',
                                       description='I started practicing flask'
