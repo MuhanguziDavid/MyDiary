@@ -11,7 +11,7 @@ install:
 
 # run tests
 script:
-  - pytest tests/test_diary.py
+  - pytest --with-coverage tests/test_diary.py
 
 after_success:
   - coveralls
