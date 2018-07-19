@@ -1,0 +1,16 @@
+language: python
+python:
+  - "3.6.2"
+cache: pip
+# command to install dependencies
+install:
+  - pip install -r requirements.txt
+  - pip install coveralls
+
+# command to run tests
+script:
+  - pytest tests/test_diary_entries.py
+
+after_success:
+  - coverage report
+  - coveralls
