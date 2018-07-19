@@ -11,7 +11,7 @@ install:
 
 # run tests
 script:
-  - pytest tests/test_diary.py
+  - nosetests --with-coverage
 
 after_success:
   - coveralls
