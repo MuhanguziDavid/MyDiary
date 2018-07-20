@@ -107,6 +107,13 @@ class TestDiaryEntries(unittest.TestCase):
 
         self.assertEqual(response.status_code, 200)
 
+    def test_delete_entry(self):
+        """Test whether a specific diary entry is deleted"""
+        _id = {"entry_id": 2}
+        response = self.myapp.delete('/api/v1/entry/{}'.format(_id['entry_id']))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Item deleted', str(response.data))
+
 
 if __name__ == '__main__':
     unittest.main()
