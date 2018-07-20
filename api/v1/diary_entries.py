@@ -47,14 +47,30 @@ class Entry(Resource):
     def post(self, entry_id):
         """Method to post a new diary entry"""
         if next(filter(lambda x: x['entry_id'] == entry_id, entries), None):
-            return {'message': "Id '{}' exists.".format(entry_id)}, 400
+            return {'message': "An item with name '{}' already exists.".format(entry_id)}, 400
 
         data = Entry.parser.parse_args()
 
         entry = {'entry_id': entry_id,
-                 'title': data['title'], 'description': data['description']}
+                 'title': data['title'],
+                 'description': data['description']}
         entries.append(entry)
         return entry, 201
+
+    def put(self, entry_id):
+        """Method to modify an entry"""
+        data = Entry.parser.parse_args()
+
+        entry = next(
+            filter(lambda x: x['entry_id'] == entry_id, entries), None)
+        if entry is None:
+            entry = {'entry_id': entry_id,
+                     'title': data['title'],
+                     'description': data['description']}
+            entries.append(entry)
+        else:
+            entry.update(data)
+        return entry, 200
 
 
 class EntryList(Resource):
