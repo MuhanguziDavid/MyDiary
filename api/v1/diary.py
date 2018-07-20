@@ -72,6 +72,12 @@ class Entry(Resource):
             entry.update(data)
         return entry, 200
 
+    def delete(self, entry_id):
+        """Method to delete a diary entry"""
+        global entries
+        entries = list(filter(lambda x: x['entry_id'] != entry_id, entries))
+        return {'message': 'Item deleted'}
+
 
 class EntryList(Resource):
     """Class for EntryList resource"""
