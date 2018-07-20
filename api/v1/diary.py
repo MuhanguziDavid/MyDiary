@@ -81,8 +81,8 @@ class EntryList(Resource):
         return {'entries': entries}
 
 
-api.add_resource(Entry, '/entry/<int:entry_id>')
-api.add_resource(EntryList, '/entries')
+api.add_resource(Entry, '/api/v1/entry/<int:entry_id>')
+api.add_resource(EntryList, '/api/v1/entries')
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
