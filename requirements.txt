@@ -32,4 +32,5 @@ typed-ast==1.1.0
 urllib3==1.23
 Werkzeug==0.14.1
 wrapt==1.10.11
+gunicorn==19.9.0
 uwsgi
