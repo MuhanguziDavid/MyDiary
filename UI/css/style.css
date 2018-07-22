@@ -122,7 +122,9 @@ button a {
     transition: .5s;
 }
 
-.signup-box .inputBox input:focus~label {
+.signup-box .inputBox input:focus ~ label,
+.signup-box .inputBox input:valid ~ label
+{   
     top: -18px;
     left: 0;
     color: #03a9f4;
