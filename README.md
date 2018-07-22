@@ -7,4 +7,3 @@ MyDiary is an online journal that provides users with the ability to pen down th
 
 Github Pages
 https://muhanguzidavid.github.io/MyDiary/UI/index.html
-
