@@ -5,8 +5,24 @@ from flask_restful import Resource, Api, reqparse
 app = Flask(__name__)
 api = Api(app)
 
-#list with data to be converted to JSONdictionary
-entries = []
+# list with data to be converted to JSONdictionary
+entries = [
+    {
+        'entry_id': 1,
+        'title': 'A day at the mall',
+        'description': 'This day was spent at the mall'
+    },
+    {
+        'entry_id': 2,
+        'title': 'A sad day',
+        'description': 'I was sad today'
+    },
+    {
+        'entry_id': 3,
+        'title': 'Happy hour',
+        'description': 'Because I am happy'
+    }
+]
 
 
 class Entry(Resource):
@@ -49,7 +65,7 @@ class Entry(Resource):
         entry = next(
             filter(lambda x: x['entry_id'] == entry_id, entries), None)
         if entry is None:
-            return {'message': 'Item does not exist'}, 200
+            return {'message': 'Item does not exist'}, 400
         else:
             entry.update(data)
             return entry, 200
