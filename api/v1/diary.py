@@ -5,6 +5,7 @@ from flask_restful import Resource, Api, reqparse
 app = Flask(__name__)
 api = Api(app)
 
+#list with data to be converted to JSONdictionary
 entries = []
 
 
@@ -48,13 +49,10 @@ class Entry(Resource):
         entry = next(
             filter(lambda x: x['entry_id'] == entry_id, entries), None)
         if entry is None:
-            entry = {'entry_id': entry_id,
-                     'title': data['title'],
-                     'description': data['description']}
-            entries.append(entry)
+            return {'message': 'Item does not exist'}, 200
         else:
             entry.update(data)
-        return entry, 200
+            return entry, 200
 
     def delete(self, entry_id):
         """Method to delete a diary entry"""
