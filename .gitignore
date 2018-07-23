@@ -2,46 +2,23 @@
 .vscode/settings.json
 .vscode/
 
-**.__pycache__/
+__pycache__/
 *.pyc
 
-*.manifest
-*.spec
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
 htmlcov/
 .tox/
+
 .coverage
 .coverage.*
 .cache
 nosetests.xml
 coverage.xml
-*.cover
-.hypothesis/
 .pytest_cache/
 
-# Flask stuff:
-instance/
-.webassets-cache
-
-# Scrapy stuff:
-.scrapy
-
-# pyenv
 .python-version
 
-# Environments
 .env
-.venv
 env/
-venv/
-ENV/
 env.bak/
-venv.bak/
 
-# mypy
 .mypy_cache/
