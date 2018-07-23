@@ -58,7 +58,10 @@ class Entry(Resource):
         """Method to delete a diary entry"""
         global entries
         entries = list(filter(lambda x: x['entry_id'] != entry_id, entries))
-        return {'message': 'Item deleted'}
+        if entries:
+            return {'message': 'Item deleted'}, 200
+        else:
+            return {'message': 'Item list is empty'}, 200
 
 
 class EntryList(Resource):
