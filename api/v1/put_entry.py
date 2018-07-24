@@ -26,7 +26,7 @@ class PutEntry(Resource):
         entry = next(
             filter(lambda x: x['entry_id'] == entry_id, entries), None)
         if entry is None:
-            return {'message': 'Item does not exist'}, 400
+            return {'message': 'Item does not exist'}, 404
         else:
             entry.update(data)
             return entry, 200

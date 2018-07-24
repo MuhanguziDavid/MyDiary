@@ -128,7 +128,7 @@ class TestDiaryEntries(unittest.TestCase):
                                   )),
                                   content_type='application/json')
 
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 404)
 
     def test_delete_entry(self):
         """Test whether a specific diary entry is deleted"""
