@@ -1,12 +1,15 @@
 """Api enpoint logic"""
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
+import sys, os
 
-from get_entries import EntryList
-from get_entry import GetEntry
-from post_entry import PostEntry
-from put_entry import PutEntry
-from delete_entry import DeleteEntry
+sys.path.append(os.path.pardir)
+
+from api.v1.get_entries import EntryList
+from api.v1.get_entry import GetEntry
+from api.v1.post_entry import PostEntry
+from api.v1.put_entry import PutEntry
+from api.v1.delete_entry import DeleteEntry
 
 app = Flask(__name__)
 api = Api(app)

@@ -1,8 +1,11 @@
 """Delete an entry in MyDiary"""
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
+import sys, os
 
-from data import entries
+sys.path.append(os.path.pardir)
+
+from api.v1.data import entries
 
 class DeleteEntry(Resource):
     def delete(self, entry_id):

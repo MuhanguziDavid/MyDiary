@@ -1,4 +1,7 @@
 """Dummy data for the api"""
+import sys, os
+
+sys.path.append(os.path.pardir)
 # list with data to be converted to JSONdictionary
 entries = [
     {
