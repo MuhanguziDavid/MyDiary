@@ -1,8 +1,8 @@
 """Post an entry to MyDiary"""
-from flask import Flask
+from flask import Flask, Request
 from flask_restful import Resource, Api, reqparse
 
-from data import entries
+from api.v1.data import entries
 
 class PostEntry(Resource):
     """Class for PostEntry resource"""

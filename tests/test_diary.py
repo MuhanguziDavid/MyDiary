@@ -5,14 +5,14 @@ import sys, os
 
 sys.path.append(os.path.pardir)
 
-from api.v1 import diaryApp
+from api import app
 
 
 class TestDiaryEntries(unittest.TestCase):
     """Different test cases for Diary Entries"""
 
     def setUp(self):
-        self.myapp = diaryApp.app.test_client()
+        self.myapp = app.test_client()
 
     def test_get_entries(self):
         """Test whether all diary entries are retreived"""

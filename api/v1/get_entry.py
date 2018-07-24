@@ -1,8 +1,8 @@
 """Get a specific entry in MyDiary"""
-from flask import Flask
+from flask import Flask, Request
 from flask_restful import Resource, Api, reqparse
 
-from data import entries
+from api.v1.data import entries
 
 class GetEntry(Resource):
     """Class for GetEntry resource"""
