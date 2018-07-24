@@ -14,7 +14,6 @@ class TestDiaryEntries(unittest.TestCase):
 
     def setUp(self):
         self.myapp = app.test_client()
-        available_ids = [1, 2, 3]
 
     def test_get_entries(self):
         """Test whether all diary entries are retreived"""
