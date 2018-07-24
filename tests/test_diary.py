@@ -1,7 +1,8 @@
 """Tests for get all entries"""
 import unittest
 import json
-import sys, os
+import sys
+import os
 
 sys.path.append(os.path.pardir)
 
@@ -13,6 +14,7 @@ class TestDiaryEntries(unittest.TestCase):
 
     def setUp(self):
         self.myapp = app.test_client()
+        available_ids = [1, 2, 3]
 
     def test_get_entries(self):
         """Test whether all diary entries are retreived"""
@@ -21,8 +23,13 @@ class TestDiaryEntries(unittest.TestCase):
 
     def test_get_specific_entry(self):
         """Test whether a specific diary entry is retreived"""
-        _id = {"entry_id": 1}
-        response = self.myapp.get('/api/v1/entry/{}'.format(_id['entry_id']))
+        self.myapp.post('/api/v1/entry/1',
+                        data=json.dumps(dict(
+                            title='The year 1995',
+                            description='This is when I was born'
+                        )),
+                        content_type='application/json')
+        response = self.myapp.get('/api/v1/entry/{}'.format(1))
         self.assertEqual(response.status_code, 200)
 
     def test_get_non_existing_entry(self):
@@ -58,7 +65,13 @@ class TestDiaryEntries(unittest.TestCase):
 
     def test_post_with_existing_id(self):
         """tests that an entry wont be created if an existing entry_id is entered"""
-        response = self.myapp.post('/api/v1/entry/3',
+        self.myapp.post('/api/v1/entry/1',
+                        data=json.dumps(dict(
+                            title='The year 1995',
+                            description='This is when I was born'
+                        )),
+                        content_type='application/json')
+        response = self.myapp.post('/api/v1/entry/1',
                                    data=json.dumps(dict(
                                        title='The year 1995',
                                        description='This is when I was born'
@@ -91,7 +104,13 @@ class TestDiaryEntries(unittest.TestCase):
 
     def test_put_existing_entry(self):
         """tests that an entry will be updated"""
-        response = self.myapp.put('/api/v1/entry/3',
+        self.myapp.post('/api/v1/entry/1',
+                        data=json.dumps(dict(
+                            title='The year 1995',
+                            description='This is when I was born'
+                        )),
+                        content_type='application/json')
+        response = self.myapp.put('/api/v1/entry/1',
                                   data=json.dumps(dict(
                                       title='This week',
                                       description='I started practicing flask'
@@ -113,8 +132,14 @@ class TestDiaryEntries(unittest.TestCase):
 
     def test_delete_entry(self):
         """Test whether a specific diary entry is deleted"""
-        _id = {"entry_id": 2}
-        response = self.myapp.delete('/api/v1/entry/{}'.format(_id['entry_id']))
+        self.myapp.post('/api/v1/entry/1',
+                        data=json.dumps(dict(
+                            title='The year 1995',
+                            description='This is when I was born'
+                        )),
+                        content_type='application/json')
+        response = self.myapp.delete(
+            '/api/v1/entry/{}'.format(1))
         self.assertEqual(response.status_code, 200)
         self.assertIn('Item deleted', str(response.data))
 
