@@ -33,7 +33,7 @@ https://muhanguzidavid.github.io/MyDiary/UI/index.html
 * Run the app with the command (python run.py)
 * Open postman and run (http://127.0.0.1/5000/api/v1/entries)
 
-### Supported endpoints
+## Supported endpoints
 HTTP Method | Endpoint | Description
 ------------ | ------------- | -------------
 GET| /api/v1/entries| Retrieves all diary entries
@@ -42,10 +42,10 @@ POST| /api/v1/entry/<int:entry_id>| Adds an entry to the diary
 PUT| /api/v1/entry/<int:entry_id>| Updates an entry in the diary
 DELETE| /api/v1/entry/<int:entry_id>| Deletes an entry from the diary
 
-### Tests
+## Tests
 
 To run tests, run the command (pytest -v)
 
-###Deployment
+## Deployment
 
 The application has been deployed on heroku: https://my-diary-entries.herokuapp.com/api/v1/entries
