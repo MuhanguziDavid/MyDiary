@@ -3,6 +3,7 @@ from flask import Flask, Request
 from flask_restful import Resource, Api, reqparse
 
 from api.v1.data import entries
+from api import app
 
 class GetEntry(Resource):
     """Class for GetEntry resource"""
