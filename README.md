@@ -16,3 +16,36 @@ MyDiary offers the following features
 
 Visit the site:
 https://muhanguzidavid.github.io/MyDiary/UI/index.html
+
+## Getting Started
+
+### Prerequisites
+* Python 3
+* python-pip
+
+###Installation
+* Clone the project at [MyDiary](https://github.com/MuhanguziDavid/MyDiary).
+* cd into the project diractory
+* Set up a virtual environment and activate it
+* Install all dependencies (pip install -r requirements.txt)
+
+### Running the app
+* Run the app with the command (python run.py)
+* Open postman and run (http://127.0.0.1/5000/api/v1/entries)
+
+## Supported endpoints
+HTTP Method | Endpoint | Description
+------------ | ------------- | -------------
+GET| /api/v1/entries| Retrieves all diary entries
+GET| /api/v1/entry/<int:entry_id>| Retrieves a specific diary entry
+POST| /api/v1/entry/<int:entry_id>| Adds an entry to the diary
+PUT| /api/v1/entry/<int:entry_id>| Updates an entry in the diary
+DELETE| /api/v1/entry/<int:entry_id>| Deletes an entry from the diary
+
+## Tests
+
+To run tests, run the command (pytest -v)
+
+## Deployment
+
+The application has been deployed on heroku: https://my-diary-entries.herokuapp.com/api/v1/entries
