@@ -23,7 +23,8 @@ https://muhanguzidavid.github.io/MyDiary/UI/index.html
 * Python 3
 * python-pip
 
-###Installation
+### Installation
+
 * Clone the project at [MyDiary](https://github.com/MuhanguziDavid/MyDiary).
 * cd into the project diractory
 * Set up a virtual environment and activate it
