@@ -2,7 +2,7 @@ from flask import Flask, request
 from flask_restful import Api, Resource, reqparse
 
 from api.auth.user import User
-from api.auth.config import users, entries
+
 from api.database.db import DatabaseConnection
 
 
@@ -36,6 +36,19 @@ class CreateUser(Resource):
 
         con = DatabaseConnection()
         cursor = con.cursor
+        dict_cursor = con.dict_cursor
         
         if data["password"] != data["confirm_password"]:
-            return {"status":"fail", "message":"passwords dont match"}, 400
+            return {"message":"passwords dont match"}, 400
+        
+        name_exists = User.get_user_by_name(cursor,data["name"])
+
+        if not name_exists:
+            User.create_user(cursor, data["name"], data["email"], data["password"])
+            get_user = User.get_user_by_name(dict_cursor, data["name"])
+            
+            if get_user:
+                auth_token = User.encode_auth(get_user['user_id'])
+            return {"auth_token": auth_token.decode(), "message": "Account Created Successfully"}, 201
+        
+        return {"message": "username already exists"}, 400

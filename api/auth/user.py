@@ -1,8 +1,8 @@
 import jwt
 
-from api.auth import config
+from api import config
 
-class User(object):
+class User():
     def __init__(self, _id, username, email, password, confirm_password):
         self.id = _id
         self.username = username
