@@ -1,8 +1,8 @@
 from flask import Flask, request
 from flask_restful import Api, Resource, reqparse
+from flask_jwt_extended import create_access_token
 
 from api.models.user import User
-from api.auth import Auth
 from api.database.db import DatabaseConnection
 
 class Log_In(Resource):
@@ -29,7 +29,7 @@ class Log_In(Resource):
 
         if name_exists:
             if name_exists['password'] == data['password']:
-                auth_token = Auth.encode_auth(name_exists['user_id'])
-                return {"auth_token": auth_token.decode('utf-8'), "message": "Logged in Successfully"}, 200
+                auth_token = create_access_token(name_exists['user_id'])
+                return {"auth_token": auth_token, "message": "Logged in Successfully"}, 200
             return {"message": "Password incorrect, please re-enter password"}, 401
         return {"message": "Invalid username or password, please try again"}, 401

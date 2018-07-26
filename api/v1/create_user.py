@@ -1,8 +1,8 @@
 from flask import Flask, request
 from flask_restful import Api, Resource, reqparse
+from flask_jwt_extended import create_access_token
 
 from api.models.user import User
-from api.auth import Auth
 from api.database.db import DatabaseConnection
 
 
@@ -48,6 +48,6 @@ class CreateUser(Resource):
             get_user = User.get_user_by_name(dict_cursor, data["name"])
             
             if get_user:
-                auth_token = Auth.encode_auth(get_user['user_id'])
-                return {"auth_token": auth_token.decode('utf-8'), "message": "Account Created Successfully"}, 201
+                auth_token = create_access_token(get_user['user_id'])
+                return {"auth_token": auth_token, "message": "Account Created Successfully"}, 201
         return {"message": "username already exists"}, 400

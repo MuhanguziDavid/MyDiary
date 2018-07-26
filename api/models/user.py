@@ -1,4 +1,3 @@
-import jwt
 
 class User():
     def __init__(self, _id, username, email, password, confirm_password):
