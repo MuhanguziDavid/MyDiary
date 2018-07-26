@@ -16,6 +16,7 @@ class User():
     
     @staticmethod   
     def get_user_by_name(dict_cursor, name):
+        """Queries the database to returen a specific user"""
         query_string="SELECT * FROM users WHERE name = %s "
         dict_cursor.execute(query_string,[name])
         row=dict_cursor.fetchone()

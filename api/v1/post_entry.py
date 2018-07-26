@@ -1,8 +1,12 @@
 """Post an entry to MyDiary"""
 from flask import Flask, Request
+import time
+import datetime
 from flask_restful import Resource, Api, reqparse
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from api.v1.data import entries
+from api.modals.entry import Entry
+from api.database.db import DatabaseConnection
 
 class PostEntry(Resource):
     """Class for PostEntry resource"""
@@ -18,15 +22,24 @@ class PostEntry(Resource):
                         help="This field can not be left blank!"
                         )
 
+    @jwt_required
     def post(self, entry_id):
         """Method to post a new diary entry"""
-        if next(filter(lambda x: x['entry_id'] == entry_id, entries), None):
-            return {'message': "An item with name '{}' already exists.".format(entry_id)}, 400
-
         data = PostEntry.parser.parse_args()
+        user_id = get_jwt_identity()
+        ts = time.time()
+        timestamp = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
 
-        entry = {'entry_id': entry_id,
-                 'title': data['title'],
-                 'description': data['description']}
-        entries.append(entry)
-        return entry, 201
+        con = DatabaseConnection()
+        cursor = con.cursor
+        dict_cursor = con.dict_cursor
+        
+        title_exists = Entry.get_entry_by_title(cursor,data["title"])
+
+        if not title_exists:
+            Entry.add_an_entry(cursor, user_id, data["title"], data["description"], timestamp)
+            get_entry = Entry.get_entry_by_title(dict_cursor,data["title"])
+
+            if get_entry:
+                return {"message": "Entry has been created"}, 201
+        return {"message": "An entry with the same title exists, please try again"}, 400
