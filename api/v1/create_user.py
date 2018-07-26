@@ -50,5 +50,4 @@ class CreateUser(Resource):
             if get_user:
                 auth_token = Auth.encode_auth(get_user['user_id'])
                 return {"auth_token": auth_token.decode('utf-8'), "message": "Account Created Successfully"}, 201
-        
         return {"message": "username already exists"}, 400
