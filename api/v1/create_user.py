@@ -1,8 +1,8 @@
 from flask import Flask, request
 from flask_restful import Api, Resource, reqparse
 
-from api.auth.user import User
-
+from api.models.user import User
+from api.auth import Auth
 from api.database.db import DatabaseConnection
 
 
@@ -48,7 +48,7 @@ class CreateUser(Resource):
             get_user = User.get_user_by_name(dict_cursor, data["name"])
             
             if get_user:
-                auth_token = User.encode_auth(get_user['user_id'])
-            return {"auth_token": auth_token.decode(), "message": "Account Created Successfully"}, 201
+                auth_token = Auth.encode_auth(get_user['user_id'])
+                return {"auth_token": auth_token.decode(), "message": "Account Created Successfully"}, 201
         
         return {"message": "username already exists"}, 400

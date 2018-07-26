@@ -1,7 +1,6 @@
 """Api enpoint logic"""
 from flask import Flask, Request
 from flask_restful import Resource, Api, reqparse
-from flask_jwt import JWT
 
 from api.v1.get_entries import EntryList
 from api.v1.get_entry import GetEntry
