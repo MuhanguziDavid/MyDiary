@@ -31,5 +31,5 @@ class Log_In(Resource):
             if name_exists['password'] == data['password']:
                 auth_token = Auth.encode_auth(name_exists['user_id'])
                 return {"auth_token": auth_token.decode('utf-8'), "message": "Logged in Successfully"}, 200
-            return {"message": "Password incorrect, please re-enter password"}
-        return {"message": "Invalid username or password, please try again"}
+            return {"message": "Password incorrect, please re-enter password"}, 401
+        return {"message": "Invalid username or password, please try again"}, 401

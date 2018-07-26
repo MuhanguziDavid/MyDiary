@@ -1,4 +1,4 @@
-"""Tests for get all entries"""
+"""Tests concerning diary entries"""
 import unittest
 import json
 import sys

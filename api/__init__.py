@@ -18,5 +18,5 @@ api.add_resource(GetEntry, '/api/v1/entry/<int:entry_id>') #get specific diary e
 api.add_resource(PostEntry, '/api/v1/entry/<int:entry_id>') #add a diary entry
 api.add_resource(PutEntry, '/api/v1/entry/<int:entry_id>') #update a diary entry
 api.add_resource(DeleteEntry, '/api/v1/entry/<int:entry_id>') #update a diary entry
-api.add_resource(CreateUser, '/api/v1/auth/register') #register a user
+api.add_resource(CreateUser, '/api/v1/auth/signup') #register a user
 api.add_resource(Log_In, '/api/v1/auth/login') #login a user
