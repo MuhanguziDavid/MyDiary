@@ -2,7 +2,7 @@ from flask import Flask, request
 from flask_restful import Api, Resource, reqparse
 from flask_jwt_extended import create_access_token
 
-from api.models.user import User
+from api.modals.user import User
 from api.database.db import DatabaseConnection
 
 class Log_In(Resource):
