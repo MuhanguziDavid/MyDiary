@@ -19,8 +19,5 @@ class Auth():
             payload = jwt.decode(auth_token,secret_key)
             return payload['sub']
 
-        except jwt.ExpiredSignatureError:
-            return "Expired token, please try again"
-        
-        except jwt.InvalidTokenError:
+        except:
             return "Invalid token, please try again"
