@@ -4,6 +4,7 @@ from flask_restful import Resource, Api, reqparse
 
 from api.v1.data import entries
 
+
 class PostEntry(Resource):
     """Class for PostEntry resource"""
     parser = reqparse.RequestParser()
