@@ -6,8 +6,6 @@ cache: pip
 # install dependencies
 install:
   - pip install -r requirements.txt
-  - pip install coveralls
-  - pip install coverage
 
 # run tests
 script:

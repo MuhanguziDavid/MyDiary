@@ -1,6 +1,6 @@
+"""For database connection and table creation"""
 import psycopg2
 import psycopg2.extras as extra
-from pprint import pprint
 
 class DatabaseConnection:
     def __init__(self):
@@ -10,13 +10,12 @@ class DatabaseConnection:
                 user = 'postgres',
                 password = '12345',
                 host = 'localhost',
-                port = '5432'
-            )
+                port = '5432')
             self.connection.autocommit = True
             self.cursor = self.connection.cursor()
             self.dict_cursor = self.connection.cursor(cursor_factory=extra.DictCursor)
         except:
-            pprint("Cannot connect to database")
+            print("Cannot connect to database")
     
     def create_table_users(self):
         create_table_query = ("CREATE TABLE IF NOT EXISTS users (user_id SERIAL PRIMARY KEY, name VARCHAR(20) NOT NULL, email VARCHAR(28) NOT NULL, password VARCHAR(12) NOT NULL)")
