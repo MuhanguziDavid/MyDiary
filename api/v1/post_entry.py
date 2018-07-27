@@ -4,6 +4,7 @@ from flask_restful import Resource, Api, reqparse
 
 from api.v1.data import entries
 
+
 class PostEntry(Resource):
     """Class for PostEntry resource"""
     parser = reqparse.RequestParser()
@@ -21,7 +22,8 @@ class PostEntry(Resource):
     def post(self, entry_id):
         """Method to post a new diary entry"""
         if next(filter(lambda x: x['entry_id'] == entry_id, entries), None):
-            return {'message': "An item with name '{}' already exists.".format(entry_id)}, 400
+            return {'message': "An item with name '{}' already exists."
+                    .format(entry_id)}, 400
 
         data = PostEntry.parser.parse_args()
 

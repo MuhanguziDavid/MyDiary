@@ -4,6 +4,7 @@ from flask_restful import Resource, Api, reqparse
 
 from api.v1.data import entries
 
+
 class DeleteEntry(Resource):
     def delete(self, entry_id):
         """Method to delete a diary entry"""
