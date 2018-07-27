@@ -60,7 +60,7 @@ class TestDiaryEntries(unittest.TestCase):
         self.assertEqual(response.status_code, 201)
 
     def test_post_with_existing_id(self):
-        """tests that an entry wont be created if an existing entry_id is entered"""
+        """tests that an entry wont be created if an existing id is entered"""
         self.myapp.post('/api/v1/entry/1',
                         data=json.dumps(dict(
                             title='The year 1995',
@@ -77,7 +77,7 @@ class TestDiaryEntries(unittest.TestCase):
         self.assertEqual(response.status_code, 400)
 
     def test_post_without_id(self):
-        """tests that an entry wont be created without entering an id"""
+        """tests that an entry wont be created without entering id"""
         response = self.myapp.post('/api/v1/entry/',
                                    data=json.dumps(dict(
                                        title='The year 1995',
