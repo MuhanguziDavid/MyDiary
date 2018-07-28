@@ -8,24 +8,26 @@ from api.database.db import DatabaseConnection
 class Log_In(Resource):
     """Class for Login resource"""
     parser = reqparse.RequestParser()
-    parser.add_argument('name',
+    parser.add_argument('username',
                         type=str,
                         required=True,
-                        help="This field can not be left blank!"
+                        help="username field can not be left blank!"
                         ),
     parser.add_argument('password',
                         type=str,
                         required=True,
-                        help="This field can not be left blank!"
+                        help="password field can not be left blank!"
                         )
 
     def post(self):
         data = Log_In.parser.parse_args()
 
         con = DatabaseConnection()
+        cursor = con.cursor
         dict_cursor = con.dict_cursor
 
-        name_exists = User.get_user_by_name(dict_cursor,data["name"])
+        user_instance = User(data["username"], None, data["password"])
+        name_exists = user_instance.get_user_by_name(dict_cursor)
 
         if name_exists:
             if name_exists['password'] == data['password']:
