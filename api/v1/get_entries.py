@@ -14,11 +14,9 @@ class EntryList(Resource):
         """method to return all entries"""
         user_id = get_jwt_identity()
 
-        con = DatabaseConnection()
-        cursor = con.cursor
-        dict_cursor = con.dict_cursor
+        entry_instance = Entry(user_id, None, None, None)
 
-        entries = Entry.get_all_entries(dict_cursor, user_id)
+        entries = entry_instance.get_all_entries()
         if entries:
             return {"status": "success", "entries": entries}, 200
         else:
