@@ -23,7 +23,7 @@ class PostEntry(Resource):
                         )
 
     @jwt_required
-    def post(self, entry_id):
+    def post(self):
         """Method to post a new diary entry"""
         data = PostEntry.parser.parse_args()
         user_id = get_jwt_identity()
@@ -42,4 +42,5 @@ class PostEntry(Resource):
 
             if get_entry:
                 return {"message": "Entry has been created"}, 201
+            return {"message": "Entry not created, please try again"}
         return {"message": "An entry with the same title exists, please try again"}, 400
