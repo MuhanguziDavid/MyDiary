@@ -30,17 +30,13 @@ class PostEntry(Resource):
         ts = time.time()
         timestamp = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
 
-        con = DatabaseConnection()
-        cursor = con.cursor
-        dict_cursor = con.dict_cursor
-
         entry_instance = Entry(user_id, data["title"], data["description"], timestamp)
 
-        title_exists = entry_instance.get_entry_by_title(cursor)
+        title_exists = entry_instance.get_entry_by_title()
 
         if not title_exists:
-            entry_instance.add_an_entry(cursor)
-            get_entry = entry_instance.get_entry_by_title(dict_cursor)
+            entry_instance.add_an_entry()
+            get_entry = entry_instance.get_entry_by_title()
 
             if get_entry:
                 return {"message": "Entry has been created"}, 201

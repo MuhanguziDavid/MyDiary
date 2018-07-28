@@ -33,20 +33,16 @@ class CreateUser(Resource):
     def post(self):
         """Method to create a new user"""
         data = CreateUser.parser.parse_args()
-
-        con = DatabaseConnection()
-        cursor = con.cursor
-        dict_cursor = con.dict_cursor
         
         if data["password"] != data["confirm_password"]:
             return {"message":"passwords dont match"}, 400
         
         user_instance = User(data["username"], data["email"], data["password"])
-        name_exists = user_instance.get_user_by_name(cursor)
+        name_exists = user_instance.get_user_by_name()
 
         if not name_exists:
-            user_instance.create_user(cursor)
-            get_user = user_instance.get_user_by_name(dict_cursor)
+            user_instance.create_user()
+            get_user = user_instance.get_user_by_name()
             
             if get_user:
                 auth_token = create_access_token(get_user['user_id'])

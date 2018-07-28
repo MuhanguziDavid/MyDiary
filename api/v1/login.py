@@ -22,12 +22,8 @@ class Log_In(Resource):
     def post(self):
         data = Log_In.parser.parse_args()
 
-        con = DatabaseConnection()
-        cursor = con.cursor
-        dict_cursor = con.dict_cursor
-
         user_instance = User(data["username"], None, data["password"])
-        name_exists = user_instance.get_user_by_name(dict_cursor)
+        name_exists = user_instance.get_user_by_name()
 
         if name_exists:
             if name_exists['password'] == data['password']:
