@@ -2,8 +2,6 @@
 from flask import Flask, Request
 from flask_restful import Resource, Api, reqparse
 
-from api.v1.data import entries
-
 
 class PutEntry(Resource):
     """Class for PutEntry resource"""
@@ -22,6 +20,8 @@ class PutEntry(Resource):
     def put(self, entry_id):
         """Method to modify an entry"""
         data = PutEntry.parser.parse_args()
+
+        entries = [1,2,3,4,5]
 
         entry = next(
             filter(lambda x: x['entry_id'] == entry_id, entries), None)

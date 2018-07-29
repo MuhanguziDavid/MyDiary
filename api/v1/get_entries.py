@@ -14,7 +14,7 @@ class EntryList(Resource):
         """method to return all entries"""
         user_id = get_jwt_identity()
 
-        entry_instance = Entry(user_id, None, None, None)
+        entry_instance = Entry(None, user_id, None, None, None)
 
         entries = entry_instance.get_all_entries()
         if entries:

@@ -28,3 +28,4 @@ omit = */click/*
         */flask_jwt_extended/*
         */jwt/*
         */psycopg2/*
+        */env/*

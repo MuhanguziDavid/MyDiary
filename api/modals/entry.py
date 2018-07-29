@@ -6,7 +6,8 @@ class Entry:
     cursor = con.cursor
     dict_cursor = con.dict_cursor
 
-    def __init__(self, user_id, title, description, creation_time):
+    def __init__(self, entry_id, user_id, title, description, creation_time):
+        self.entry_id = entry_id
         self.user_id = user_id
         self.title = title
         self.description = description
@@ -16,16 +17,18 @@ class Entry:
         query = "SELECT * FROM entries WHERE user_id = %s"
 
         try:
-            Entry.dict_cursor.execute(query,(self.user_id,))
+            Entry.dict_cursor.execute(query, (self.user_id,))
             row = Entry.dict_cursor.fetchone()
 
             db_entries = []
 
             while row:
-                entry_data = Entry(row["user_id"],
-                                  row["title"],
-                                  row["description"],
-                                  row["creation_time"].strftime("%Y-%m-%d %H:%M:%S"))
+                entry_data = Entry(
+                    row["entry_id"],
+                    row["user_id"],
+                    row["title"],
+                    row["description"],
+                    row["creation_time"].strftime("%Y-%m-%d %H:%M:%S"))
                 row = Entry.dict_cursor.fetchone()
                 db_entries.append(entry_data.__dict__)
             return db_entries
@@ -35,11 +38,37 @@ class Entry:
     def add_an_entry(self):
         """Method to add an entry into the database"""
         query = "INSERT INTO entries (user_id, title, description, creation_time) VALUES (%s,%s,%s,%s) RETURNING entry_id;"
-        Entry.cursor.execute(query,(self.user_id, self.title, self.description, self.creation_time))
+        Entry.cursor.execute(
+            query, (self.user_id, self.title, self.description, self.creation_time))
 
     def get_entry_by_title(self):
-        """Queries the database to returen a specific entry"""
-        query_string="SELECT * FROM entries WHERE title = %s "
-        Entry.dict_cursor.execute(query_string, [self.title])
-        row=Entry.dict_cursor.fetchone()
+        """Queries the database to returen a specific entry based on title"""
+        query = "SELECT * FROM entries WHERE title = %s "
+        Entry.dict_cursor.execute(query, [self.title])
+        row = Entry.dict_cursor.fetchone()
         return row
+
+    @staticmethod
+    def get_entry_by_id(user_id, entry_id):
+        """Queries the database to returen a specific entry based on entry id"""
+        query = "SELECT * FROM entries WHERE entry_id = %s and user_id = %s"
+        try:
+            Entry.dict_cursor.execute(query, (entry_id, user_id))
+            row = Entry.dict_cursor.fetchone()
+
+            db_entry = []
+
+            while row:
+                entry_data = Entry(
+                    row["entry_id"],
+                    row["user_id"],
+                    row["title"],
+                    row["description"],
+                    row["creation_time"].strftime("%Y-%m-%d %H:%M:%S")
+                )
+                row = Entry.dict_cursor.fetchone()
+                db_entry.append(entry_data.__dict__)
+            return db_entry
+
+        except:
+            return {"Message": "Entry does not exist"}

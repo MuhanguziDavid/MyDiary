@@ -14,12 +14,12 @@ class PostEntry(Resource):
     parser.add_argument('title',
                         type=str,
                         required=True,
-                        help="This field can not be left blank!"
+                        help="Title field can not be left blank!"
                         ),
     parser.add_argument('description',
                         type=str,
                         required=True,
-                        help="This field can not be left blank!"
+                        help="Description field can not be left blank!"
                         )
 
     @jwt_required
@@ -30,7 +30,7 @@ class PostEntry(Resource):
         ts = time.time()
         timestamp = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
 
-        entry_instance = Entry(user_id, data["title"], data["description"], timestamp)
+        entry_instance = Entry(None, user_id, data["title"], data["description"], timestamp)
 
         title_exists = entry_instance.get_entry_by_title()
 
