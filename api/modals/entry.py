@@ -35,25 +35,11 @@ class Entry:
         except:
             return {"Message": "No databse entries retreived"}
 
-    def add_an_entry(self):
-        """Method to add an entry into the database"""
-        query = "INSERT INTO entries (user_id, title, description, creation_time) VALUES (%s,%s,%s,%s) RETURNING entry_id;"
-        Entry.cursor.execute(
-            query, (self.user_id, self.title, self.description, self.creation_time))
-
-    def get_entry_by_title(self):
-        """Queries the database to returen a specific entry based on title"""
-        query = "SELECT * FROM entries WHERE title = %s "
-        Entry.dict_cursor.execute(query, [self.title])
-        row = Entry.dict_cursor.fetchone()
-        return row
-
-    @staticmethod
-    def get_entry_by_id(user_id, entry_id):
+    def get_entry_by_id(self):
         """Queries the database to returen a specific entry based on entry id"""
         query = "SELECT * FROM entries WHERE entry_id = %s and user_id = %s"
         try:
-            Entry.dict_cursor.execute(query, (entry_id, user_id))
+            Entry.dict_cursor.execute(query, (self.entry_id, self.user_id))
             row = Entry.dict_cursor.fetchone()
 
             db_entry = []
@@ -72,3 +58,21 @@ class Entry:
 
         except:
             return {"Message": "Entry does not exist"}
+    
+    def add_an_entry(self):
+        """Method to add an entry into the database"""
+        query = "INSERT INTO entries (user_id, title, description, creation_time) VALUES (%s,%s,%s,%s) RETURNING entry_id;"
+        Entry.cursor.execute(
+            query, (self.user_id, self.title, self.description, self.creation_time))
+
+    def get_entry_by_title(self):
+        """Queries the database to returen a specific entry based on title"""
+        query = "SELECT * FROM entries WHERE title = %s "
+        Entry.dict_cursor.execute(query, [self.title])
+        row = Entry.dict_cursor.fetchone()
+        return row
+    
+    def update_an_entry(self):
+        """Makes changes to entries table"""
+        query = "UPDATE entries SET title = %s, description = %s WHERE entry_id = %s"
+        Entry.dict_cursor.execute(query, (self.title, self.description, self.entry_id))

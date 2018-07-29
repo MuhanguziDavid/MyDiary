@@ -16,7 +16,9 @@ class GetEntry(Resource):
         """method to get a specific diary entry"""
         user_id = get_jwt_identity()
 
-        entry_retreived = Entry.get_entry_by_id(user_id, entry_id)
+        entry_instance = Entry(entry_id, user_id, None, None, None)
+
+        entry_retreived = entry_instance.get_entry_by_id()
 
         if entry_retreived:
             return {"status": "success", "entries": entry_retreived}, 200
