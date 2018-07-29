@@ -19,7 +19,7 @@ class TestUsers(unittest.TestCase):
         """Test that a user will not be registered with a name that exists"""
         response = self.myapp.post('/api/v1/auth/signup',
                                    data=json.dumps(dict(
-                                       name="grace",
+                                       username="grace",
                                        email="mark@gmail.com",
                                        password="1234",
                                        confirm_password="1234"
@@ -33,7 +33,7 @@ class TestUsers(unittest.TestCase):
         """Test that a user will be logged in when credentials are right"""
         response = self.myapp.post('/api/v1/auth/login',
                                    data=json.dumps(dict(
-                                       name="chris",
+                                       username="chris",
                                        password="1234",
                                    )),
                                    content_type='application/json')
@@ -45,7 +45,7 @@ class TestUsers(unittest.TestCase):
         """Test that a user will not be logged in with wrong username"""
         response = self.myapp.post('/api/v1/auth/login',
                                    data=json.dumps(dict(
-                                       name="wrong",
+                                       username="wrong",
                                        password="1234",
                                    )),
                                    content_type='application/json')
@@ -58,7 +58,7 @@ class TestUsers(unittest.TestCase):
         """Test that a user will not be logged in with wrong password"""
         response = self.myapp.post('/api/v1/auth/login',
                                    data=json.dumps(dict(
-                                       name="chris",
+                                       username="chris",
                                        password="wrong",
                                    )),
                                    content_type='application/json')
