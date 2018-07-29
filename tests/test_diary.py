@@ -2,9 +2,7 @@
 import unittest
 import json
 import sys
-import os
-
-sys.path.append(os.path.pardir)
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from api import app
 
@@ -17,7 +15,18 @@ class TestDiaryEntries(unittest.TestCase):
 
     def test_get_entries(self):
         """Test whether all diary entries are retreived"""
-        response = self.myapp.get('/api/v1/entries')
+        # first login user chris
+        response = self.myapp.post('/api/v1/auth/login',
+                                   data=json.dumps(dict(
+                                       username="chris",
+                                       password="1234",
+                                   )),
+                                   content_type='application/json')
+        user_login_data = json.loads(response.data.decode())
+
+        # get entries for user chris
+        response = self.myapp.get('/api/v1/entries',
+                                  headers=dict(Authorization='Bearer '+user_login_data["auth_token"]))
         self.assertEqual(response.status_code, 200)
 
     def test_get_specific_entry(self):
@@ -51,55 +60,53 @@ class TestDiaryEntries(unittest.TestCase):
         response = self.myapp.get('/api/v1/entry/{}'.format(_id['entry_id']))
         self.assertEqual(response.status_code, 404)
 
-    def test_post_new_entry(self):
-        """tests that a new entry will be created"""
-        response = self.myapp.post('/api/v1/entry/5',
+    def test_post_with_existing_title(self):
+        """tests that a new entry will not be created if the same title is given"""
+        # login use chris and get token
+        login = self.myapp.post('/api/v1/auth/login',
                                    data=json.dumps(dict(
-                                       title='The year 1995',
-                                       description='This is when I was born'
+                                       username="chris",
+                                       password="1234",
                                    )),
                                    content_type='application/json')
+        user_login_data = json.loads(login.data.decode())
 
-        self.assertEqual(response.status_code, 201)
-
-    def test_post_with_existing_id(self):
-        """tests that an entry wont be created if an existing entry_id is entered"""
-        self.myapp.post('/api/v1/entry/1',
-                        data=json.dumps(dict(
-                            title='The year 1995',
-                            description='This is when I was born'
-                        )),
-                        content_type='application/json')
-        response = self.myapp.post('/api/v1/entry/1',
+        # post data after being authenticated
+        response = self.myapp.post('/api/v1/add',
+                                   headers=dict(
+                                       Authorization='Bearer '+user_login_data["auth_token"]),
                                    data=json.dumps(dict(
-                                       title='The year 1995',
-                                       description='This is when I was born'
+                                       title="The year 1995",
+                                       description="This is when I was born"
                                    )),
                                    content_type='application/json')
 
         self.assertEqual(response.status_code, 400)
+        self.assertIn("An entry with the same title exists, please try again", str(response.data))
 
-    def test_post_without_id(self):
-        """tests that an entry wont be created without entering an id"""
-        response = self.myapp.post('/api/v1/entry/',
+    def test_post_without_title(self):
+        """tests that a new entry will not be created title is not given"""
+        # login use chris and get token
+        login = self.myapp.post('/api/v1/auth/login',
                                    data=json.dumps(dict(
-                                       title='The year 1995',
-                                       description='This is when I was born'
+                                       username="chris",
+                                       password="1234",
+                                   )),
+                                   content_type='application/json')
+        user_login_data = json.loads(login.data.decode())
+
+        # post data after being authenticated
+        response = self.myapp.post('/api/v1/add',
+                                   headers=dict(
+                                       Authorization='Bearer '+user_login_data["auth_token"]),
+                                   data=json.dumps(dict(
+                                       title=None,
+                                       description="This is when I was born"
                                    )),
                                    content_type='application/json')
 
-        self.assertEqual(response.status_code, 404)
-
-    def test_post_without_string_id(self):
-        """tests that an entry wont be created if a string is entered as id"""
-        response = self.myapp.post('/api/v1/entry/home',
-                                   data=json.dumps(dict(
-                                       title='The year 1995',
-                                       description='This is when I was born'
-                                   )),
-                                   content_type='application/json')
-
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 500)
+        self.assertIn("Internal Server Error", str(response.data))
 
     def test_put_existing_entry(self):
         """tests that an entry will be updated"""

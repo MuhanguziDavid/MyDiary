@@ -28,6 +28,20 @@ class TestUsers(unittest.TestCase):
 
         self.assertEqual(response.status_code, 400)
         self.assertIn("username already exists", str(response.data))
+    
+    def test_signup_user_with_mismatching_passwords(self):
+        """Test that a user will not be registered with mismatching passwords"""
+        response = self.myapp.post('/api/v1/auth/signup',
+                                   data=json.dumps(dict(
+                                       username="grace",
+                                       email="mark@gmail.com",
+                                       password="1234",
+                                       confirm_password="5678"
+                                   )),
+                                   content_type='application/json')
+
+        self.assertEqual(response.status_code, 400)
+        self.assertIn("passwords dont match", str(response.data))
 
     def test_login_with_correct_credentials(self):
         """Test that a user will be logged in when credentials are right"""
