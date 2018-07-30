@@ -39,7 +39,7 @@ class TestDiaryEntries(unittest.TestCase):
         tests whether it will returen status code 404 (not found)
         if a user tries to retreive non existing entry
         """
-        #login user
+        # login user
         login = tests_data.login_user(self, "chris", "1234")
         user_login_data = json.loads(login.data.decode())
 
@@ -62,7 +62,7 @@ class TestDiaryEntries(unittest.TestCase):
 
     def test_post_with_existing_title(self):
         """tests that a new entry will not be created if the same title is given"""
-        #login user
+        # login user
         login = tests_data.login_user(self, "chris", "1234")
         user_login_data = json.loads(login.data.decode())
 
@@ -75,7 +75,7 @@ class TestDiaryEntries(unittest.TestCase):
 
     def test_post_without_title(self):
         """tests that a new entry will not be created title is not given"""
-        #login user
+        # login user
         login = tests_data.login_user(self, "chris", "1234")
         user_login_data = json.loads(login.data.decode())
 
@@ -95,7 +95,8 @@ class TestDiaryEntries(unittest.TestCase):
         response = tests_data.put_data(self, user_login_data, 9)
 
         self.assertEqual(response.status_code, 200)
-        self.assertIn("Entry can not be updated, it was created over 24 hours ago", str(response.data))
+        self.assertIn(
+            "Entry can not be updated, it was created over 24 hours ago", str(response.data))
 
     def test_delete_entry(self):
         """Test whether a specific diary entry is deleted"""
@@ -103,7 +104,7 @@ class TestDiaryEntries(unittest.TestCase):
         login = tests_data.login_user(self, "chris", "1234")
         user_login_data = json.loads(login.data.decode())
 
-        #delete the posted record
+        # delete the posted record
         response = tests_data.delete_data(self, user_login_data, 13)
         self.assertEqual(response.status_code, 200)
         self.assertIn('The entry has been deleted', str(response.data))
