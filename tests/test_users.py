@@ -2,9 +2,6 @@
 import unittest
 import json
 import sys
-import os
-
-sys.path.append(os.path.pardir)
 
 from api import app
 
