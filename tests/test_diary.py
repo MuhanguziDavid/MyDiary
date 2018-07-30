@@ -153,16 +153,23 @@ class TestDiaryEntries(unittest.TestCase):
 
     def test_delete_entry(self):
         """Test whether a specific diary entry is deleted"""
-        self.myapp.post('/api/v1/entry/1',
-                        data=json.dumps(dict(
-                            title='The year 1995',
-                            description='This is when I was born'
-                        )),
-                        content_type='application/json')
+        # login user chris
+        response = self.myapp.post('/api/v1/auth/login',
+                                   data=json.dumps(dict(
+                                       username="chris",
+                                       password="1234",
+                                   )),
+                                   content_type='application/json')
+        user_login_data = json.loads(response.data.decode())
+
+        #delete the posted record
         response = self.myapp.delete(
-            '/api/v1/entry/{}'.format(1))
+            '/api/v1/remove',
+            headers=dict(Authorization='Bearer '+user_login_data["auth_token"]),
+            data=json.dumps(dict(entry_id=13)),
+            content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        self.assertIn('Item deleted', str(response.data))
+        self.assertIn('The entry has been deleted', str(response.data))
 
 
 if __name__ == '__main__':

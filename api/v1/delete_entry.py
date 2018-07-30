@@ -27,5 +27,5 @@ class DeleteEntry(Resource):
         find_the_entry = entry_instance.get_entry_by_id()
 
         if not find_the_entry:
-            return {"meassge": "The entry has been deleted"}
+            return {"meassge": "The entry has been deleted"}, 200
         return {"message": "Entry not deleted, please try again"}
