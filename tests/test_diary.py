@@ -5,6 +5,7 @@ import sys
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from api import app
+from tests import tests_data
 
 
 class TestDiaryEntries(unittest.TestCase):
@@ -16,33 +17,21 @@ class TestDiaryEntries(unittest.TestCase):
     def test_get_entries(self):
         """Test whether all diary entries are retreived"""
         # first login user chris
-        response = self.myapp.post('/api/v1/auth/login',
-                                   data=json.dumps(dict(
-                                       username="chris",
-                                       password="1234",
-                                   )),
-                                   content_type='application/json')
-        user_login_data = json.loads(response.data.decode())
+        login = tests_data.login_user(self, "chris", "1234")
+        user_login_data = json.loads(login.data.decode())
 
         # get entries for user chris
-        response = self.myapp.get('/api/v1/entries',
-                                  headers=dict(Authorization='Bearer '+user_login_data["auth_token"]))
+        response = tests_data.get_all_records(self, user_login_data)
         self.assertEqual(response.status_code, 200)
 
     def test_get_specific_entry(self):
         """Test whether a specific diary entry is retreived"""
         # login user chris
-        response = self.myapp.post('/api/v1/auth/login',
-                                   data=json.dumps(dict(
-                                       username="chris",
-                                       password="1234",
-                                   )),
-                                   content_type='application/json')
-        user_login_data = json.loads(response.data.decode())
+        login = tests_data.login_user(self, "chris", "1234")
+        user_login_data = json.loads(login.data.decode())
 
         # get entry with id 29 from david's diary
-        response = self.myapp.get('/api/v1/entry/{}'.format(8),
-                                  headers=dict(Authorization='Bearer '+user_login_data["auth_token"]))
+        response = tests_data.get_specific_record(self, user_login_data, 8)
         self.assertEqual(response.status_code, 200)
 
     def test_get_non_existing_entry(self):
@@ -50,18 +39,12 @@ class TestDiaryEntries(unittest.TestCase):
         tests whether it will returen status code 404 (not found)
         if a user tries to retreive non existing entry
         """
-        # login user chris
-        response = self.myapp.post('/api/v1/auth/login',
-                                   data=json.dumps(dict(
-                                       username="chris",
-                                       password="1234",
-                                   )),
-                                   content_type='application/json')
-        user_login_data = json.loads(response.data.decode())
+        #login user
+        login = tests_data.login_user(self, "chris", "1234")
+        user_login_data = json.loads(login.data.decode())
 
         # get entry with id 29 from david's diary
-        response = self.myapp.get('/api/v1/entry/{}'.format(11),
-                                  headers=dict(Authorization='Bearer '+user_login_data["auth_token"]))
+        response = tests_data.get_specific_record(self, user_login_data, 11)
         self.assertIn("Entry was not found", str(response.data))
         self.assertEqual(response.status_code, 404)
 
@@ -79,24 +62,12 @@ class TestDiaryEntries(unittest.TestCase):
 
     def test_post_with_existing_title(self):
         """tests that a new entry will not be created if the same title is given"""
-        # login use chris and get token
-        login = self.myapp.post('/api/v1/auth/login',
-                                data=json.dumps(dict(
-                                    username="chris",
-                                    password="1234",
-                                )),
-                                content_type='application/json')
+        #login user
+        login = tests_data.login_user(self, "chris", "1234")
         user_login_data = json.loads(login.data.decode())
 
         # post data after being authenticated
-        response = self.myapp.post('/api/v1/add',
-                                   headers=dict(
-                                       Authorization='Bearer '+user_login_data["auth_token"]),
-                                   data=json.dumps(dict(
-                                       title="The year 1995",
-                                       description="This is when I was born"
-                                   )),
-                                   content_type='application/json')
+        response = tests_data.post_data(self, user_login_data, "Test post")
 
         self.assertIn(
             "An entry with the same title exists, please try again", str(response.data))
@@ -104,24 +75,12 @@ class TestDiaryEntries(unittest.TestCase):
 
     def test_post_without_title(self):
         """tests that a new entry will not be created title is not given"""
-        # login use chris and get token
-        login = self.myapp.post('/api/v1/auth/login',
-                                data=json.dumps(dict(
-                                    username="chris",
-                                    password="1234",
-                                )),
-                                content_type='application/json')
+        #login user
+        login = tests_data.login_user(self, "chris", "1234")
         user_login_data = json.loads(login.data.decode())
 
         # post data after being authenticated
-        response = self.myapp.post('/api/v1/add',
-                                   headers=dict(
-                                       Authorization='Bearer '+user_login_data["auth_token"]),
-                                   data=json.dumps(dict(
-                                       title=None,
-                                       description="This is when I was born"
-                                   )),
-                                   content_type='application/json')
+        response = tests_data.post_data(self, user_login_data, None)
 
         self.assertEqual(response.status_code, 500)
         self.assertIn("Internal Server Error", str(response.data))
@@ -129,24 +88,11 @@ class TestDiaryEntries(unittest.TestCase):
     def test_update_entry_more_than_24hrs(self):
         """tests that an entry will not be updated if it was created over 24 hours ago"""
         # login user chris
-        response = self.myapp.post('/api/v1/auth/login',
-                                   data=json.dumps(dict(
-                                       username="chris",
-                                       password="1234",
-                                   )),
-                                   content_type='application/json')
-        user_login_data = json.loads(response.data.decode())
+        login = tests_data.login_user(self, "chris", "1234")
+        user_login_data = json.loads(login.data.decode())
 
         # edit a record in chris' diary
-        response = self.myapp.put('/api/v1/update',
-                                  headers=dict(
-                                      Authorization='Bearer '+user_login_data["auth_token"]),
-                                  data=json.dumps(dict(
-                                      entry_id=9,
-                                      title='Last week',
-                                      description='I started practicing flask'
-                                  )),
-                                  content_type='application/json')
+        response = tests_data.put_data(self, user_login_data, 9)
 
         self.assertEqual(response.status_code, 200)
         self.assertIn("Entry can not be updated, it was created over 24 hours ago", str(response.data))
@@ -154,20 +100,11 @@ class TestDiaryEntries(unittest.TestCase):
     def test_delete_entry(self):
         """Test whether a specific diary entry is deleted"""
         # login user chris
-        response = self.myapp.post('/api/v1/auth/login',
-                                   data=json.dumps(dict(
-                                       username="chris",
-                                       password="1234",
-                                   )),
-                                   content_type='application/json')
-        user_login_data = json.loads(response.data.decode())
+        login = tests_data.login_user(self, "chris", "1234")
+        user_login_data = json.loads(login.data.decode())
 
         #delete the posted record
-        response = self.myapp.delete(
-            '/api/v1/remove',
-            headers=dict(Authorization='Bearer '+user_login_data["auth_token"]),
-            data=json.dumps(dict(entry_id=13)),
-            content_type='application/json')
+        response = tests_data.delete_data(self, user_login_data, 13)
         self.assertEqual(response.status_code, 200)
         self.assertIn('The entry has been deleted', str(response.data))
 
