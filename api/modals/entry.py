@@ -76,3 +76,8 @@ class Entry:
         """Makes changes to entries table"""
         query = "UPDATE entries SET title = %s, description = %s WHERE entry_id = %s"
         Entry.dict_cursor.execute(query, (self.title, self.description, self.entry_id))
+
+    def delete_an_entry(self):
+        """Deletes an entry from the diary"""
+        query = "DELETE FROM entries WHERE entry_id = %s AND user_id = %s"
+        Entry.dict_cursor.execute(query, (self.entry_id, self.user_id))

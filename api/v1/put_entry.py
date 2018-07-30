@@ -49,6 +49,6 @@ class PutEntry(Resource):
             entry_updated = entry_instance.get_entry_by_id()
 
             if entry_updated:
-                return {"message": "Entry has been updated successfully"}
+                return {"message": "Entry has been updated successfully"}, 200
             return {"message": "Entry was not updated"}
-        return {"message": "Entry can not be updated, it was created over 24 hours ago"}
+        return {"message": "Entry can not be updated, it was created over 24 hours ago"}, 200
