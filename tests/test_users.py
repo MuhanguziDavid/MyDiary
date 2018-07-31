@@ -11,6 +11,7 @@ class TestUsers(unittest.TestCase):
     """Different test cases for users"""
 
     def setUp(self):
+        app.config['TEST_MODE'] = True
         self.myapp = app.test_client()
 
     def test_signup_user_with_existing_name(self):

@@ -2,7 +2,9 @@
 from flask import Flask, Request
 from flask_restful import Resource, Api, reqparse
 from flask_jwt_extended import JWTManager
+# from flask_cors import CORS
 
+from api.database.db import DatabaseConnection
 from api.v1.get_entries import EntryList
 from api.v1.get_entry import GetEntry
 from api.v1.post_entry import PostEntry
@@ -16,6 +18,8 @@ api = Api(app)
 
 secret_key = 'david'
 app.config['JWT_SECRET_KEY'] = secret_key
+app.config['TEST_MODE'] = False
+app.config['MAIN_MODE'] = True
 jwt = JWTManager(app)
 
 api.add_resource(EntryList, '/api/v1/entries') #get all diary entries
