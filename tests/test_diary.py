@@ -4,7 +4,8 @@ import json
 import sys
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from api import app
+from api.database.db import DatabaseConnection
+from config import app
 from tests import tests_data
 
 
@@ -12,8 +13,13 @@ class TestDiaryEntries(unittest.TestCase):
     """Different test cases for Diary Entries"""
 
     def setUp(self):
-        app.config['TEST_MODE'] = True
+        app.config['TESTING'] = True
         self.myapp = app.test_client()
+
+        with app.app_context():
+            database_connection = DatabaseConnection()
+            database_connection.create_table_users()
+            database_connection.create_table_entries()
 
     def test_get_entries(self):
         """Test whether all diary entries are retreived"""
@@ -83,8 +89,9 @@ class TestDiaryEntries(unittest.TestCase):
         # post data after being authenticated
         response = tests_data.post_data(self, user_login_data, None)
 
-        self.assertEqual(response.status_code, 500)
-        self.assertIn("Internal Server Error", str(response.data))
+        self.assertEqual(response.status_code, 400)
+        self.assertIn(
+            "An entry with the same title exists, please try again", str(response.data))
 
     def test_update_entry_more_than_24hrs(self):
         """tests that an entry will not be updated if it was created over 24 hours ago"""
@@ -109,6 +116,12 @@ class TestDiaryEntries(unittest.TestCase):
         response = tests_data.delete_data(self, user_login_data, 13)
         self.assertEqual(response.status_code, 200)
         self.assertIn('The entry has been deleted', str(response.data))
+    
+    def tearDown(self):
+        with app.app_context():
+            database_connection = DatabaseConnection()
+            database_connection.drop_table_users()
+            database_connection.drop_table_entries()
 
 
 if __name__ == '__main__':

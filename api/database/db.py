@@ -1,26 +1,41 @@
 """For database connection and table creation"""
 import psycopg2
 import psycopg2.extras as extra
-from flask import current_app
+from config import app
 
 
 class DatabaseConnection:
-    def __init__(self):
+    def __init__(self, database=None):
         try:
-            if current_app.config['TEST_MODE']:
+            if database:
                 self.connection = psycopg2.connect(
-                    database="test_diary",
+                    database='decoy',
                     user='postgres',
                     password='12345',
                     host='localhost',
-                    port='5432')
+                    port='5432'
+                )
+
             else:
-                self.connection = psycopg2.connect(
-                    database="mydiary",
-                    user='postgres',
-                    password='12345',
-                    host='localhost',
-                    port='5432')
+                if app.config['TESTING'] == True:
+                    print("testing")
+                    self.connection = psycopg2.connect(
+                        database=app.config['TEST_DATABASE'],
+                        user='postgres',
+                        password='12345',
+                        host='localhost',
+                        port='5432'
+                    )
+                else:
+                    print("main db")
+                    self.connection = psycopg2.connect(
+                        database=app.config['DATABASE'],
+                        user='postgres',
+                        password='12345',
+                        host='localhost',
+                        port='5432'
+                    )
+
             self.connection.autocommit = True
             self.cursor = self.connection.cursor()
             self.dict_cursor = self.connection.cursor(
@@ -37,6 +52,14 @@ class DatabaseConnection:
         create_table_query_entries = (
             "CREATE TABLE IF NOT EXISTS entries (entry_id SERIAL PRIMARY KEY,user_id INTEGER NOT NULL,title VARCHAR(255) NOT NULL,description VARCHAR(255) NOT NULL,creation_time timestamp,FOREIGN KEY (user_id)REFERENCES users (user_id)ON UPDATE CASCADE ON DELETE CASCADE)")
         self.cursor.execute(create_table_query_entries)
+    
+    def drop_table_users(self):
+        query = ("DROP TABLE IF EXISTS users cascade")
+        self.cursor.execute(query)
+    
+    def drop_table_entries(self):
+        query = ("DROP TABLE IF EXISTS entries cascade")
+        self.cursor.execute(query)
 
 
 if __name__ == "__main__":

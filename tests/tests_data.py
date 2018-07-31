@@ -1,11 +1,5 @@
 """Tests concerning diary entries"""
-import unittest
 import json
-import sys
-from flask_jwt_extended import jwt_required, get_jwt_identity
-
-from api import app
-
 
 def registration(self, username, email, password, confirm_password):
     """Data to be use for create user endpoint tests"""
@@ -32,7 +26,7 @@ def post_data(self, user_login_data, post_title):
         '/api/v1/add',
         headers=dict(Authorization='Bearer '+user_login_data["auth_token"]),
         data=json.dumps(
-            dict(title=post_title, description="This is test data")),
+            dict(title="", description="This is test data")),
         content_type='application/json')
     return response
 

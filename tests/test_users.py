@@ -2,17 +2,24 @@
 import unittest
 import json
 import sys
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from api import app
+from config import app
 from tests import tests_data
+from api.database.db import DatabaseConnection
 
 
 class TestUsers(unittest.TestCase):
     """Different test cases for users"""
 
     def setUp(self):
-        app.config['TEST_MODE'] = True
+        app.config['TESTING'] = True
         self.myapp = app.test_client()
+
+        with app.app_context():
+            database_connection = DatabaseConnection()
+            database_connection.create_table_users()
+            database_connection.create_table_entries()
 
     def test_signup_user_with_existing_name(self):
         """Test that a user will not be registered with a name that exists"""
@@ -50,6 +57,10 @@ class TestUsers(unittest.TestCase):
         self.assertEqual(response.status_code, 401)
         self.assertIn(
             "Password incorrect, please re-enter password", str(response.data))
+    
+    def tearDown(self):
+        with app.app_context():
+            pass
 
 if __name__ == '__main__':
     unittest.main()

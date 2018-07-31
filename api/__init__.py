@@ -18,9 +18,14 @@ api = Api(app)
 
 secret_key = 'david'
 app.config['JWT_SECRET_KEY'] = secret_key
-app.config['TEST_MODE'] = False
-app.config['MAIN_MODE'] = True
 jwt = JWTManager(app)
+
+app.config['TESTING'] == True
+app.config['DEBUG'] = True
+
+app.config['TEST_DATABASE'] = "test_diary"
+app.config['DATABASE'] = "mydiary"
+app.config.from_object(__name__)
 
 api.add_resource(EntryList, '/api/v1/entries') #get all diary entries
 api.add_resource(GetEntry, '/api/v1/entry/<int:entry_id>') #get specific diary entry
