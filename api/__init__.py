@@ -2,7 +2,6 @@
 from flask import Flask, Request
 from flask_restful import Resource, Api, reqparse
 from flask_jwt_extended import JWTManager
-# from flask_cors import CORS
 
 from api.database.db import DatabaseConnection
 from api.v1.get_entries import EntryList

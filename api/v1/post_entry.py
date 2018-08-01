@@ -1,4 +1,5 @@
 """Post an entry to MyDiary"""
+import re
 from flask import Flask, Request
 import time
 import datetime
@@ -26,6 +27,13 @@ class PostEntry(Resource):
     def post(self):
         """Method to post a new diary entry"""
         data = PostEntry.parser.parse_args()
+
+        if not re.match(r"\S+", data["title"]):
+            return {"message": "Please enter the title"}
+        
+        if not re.match(r"\S+", data["description"]):
+            return {"message": "Please enter the description"}
+
         user_id = get_jwt_identity()
         ts = time.time()
         timestamp = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')

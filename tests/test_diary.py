@@ -98,20 +98,6 @@ class TestDiaryEntries(unittest.TestCase):
             "An entry with the same title exists, please try again", str(response.data))
         self.assertEqual(response.status_code, 400)
 
-    # def test_post_without_title(self):
-    #     """tests that a new entry will not be created title is not given"""
-    #     # login user
-    #     tests_data.registration(self, "chris", "chris@gmail.com", "1234", "1234")
-    #     login = tests_data.login_user(self, "chris", "1234")
-    #     user_login_data = json.loads(login.data.decode())
-
-    #     # post data after being authenticated
-    #     response = tests_data.post_data(self, user_login_data, None)
-
-    #     self.assertEqual(response.status_code, 400)
-    #     self.assertIn(
-    #         "An entry with the same title exists, please try again", str(response.data))
-
     def test_get_entries(self):
         """Test whether all diary entries are retreived"""
         # first login user chris
