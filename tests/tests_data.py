@@ -26,7 +26,7 @@ def post_data(self, user_login_data, post_title):
         '/api/v1/add',
         headers=dict(Authorization='Bearer '+user_login_data["auth_token"]),
         data=json.dumps(
-            dict(title="", description="This is test data")),
+            dict(title=post_title, description="This is test data")),
         content_type='application/json')
     return response
 
