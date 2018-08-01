@@ -14,7 +14,7 @@ install:
 
 # run tests
 script:
-  - nosetests --with-coverage --cover-tests
+  - pytest --cov=api
 
 after_success:
   - coveralls
