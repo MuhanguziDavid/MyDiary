@@ -7,25 +7,22 @@ from api.modals.entry import Entry
 
 class DeleteEntry(Resource):
     """Class for DeleteEntry Resource"""
-    parser = reqparse.RequestParser()
-    parser.add_argument('entry_id',
-                        type=int,
-                        required=True,
-                        help="Entry id field can not be left blank!"
-                        )
     
     @jwt_required
-    def delete(self):
+    def delete(self, entry_id):
         """Method to delete a diary entry"""
-        data = DeleteEntry.parser.parse_args()
         user_id = get_jwt_identity()
 
-        entry_instance = Entry(data["entry_id"], user_id, None, None, None)
+        entry_instance = Entry(entry_id, user_id, None, None, None)
 
-        entry_instance.delete_an_entry()
+        entry_exists = entry_instance.get_entry_by_id()
+        
+        if entry_exists:
+            entry_instance.delete_an_entry()
 
-        find_the_entry = entry_instance.get_entry_by_id()
+            find_the_entry = entry_instance.get_entry_by_id()
 
-        if not find_the_entry:
-            return {"meassge": "The entry has been deleted"}, 200
-        return {"message": "Entry not deleted, please try again"}
+            if not find_the_entry:
+                return {"meassge": "The entry has been deleted"}, 200
+            return {"message": "Entry not deleted, please try again"}
+        return {"message": "The entry with id {} does not exist".format(entry_id)}, 400

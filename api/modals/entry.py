@@ -3,6 +3,8 @@ from api.database.db import DatabaseConnection
 
 class Entry:
     con = DatabaseConnection()
+    con.create_table_users()
+    con.create_table_entries()
     cursor = con.cursor
     dict_cursor = con.dict_cursor
 
@@ -61,7 +63,7 @@ class Entry:
     
     def add_an_entry(self):
         """Method to add an entry into the database"""
-        query = "INSERT INTO entries (user_id, title, description, creation_time) VALUES (%s,%s,%s,%s) RETURNING entry_id;"
+        query = "INSERT INTO entries (user_id, title, description, creation_time) VALUES (%s,%s,%s,%s);"
         Entry.cursor.execute(
             query, (self.user_id, self.title, self.description, self.creation_time))
 
