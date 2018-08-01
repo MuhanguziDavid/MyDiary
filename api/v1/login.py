@@ -1,3 +1,4 @@
+import re
 from flask import Flask, request
 from flask_restful import Api, Resource, reqparse
 from flask_jwt_extended import create_access_token
@@ -21,6 +22,12 @@ class Log_In(Resource):
 
     def post(self):
         data = Log_In.parser.parse_args()
+
+        if not re.match(r"\S+", data["username"]):
+            return {"message": "Please re-enter your name"}
+        
+        if not re.match(r"\S+", data["password"]):
+            return {"message": "Please re-enter your password"}
 
         user_instance = User(data["username"], None, data["password"])
         name_exists = user_instance.get_user_by_name()

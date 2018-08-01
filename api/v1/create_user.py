@@ -1,3 +1,4 @@
+import re
 from flask import Flask, request
 from flask_restful import Api, Resource, reqparse
 from flask_jwt_extended import create_access_token
@@ -33,7 +34,16 @@ class CreateUser(Resource):
     def post(self):
         """Method to create a new user"""
         data = CreateUser.parser.parse_args()
+
+        if not re.match(r"\S+@\S+\.\S+", data["email"]):
+            return {"message": "Email not valid, please try again"}
         
+        if not re.match(r"\S+", data["username"]):
+            return {"message": "Please re-enter your name"}
+        
+        if not re.match(r"\S+", data["password"]):
+            return {"message": "Please re-enter your password"}
+
         if data["password"] != data["confirm_password"]:
             return {"message":"passwords dont match"}, 400
         
