@@ -7,12 +7,13 @@ MyDiary is an online journal that provides users with the ability to pen down th
 
 ## Features
 MyDiary offers the following features
-* Create an account and login
-* View all entries in a diary
+* Create an account for a user
+* Login a user
+* View all entries in a user's diary
 * View contents of a diary entry
 * Add an entry
 * Modify an entry
-* Set and get notifications to add an entry to the diary
+* Delete an entry
 
 Visit the site:
 https://muhanguzidavid.github.io/MyDiary/UI/index.html
@@ -20,15 +21,28 @@ https://muhanguzidavid.github.io/MyDiary/UI/index.html
 ## Getting Started
 
 ### Prerequisites
-* Python 3
-* python-pip
+```
+Python 3
+python-pip
+Virtualenv
+```
 
 ### Installation
 
 * Clone the project at [MyDiary](https://github.com/MuhanguziDavid/MyDiary).
 * cd into the project diractory
-* Set up a virtual environment and activate it
-* Install all dependencies (pip install -r requirements.txt)
+
+#### Setup Virtual environment
+For windows:
+```
+virtualenv env
+cd/env/scripts/activate
+```
+
+#### Install all dependencies
+```
+ pip install -r requirements.txt
+```
 
 ### Running the app
 * Run the app with the command (python run.py)
@@ -37,16 +51,27 @@ https://muhanguzidavid.github.io/MyDiary/UI/index.html
 ## Supported endpoints
 HTTP Method | Endpoint | Description
 ------------ | ------------- | -------------
+POST| /api/v1/auth/signup| Registers a user
 GET| /api/v1/entries| Retrieves all diary entries
 GET| /api/v1/entry/<int:entry_id>| Retrieves a specific diary entry
-POST| /api/v1/entry/<int:entry_id>| Adds an entry to the diary
-PUT| /api/v1/entry/<int:entry_id>| Updates an entry in the diary
-DELETE| /api/v1/entry/<int:entry_id>| Deletes an entry from the diary
+POST| /api/v1/add| Adds an entry to the diary
+PUT| /api/v1/update| Updates an entry in the diary
+DELETE| /api/v1/remove/<int:entry_id>| Deletes an entry from the diary
 
 ## Tests
 
 To run tests, run the command (pytest -v)
 
-## Deployment
+* cd into the tests folder
+* run the command 
+```
+pytest -v test_diary.py
+```
 
-The application has been deployed on heroku: https://my-diary-entries.herokuapp.com/api/v1/entries
+### Tests with coverage
+Run the command
+```
+nosetests --with-coverage --cover-tests --cover-package=tests
+```
+
+## Deployment
