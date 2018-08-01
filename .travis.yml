@@ -3,13 +3,18 @@ python:
   - "3.6.2"
 cache: pip
 
+services:
+  -postgresql
+
+before_script:
+  - psql -c 'CREATE DATABASE mydiary;' -U postgres
 # install dependencies
 install:
   - pip install -r requirements.txt
 
 # run tests
 script:
-  - nosetests --with-coverage --cover-tests --cover-package=tests
+  - nosetests --with-coverage --cover-tests
 
 after_success:
   - coveralls
