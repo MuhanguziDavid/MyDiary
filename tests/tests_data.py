@@ -61,9 +61,7 @@ def put_data(self, user_login_data, entry_id):
 def delete_data(self, user_login_data, entry_id):
     """Data to be used by the delete entrypoint tests"""
     response = self.myapp.delete(
-        '/api/v1/remove',
+        '/api/v1/remove/{}'.format(entry_id),
         headers=dict(Authorization='Bearer ' +
-                     user_login_data["auth_token"]),
-        data=json.dumps(dict(entry_id=entry_id)),
-        content_type='application/json')
+                     user_login_data["auth_token"]))
     return response

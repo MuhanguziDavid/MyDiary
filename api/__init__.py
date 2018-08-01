@@ -20,17 +20,13 @@ secret_key = 'david'
 app.config['JWT_SECRET_KEY'] = secret_key
 jwt = JWTManager(app)
 
-app.config['TESTING'] == True
-app.config['DEBUG'] = True
-
 app.config['TEST_DATABASE'] = "test_diary"
 app.config['DATABASE'] = "mydiary"
-app.config.from_object(__name__)
 
 api.add_resource(EntryList, '/api/v1/entries') #get all diary entries
 api.add_resource(GetEntry, '/api/v1/entry/<int:entry_id>') #get specific diary entry
 api.add_resource(PostEntry, '/api/v1/add') #add a diary entry
 api.add_resource(PutEntry, '/api/v1/update') #update a diary entry
-api.add_resource(DeleteEntry, '/api/v1/remove') #update a diary entry
+api.add_resource(DeleteEntry, '/api/v1/remove/<int:entry_id>') #update a diary entry
 api.add_resource(CreateUser, '/api/v1/auth/signup') #register a user
 api.add_resource(Log_In, '/api/v1/auth/login') #login a user
