@@ -13,7 +13,6 @@ class TestDiaryEntries(unittest.TestCase):
     """Different test cases for Diary Entries"""
 
     def setUp(self):
-        app.config['TESTING'] = True
         self.myapp = app.test_client()
 
         with app.app_context():

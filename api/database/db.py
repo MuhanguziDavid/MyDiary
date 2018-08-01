@@ -2,18 +2,33 @@
 import psycopg2
 import psycopg2.extras as extra
 import urlparse3
+import os
 
 
 class DatabaseConnection:
     def __init__(self, database=None):
         try:
-            self.connection = psycopg2.connect(
-                database="mydiary",
-                user='postgres',
-                password='12345',
-                host='localhost',
-                port='5432'
-            )
+            app_env = os.environ.get('app_env', None)
+
+            if app_env == 'testing':
+                print("td")
+                self.connection = psycopg2.connect(
+                    database="test_diary",
+                    user='postgres',
+                    password='12345',
+                    host='localhost',
+                    port='5432'
+                )
+            else:
+                print("md")
+                self.connection = psycopg2.connect(
+                    database="mydiary",
+                    user='postgres',
+                    password='12345',
+                    host='localhost',
+                    port='5432'
+                )
+
             self.connection.autocommit = True
             self.cursor = self.connection.cursor()
             self.dict_cursor = self.connection.cursor(
