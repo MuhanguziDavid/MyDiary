@@ -24,10 +24,10 @@ class Log_In(Resource):
         data = Log_In.parser.parse_args()
 
         if not re.match(r"\S+", data["username"]):
-            return {"message": "Please re-enter your name"}
+            return {"message": "Please re-enter your name"}, 400
         
         if not re.match(r"\S+", data["password"]):
-            return {"message": "Please re-enter your password"}
+            return {"message": "Please re-enter your password"}, 400
 
         user_instance = User(data["username"], None, data["password"])
         name_exists = user_instance.get_user_by_name()

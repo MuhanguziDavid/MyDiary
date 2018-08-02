@@ -36,13 +36,13 @@ class CreateUser(Resource):
         data = CreateUser.parser.parse_args()
 
         if not re.match(r"\S+@\S+\.\S+", data["email"]):
-            return {"message": "Email not valid, please try again"}
+            return {"message": "Email not valid, please try again"}, 400
         
         if not re.match(r"\S+", data["username"]):
-            return {"message": "Please re-enter your name"}
+            return {"message": "Please re-enter your name"}, 400
         
         if not re.match(r"\S+", data["password"]):
-            return {"message": "Please re-enter your password"}
+            return {"message": "Please re-enter your password"}, 400
 
         if data["password"] != data["confirm_password"]:
             return {"message":"passwords dont match"}, 400
@@ -58,4 +58,4 @@ class CreateUser(Resource):
                 auth_token = create_access_token(get_user['user_id'])
                 return {"auth_token": auth_token, "message": "Account Created Successfully"}, 201
             return {"message": "User not registered, please try again"}
-        return {"message": "username already exists"}, 400
+        return {"message": "username already exists"}, 409

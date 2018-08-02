@@ -29,10 +29,10 @@ class PostEntry(Resource):
         data = PostEntry.parser.parse_args()
 
         if not re.match(r"\S+", data["title"]):
-            return {"message": "Please enter the title"}
+            return {"message": "Please enter the title"}, 400
         
         if not re.match(r"\S+", data["description"]):
-            return {"message": "Please enter the description"}
+            return {"message": "Please enter the description"}, 400
 
         user_id = get_jwt_identity()
         ts = time.time()
@@ -47,6 +47,6 @@ class PostEntry(Resource):
             get_entry = entry_instance.get_entry_by_title()
 
             if get_entry:
-                return {"message": "Entry has been created"}, 201
+                return {"message": "Entry has been created" , "Created entry": get_entry}, 201
             return {"message": "Entry not created, please try again"}
         return {"message": "An entry with the same title exists, please try again"}, 400

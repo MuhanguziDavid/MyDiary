@@ -44,6 +44,17 @@ cd/env/scripts/activate
  pip install -r requirements.txt
 ```
 
+#### Setting up the database
+* Install postgresql 10
+* In the terminal, enter the following command to shift to the postgres shell
+```
+psql -U <username> postgres
+```
+* In postgress shell, create mydiary database
+```
+CREATE DATABASE mydiary;
+```
+
 ### Running the app
 * Run the app with the command (python run.py)
 * Open postman and run (http://127.0.0.1/5000/api/v1/entries)
@@ -52,6 +63,7 @@ cd/env/scripts/activate
 HTTP Method | Endpoint | Description
 ------------ | ------------- | -------------
 POST| /api/v1/auth/signup| Registers a user
+POST| /api/v1/auth/login| Login a user
 GET| /api/v1/entries| Retrieves all diary entries
 GET| /api/v1/entry/<int:entry_id>| Retrieves a specific diary entry
 POST| /api/v1/add| Adds an entry to the diary
@@ -75,3 +87,7 @@ nosetests --with-coverage --cover-tests --cover-package=tests
 ```
 
 ## Deployment
+The application has been deployed on heroku
+```
+https://my-diary-3.herokuapp.com/api/v1/auth/signup
+```

@@ -23,7 +23,7 @@ def login_user(self, username, password):
 def post_data(self, user_login_data, post_title):
     """Data to be used by the post endpoint tests"""
     response = self.myapp.post(
-        '/api/v1/add',
+        '/api/v1/entries',
         headers=dict(Authorization='Bearer '+user_login_data["auth_token"]),
         data=json.dumps(
             dict(title=post_title, description="This is test data")),
@@ -42,7 +42,7 @@ def get_all_records(self, user_login_data):
 def get_specific_record(self, user_login_data, entry_id):
     """Data to be used by the get an entry endpoint tests"""
     response = self.myapp.get(
-        '/api/v1/entry/{}'.format(entry_id),
+        '/api/v1/entries/{}'.format(entry_id),
         headers=dict(Authorization='Bearer '+user_login_data["auth_token"]))
     return response
 
@@ -50,7 +50,7 @@ def get_specific_record(self, user_login_data, entry_id):
 def put_data(self, user_login_data, entry_id):
     """Data to be used by the put endpoint tests"""
     response = self.myapp.put(
-        '/api/v1/update',
+        '/api/v1/entries/{}'.format(entry_id),
         headers=dict(Authorization='Bearer '+user_login_data["auth_token"]),
         data=json.dumps(dict(entry_id=entry_id, title='Last week',
                              description='I started practicing flask')),
@@ -61,7 +61,7 @@ def put_data(self, user_login_data, entry_id):
 def delete_data(self, user_login_data, entry_id):
     """Data to be used by the delete entrypoint tests"""
     response = self.myapp.delete(
-        '/api/v1/remove/{}'.format(entry_id),
+        '/api/v1/entries/{}'.format(entry_id),
         headers=dict(Authorization='Bearer ' +
                      user_login_data["auth_token"]))
     return response

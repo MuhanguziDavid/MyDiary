@@ -36,7 +36,7 @@ class TestDiaryEntries(unittest.TestCase):
         tests_data.registration(self, "david", "david@gmail.com", "1234", "1234")
         response = tests_data.registration(self, "david", "david@gmail.com", "1234", "1234") 
 
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 409)
         self.assertIn("username already exists", str(response.data))
     
     def test_signup_user_with_mismatching_passwords(self):
@@ -221,7 +221,7 @@ class TestDiaryEntries(unittest.TestCase):
 
         # delete the posted record
         response = tests_data.delete_data(self, user_login_data, 3)
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 404)
         self.assertIn('The entry with id {} does not exist'.format(3), str(response.data))
     
     def tearDown(self):

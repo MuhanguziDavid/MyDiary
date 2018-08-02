@@ -11,6 +11,7 @@ class DatabaseConnection:
         try:
 
             if app_env == 'testing':
+                print("test")
                 self.connection = psycopg2.connect(
                     database="test_diary",
                     user='postgres',
@@ -19,6 +20,7 @@ class DatabaseConnection:
                     port='5432'
                 )
             else:
+                print("debug")
                 self.connection = psycopg2.connect(
                     database="mydiary",
                     user='postgres',
