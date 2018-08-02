@@ -20,4 +20,4 @@ class EntryList(Resource):
         if entries:
             return {"status": "success", "entries": entries}, 200
         else:
-            return {"status": "fail", "message": "No entreis in the database"}, 404
+            return {"status": "fail", "message": "No entries in the database"}, 404

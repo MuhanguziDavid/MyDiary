@@ -18,6 +18,8 @@ class TestDiaryEntries(unittest.TestCase):
 
         with app.app_context():
             database_connection = DatabaseConnection()
+            database_connection.drop_table_users()
+            database_connection.drop_table_entries()
             database_connection.create_table_users()
             database_connection.create_table_entries()
     
