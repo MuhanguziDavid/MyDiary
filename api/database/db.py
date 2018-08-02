@@ -7,8 +7,8 @@ import os
 
 class DatabaseConnection:
     def __init__(self, database=None):
+        app_env = os.environ.get('app_env', None)
         try:
-            app_env = os.environ.get('app_env', None)
 
             if app_env == 'testing':
                 print("td")
@@ -36,6 +36,10 @@ class DatabaseConnection:
         except:
             print("Cannot connect to database")
 
+    def create_database_mydiary(self):
+        query = ("CREATE DATABASE mydiary")
+        self.cursor.execute(query)
+
     def create_table_users(self):
         create_table_query_users = (
             "CREATE TABLE IF NOT EXISTS users (user_id SERIAL PRIMARY KEY, name VARCHAR(20) NOT NULL, email VARCHAR(28) NOT NULL, password VARCHAR(12) NOT NULL)")
@@ -53,9 +57,16 @@ class DatabaseConnection:
     def drop_table_entries(self):
         query = ("DROP TABLE IF EXISTS entries cascade")
         self.cursor.execute(query)
+    
+    def close_db_connection(self):
+        self.cursor.close()
+        self.dict_cursor.close()
+        self.connection.close()
 
 
 if __name__ == "__main__":
     database_connection = DatabaseConnection()
     database_connection.create_table_users()
     database_connection.create_table_entries()
+    database_connection.create_database_mydiary()
+    database_connection.close_db_connection()
