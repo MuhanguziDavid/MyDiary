@@ -2,6 +2,7 @@ from api.database.db import DatabaseConnection
 
 class User:
     con = DatabaseConnection()
+    con.create_database_mydiary()
     con.create_table_users()
     con.create_table_entries()
     cursor = con.cursor
