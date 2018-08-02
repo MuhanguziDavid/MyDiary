@@ -6,36 +6,34 @@ import os
 
 
 class DatabaseConnection:
-    def __init__(self, database=None):
+    def __init__(self):
         app_env = os.environ.get('app_env', None)
         try:
 
-            # if app_env == 'testing':
-            #     print("td")
-            #     self.connection = psycopg2.connect(
-            #         database="test_diary",
-            #         user='postgres',
-            #         password='12345',
-            #         host='localhost',
-            #         port='5432'
-            #     )
-            # else:
-            #     print("md")
-            #     self.connection = psycopg2.connect(
-            #         database="mydiary",
-            #         user='postgres',
-            #         password='12345',
-            #         host='localhost',
-            #         port='5432'
-            #     )
+            if app_env == 'testing':
+                self.connection = psycopg2.connect(
+                    database="test_diary",
+                    user='postgres',
+                    password='12345',
+                    host='localhost',
+                    port='5432'
+                )
+            else:
+                self.connection = psycopg2.connect(
+                    database="mydiary",
+                    user='postgres',
+                    password='12345',
+                    host='localhost',
+                    port='5432'
+                )
 
-            self.connection = psycopg2.connect(
-                database="dcj5j9131ehsr8",
-                user='dzumlflyzfbctj',
-                password='6f0b68b3b6153e062f54e04ae499516fbdfbf866f390cde2432fb4c1d01fa5f4',
-                host='ec2-54-163-227-253.compute-1.amazonaws.com',
-                port='5432'
-            )
+            # self.connection = psycopg2.connect(
+            #     database="dcj5j9131ehsr8",
+            #     user='dzumlflyzfbctj',
+            #     password='6f0b68b3b6153e062f54e04ae499516fbdfbf866f390cde2432fb4c1d01fa5f4',
+            #     host='ec2-54-163-227-253.compute-1.amazonaws.com',
+            #     port='5432'
+            # )
 
             self.connection.autocommit = True
             self.cursor = self.connection.cursor()
