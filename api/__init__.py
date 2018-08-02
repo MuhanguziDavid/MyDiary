@@ -19,9 +19,6 @@ secret_key = 'david'
 app.config['JWT_SECRET_KEY'] = secret_key
 jwt = JWTManager(app)
 
-app.config['TEST_DATABASE'] = "test_diary"
-app.config['DATABASE'] = "mydiary"
-
 api.add_resource(EntryList, '/api/v1/entries') #get all diary entries
 api.add_resource(GetEntry, '/api/v1/entry/<int:entry_id>') #get specific diary entry
 api.add_resource(PostEntry, '/api/v1/add') #add a diary entry

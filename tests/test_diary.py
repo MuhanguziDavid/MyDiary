@@ -13,7 +13,7 @@ class TestDiaryEntries(unittest.TestCase):
     """Different test cases for Diary Entries"""
 
     def setUp(self):
-        app.config['TESTING'] = True
+        
         self.myapp = app.test_client()
 
         with app.app_context():
@@ -227,6 +227,7 @@ class TestDiaryEntries(unittest.TestCase):
             database_connection = DatabaseConnection()
             database_connection.drop_table_users()
             database_connection.drop_table_entries()
+            database_connection.close_db_connection()
 
 
 if __name__ == '__main__':
