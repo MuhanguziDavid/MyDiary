@@ -48,5 +48,4 @@ class PostEntry(Resource):
 
             if get_entry:
                 return {"message": "Entry has been created" , "Created entry": get_entry}, 201
-            return {"message": "Entry not created, please try again"}
         return {"message": "An entry with the same title exists, please try again"}, 400

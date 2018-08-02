@@ -57,5 +57,4 @@ class CreateUser(Resource):
             if get_user:
                 auth_token = create_access_token(get_user['user_id'])
                 return {"auth_token": auth_token, "message": "Account Created Successfully"}, 201
-            return {"message": "User not registered, please try again"}
         return {"message": "username already exists"}, 409

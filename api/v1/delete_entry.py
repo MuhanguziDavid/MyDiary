@@ -24,5 +24,4 @@ class DeleteEntry(Resource):
 
             if not find_the_entry:
                 return {"meassge": "The entry has been deleted", "Deleted entry": entry_exists}, 200
-            return {"message": "Entry not deleted, please try again"}
         return {"message": "The entry with id {} does not exist".format(entry_id)}, 404

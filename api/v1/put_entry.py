@@ -58,5 +58,4 @@ class PutEntry(Resource):
 
             if entry_updated:
                 return {"message": "Entry has been updated successfully", "Original entry": entry_record, "Updated entry": entry_updated}, 200
-            return {"message": "Entry was not updated"}
         return {"message": "Entry can not be updated, it was created over 24 hours ago"}, 200
