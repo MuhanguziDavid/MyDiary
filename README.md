@@ -87,7 +87,5 @@ nosetests --with-coverage --cover-tests --cover-package=tests
 ```
 
 ## Deployment
-The application has been deployed on heroku
-```
+The application has been deployed on heroku:
 https://my-diary-3.herokuapp.com/api/v1/auth/signup
-```
