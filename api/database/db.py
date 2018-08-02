@@ -10,24 +10,32 @@ class DatabaseConnection:
         app_env = os.environ.get('app_env', None)
         try:
 
-            if app_env == 'testing':
-                print("td")
-                self.connection = psycopg2.connect(
-                    database="test_diary",
-                    user='postgres',
-                    password='12345',
-                    host='localhost',
-                    port='5432'
-                )
-            else:
-                print("md")
-                self.connection = psycopg2.connect(
-                    database="mydiary",
-                    user='postgres',
-                    password='12345',
-                    host='localhost',
-                    port='5432'
-                )
+            # if app_env == 'testing':
+            #     print("td")
+            #     self.connection = psycopg2.connect(
+            #         database="test_diary",
+            #         user='postgres',
+            #         password='12345',
+            #         host='localhost',
+            #         port='5432'
+            #     )
+            # else:
+            #     print("md")
+            #     self.connection = psycopg2.connect(
+            #         database="mydiary",
+            #         user='postgres',
+            #         password='12345',
+            #         host='localhost',
+            #         port='5432'
+            #     )
+
+            self.connection = psycopg2.connect(
+                database="dcj5j9131ehsr8",
+                user='dzumlflyzfbctj',
+                password='6f0b68b3b6153e062f54e04ae499516fbdfbf866f390cde2432fb4c1d01fa5f4',
+                host='ec2-54-163-227-253.compute-1.amazonaws.com',
+                port='5432'
+            )
 
             self.connection.autocommit = True
             self.cursor = self.connection.cursor()
@@ -35,10 +43,6 @@ class DatabaseConnection:
                 cursor_factory=extra.DictCursor)
         except:
             print("Cannot connect to database")
-
-    def create_database_mydiary(self):
-        query = ("CREATE DATABASE mydiary")
-        self.cursor.execute(query)
 
     def create_table_users(self):
         create_table_query_users = (
@@ -57,7 +61,7 @@ class DatabaseConnection:
     def drop_table_entries(self):
         query = ("DROP TABLE IF EXISTS entries cascade")
         self.cursor.execute(query)
-    
+
     def close_db_connection(self):
         self.cursor.close()
         self.dict_cursor.close()
@@ -68,5 +72,4 @@ if __name__ == "__main__":
     database_connection = DatabaseConnection()
     database_connection.create_table_users()
     database_connection.create_table_entries()
-    database_connection.create_database_mydiary()
     database_connection.close_db_connection()
