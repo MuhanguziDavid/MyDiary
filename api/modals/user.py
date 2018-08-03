@@ -1,5 +1,6 @@
 from api.database.db import DatabaseConnection
 
+
 class User:
     con = DatabaseConnection()
     con.create_table_users()
@@ -14,8 +15,9 @@ class User:
 
     def create_user(self):
         """method to insert a user into the users table in the database"""
-        db_query="INSERT INTO users (name,email,password) VALUES (%s,%s,%s)"
-        User.cursor.execute(db_query,(self.username,self.email,self.password))
+        db_query = "INSERT INTO users (name,email,password) VALUES (%s,%s,%s)"
+        User.cursor.execute(
+            db_query, (self.username, self.email, self.password))
 
     def get_user_by_name(self):
         """Queries the database to returen a specific user"""

@@ -39,7 +39,8 @@ class PutEntry(Resource):
         current_timestamp = time.time()
 
         entry_instance = Entry(
-            entry_id, user_id, data["title"], data["description"], current_timestamp)
+            entry_id, user_id, data["title"],
+            data["description"], current_timestamp)
 
         entry_record = entry_instance.get_entry_by_id()
 
@@ -57,5 +58,9 @@ class PutEntry(Resource):
             entry_updated = entry_instance.get_entry_by_id()
 
             if entry_updated:
-                return {"message": "Entry has been updated successfully", "Original entry": entry_record, "Updated entry": entry_updated}, 200
-        return {"message": "Entry can not be updated, it was created over 24 hours ago"}, 200
+                return {
+                    "message": "Entry has been updated successfully",
+                    "Original entry": entry_record,
+                    "Updated entry": entry_updated}, 200
+        return {
+            "msg": "Entry not updated, it was created over 24 hours ago"}, 200

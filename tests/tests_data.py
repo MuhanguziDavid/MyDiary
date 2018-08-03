@@ -1,12 +1,14 @@
 """Tests concerning diary entries"""
 import json
 
+
 def registration(self, username, email, password, confirm_password):
     """Data to be use for create user endpoint tests"""
     response = self.myapp.post(
         '/api/v1/auth/signup',
         data=json.dumps(dict(username=username, email=email,
-                             password=password, confirm_password=confirm_password)),
+                             password=password,
+                             confirm_password=confirm_password)),
         content_type='application/json')
     return response
 

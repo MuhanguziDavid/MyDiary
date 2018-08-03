@@ -6,6 +6,7 @@ from flask_jwt_extended import create_access_token
 from api.modals.user import User
 from api.database.db import DatabaseConnection
 
+
 class Log_In(Resource):
     """Class for Login resource"""
     parser = reqparse.RequestParser()
@@ -25,7 +26,7 @@ class Log_In(Resource):
 
         if not re.match(r"\S+", data["username"]):
             return {"message": "Please re-enter your name"}, 400
-        
+
         if not re.match(r"\S+", data["password"]):
             return {"message": "Please re-enter your password"}, 400
 
@@ -35,6 +36,10 @@ class Log_In(Resource):
         if name_exists:
             if name_exists['password'] == data['password']:
                 auth_token = create_access_token(name_exists['user_id'])
-                return {"auth_token": auth_token, "message": "Logged in Successfully"}, 200
-            return {"message": "Password incorrect, please re-enter password"}, 401
-        return {"message": "Invalid username or password, please try again"}, 401
+                return {
+                    "auth_token": auth_token,
+                    "message": "Logged in Successfully"}, 200
+            return {
+                "message": "Password incorrect, try again"}, 401
+        return {
+            "message": "Invalid username or password, try again"}, 401

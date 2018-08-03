@@ -1,12 +1,12 @@
 """Get a specific entry in MyDiary"""
 from flask import Flask, Request
-"""Get a specific entry from MyDiary"""
 from flask import Flask, Request
 from flask_restful import Resource, Api, reqparse
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from api.modals.entry import Entry
 from api.database.db import DatabaseConnection
+
 
 class GetEntry(Resource):
     """Class for GetEntry resource"""

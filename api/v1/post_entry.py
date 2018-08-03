@@ -9,6 +9,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from api.modals.entry import Entry
 from api.database.db import DatabaseConnection
 
+
 class PostEntry(Resource):
     """Class for PostEntry resource"""
     parser = reqparse.RequestParser()
@@ -30,15 +31,17 @@ class PostEntry(Resource):
 
         if not re.match(r"\S+", data["title"]):
             return {"message": "Please enter the title"}, 400
-        
+
         if not re.match(r"\S+", data["description"]):
             return {"message": "Please enter the description"}, 400
 
         user_id = get_jwt_identity()
         ts = time.time()
-        timestamp = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+        timestamp = datetime.datetime.fromtimestamp(ts).strftime(
+            '%Y-%m-%d %H:%M:%S')
 
-        entry_instance = Entry(None, user_id, data["title"], data["description"], timestamp)
+        entry_instance = Entry(
+            None, user_id, data["title"], data["description"], timestamp)
 
         title_exists = entry_instance.get_entry_by_title()
 
@@ -47,5 +50,8 @@ class PostEntry(Resource):
             get_entry = entry_instance.get_entry_by_title()
 
             if get_entry:
-                return {"message": "Entry has been created" , "Created entry": get_entry}, 201
-        return {"message": "An entry with the same title exists, please try again"}, 400
+                return {
+                    "message": "Entry has been created",
+                    "Created entry": get_entry}, 201
+        return {
+            "message": "Entry with the same title exists, try again"}, 400

@@ -36,7 +36,7 @@ class DatabaseConnection:
             self.cursor = self.connection.cursor()
             self.dict_cursor = self.connection.cursor(
                 cursor_factory=extra.DictCursor)
-        except:
+        except(Exception):
             print("Cannot connect to database")
 
     def create_table_users(self):
