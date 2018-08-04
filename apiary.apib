@@ -1,0 +1,225 @@
+FORMAT: 1A
+HOST: https://my-diary-3.herokuapp.com/
+
+# mydiary
+
+MyDiary is an online journal that provides users with the ability to pen down their thoughts and feelings
+
+## User Registration [/api/v1/auth/signup]
+
+### Register a new user [POST]
+
+A user can be signed up using this action. It takes a JSON
+object containing a username, email, password, and password confrimation
+
++ Request (application/json)
+
+        {
+            "username": "david",
+            "email": "dave@gmail.com",
+            "password": "1234",
+            "confirm_password": "1234"
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /api/v1/auth/signup
+
+    + Body
+
+            {
+                "auth_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1MzMzODc0OTUsIm5iZiI6MTUzMzM4NzQ5NSwianRpIjoiZTI3MWEzMDQtYWYyNS00MjBhLWExZTEtZWRjNThjMTA4NzI5IiwiZXhwIjoxNTMzMzg4Mzk1LCJpZGVudGl0eSI6MywiZnJlc2giOmZhbHNlLCJ0eXBlIjoiYWNjZXNzIn0.rEGC_7j_ERDrX5zHluTSaGGFOj5bg6ypRVMIQ9XloJk",
+                "message": "Account Created Successfully"
+            }
+
+## User Login [/api/v1/auth/login]
+### Login a user [POST]
+
+A user can login using this action. It takes a JSON
+object containing a username, and password
+
++ Request (application/json)
+
+        {
+            "username": "david",
+            "password": "1234",
+        }
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /api/v1/auth/login
+
+    + Body
+
+            {
+                "auth_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1MzMzODc0OTUsIm5iZiI6MTUzMzM4NzQ5NSwianRpIjoiZTI3MWEzMDQtYWYyNS00MjBhLWExZTEtZWRjNThjMTA4NzI5IiwiZXhwIjoxNTMzMzg4Mzk1LCJpZGVudGl0eSI6MywiZnJlc2giOmZhbHNlLCJ0eXBlIjoiYWNjZXNzIn0.rEGC_7j_ERDrX5zHluTSaGGFOj5bg6ypRVMIQ9XloJk",
+                "message": "Logged in Successfully"
+            }
+
+## Creating an entry and Listing all entries [/api/v1/entries]
+
+### List All entries [GET]
+
+A logged in user can get all his/her entries using this action
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /api/v1/entries
+            Authorization: Bearer auth_token
+    
+    + Body
+
+            {
+                "status": "success",
+                "entries": [
+                    {
+                        "entry_id": 1,
+                        "user_id": 1,
+                        "title": "Another entry",
+                        "description": "This another entry",
+                        "creation_time": "2018-08-04 14:27:00"
+                    },
+                    {
+                        "entry_id": 2,
+                        "user_id": 1,
+                        "title": "Entry 2",
+                        "description": "This is entry 2",
+                        "creation_time": "2018-08-04 14:27:24"
+                    }
+                ]
+            }
+
+### Post an entry [POST]
+
+A logged in user can add an entry to his/her diary using this action
+
++ Request (application/json)
+
+        {
+            "title": "Entry 2",
+            "description": "This is entry 2"
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /api/v1/entries
+            Authorization: Bearer auth_token
+    
+    + Body
+
+            {
+                "message": "Entry has been created",
+                "Created entry": [
+                    {
+                        "entry_id": 1,
+                        "user_id": 1,
+                        "title": "Another entry",
+                        "description": "This another entry",
+                        "creation_time": "2018-08-04 14:27:00"
+                    }
+                ]
+            }
+
+## Getting, updating, and deleting a single entry [/api/v1/entries/1]
+
+### Getting a single entry [GET]
+
+A logged in user can get a single entry using this action
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /api/v1/entries/1
+            Authorization: Bearer auth_token
+    
+    + Body
+
+            {
+                "status": "success",
+                "entries": [
+                    {
+                        "entry_id": 1,
+                        "user_id": 1,
+                        "title": "Another entry",
+                        "description": "This another entry",
+                        "creation_time": "2018-08-04 14:27:00"
+                    }
+                ]
+            }
+
+### Updating an entry [PUT]
+
+A logged in user can update an entry in his/her diary using this action
+
++ Request
+
+        {
+            "title": "Update10",
+            "description": "This is the 10th update"
+        }
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /api/v1/entries/1
+            Authorization: Bearer auth_token
+    
+    + Body
+
+            {
+                "message": "Entry has been updated successfully",
+                "Original entry": [
+                    {
+                        "entry_id": 1,
+                        "user_id": 1,
+                        "title": "Another entry",
+                        "description": "This another entry",
+                        "creation_time": "2018-08-04 14:27:00"
+                    }
+                ],
+                "Updated entry": [
+                    {
+                        "entry_id": 1,
+                        "user_id": 1,
+                        "title": "Update10",
+                        "description": "This is the 10th update",
+                        "creation_time": "2018-08-04 14:27:00"
+                    }
+                ]
+            }
+
+### Deleting an entry [DELETE]
+
+A logged in user can delete a single entry using this action
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /api/v1/entries/1
+            Authorization: Bearer auth_token
+    
+    + Body
+
+            {
+                "meassge": "The entry has been deleted",
+                "Deleted entry": [
+                    {
+                        "entry_id": 1,
+                        "user_id": 1,
+                        "title": "Update12",
+                        "description": "This is the 12th update",
+                        "creation_time": "2018-08-04 14:27:00"
+                    }
+                ]
+            }
