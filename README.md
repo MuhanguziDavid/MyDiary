@@ -15,8 +15,16 @@ MyDiary offers the following features
 * Modify an entry
 * Delete an entry
 
-Visit the site:
+### Visit the site:
 https://muhanguzidavid.github.io/MyDiary/UI/index.html
+
+### Documantation Link
+https://mydiary12.docs.apiary.io/#
+
+## Deployment
+The application has been deployed on heroku:
+https://my-diary-3.herokuapp.com/api/v1/auth/signup
+
 
 ## Getting Started
 
@@ -85,7 +93,3 @@ Run the command
 ```
 nosetests --with-coverage --cover-tests --cover-package=tests
 ```
-
-## Deployment
-The application has been deployed on heroku:
-https://my-diary-3.herokuapp.com/api/v1/auth/signup
