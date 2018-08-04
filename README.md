@@ -21,7 +21,7 @@ https://muhanguzidavid.github.io/MyDiary/UI/index.html
 ### Documantation Link
 https://mydiary12.docs.apiary.io/#
 
-## Deployment
+### Deployment
 The application has been deployed on heroku:
 https://my-diary-3.herokuapp.com/api/v1/auth/signup
 
@@ -91,5 +91,5 @@ pytest -v test_diary.py
 ### Tests with coverage
 Run the command
 ```
-nosetests --with-coverage --cover-tests --cover-package=tests
+pytest --cov=api
 ```
