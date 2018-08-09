@@ -11,8 +11,13 @@ from api.v1.delete_entry import DeleteEntry
 app = Flask(__name__)
 api = Api(app)
 
-api.add_resource(EntryList, '/api/v1/entries') #get all diary entries
-api.add_resource(GetEntry, '/api/v1/entry/<int:entry_id>') #get specific diary entry
-api.add_resource(PostEntry, '/api/v1/entry/<int:entry_id>') #add a diary entry
-api.add_resource(PutEntry, '/api/v1/entry/<int:entry_id>') #update a diary entry
-api.add_resource(DeleteEntry, '/api/v1/entry/<int:entry_id>') #update a diary entry
+# get all diary entries
+api.add_resource(EntryList, '/api/v1/entries')
+# get specific diary entry
+api.add_resource(GetEntry, '/api/v1/entry/<int:entry_id>')
+# add a diary entry
+api.add_resource(PostEntry, '/api/v1/entry/<int:entry_id>')
+# update a diary entry
+api.add_resource(PutEntry, '/api/v1/entry/<int:entry_id>')
+# delete a diary entry
+api.add_resource(DeleteEntry, '/api/v1/entry/<int:entry_id>')
