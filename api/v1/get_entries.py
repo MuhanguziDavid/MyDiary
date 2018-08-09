@@ -7,6 +7,7 @@ from api.modals.entry import Entry
 from api.database.db import DatabaseConnection
 
 
+
 class EntryList(Resource):
     """Class for EntryList resource"""
 

@@ -10,6 +10,7 @@ from api.modals.entry import Entry
 from api.database.db import DatabaseConnection
 
 
+
 class PostEntry(Resource):
     """Class for PostEntry resource"""
     parser = reqparse.RequestParser()

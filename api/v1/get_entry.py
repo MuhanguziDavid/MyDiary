@@ -8,6 +8,7 @@ from api.modals.entry import Entry
 from api.database.db import DatabaseConnection
 
 
+
 class GetEntry(Resource):
     """Class for GetEntry resource"""
 
