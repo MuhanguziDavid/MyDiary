@@ -14,6 +14,7 @@ class GetEntry(Resource):
     @jwt_required
     def get(self, entry_id):
         """method to get a specific diary entry"""
+
         user_id = get_jwt_identity()
 
         entry_instance = Entry(entry_id, user_id, None, None, None)
