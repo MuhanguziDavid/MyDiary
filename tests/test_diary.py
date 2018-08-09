@@ -1,143 +1,263 @@
-"""Tests for get all entries"""
+"""Tests concerning diary entries"""
 import unittest
 import json
 import sys
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
+from api.database.db import DatabaseConnection
 from api import app
+from tests import tests_data
 
 
 class TestDiaryEntries(unittest.TestCase):
     """Different test cases for Diary Entries"""
 
     def setUp(self):
+
         self.myapp = app.test_client()
+
+        with app.app_context():
+            database_connection = DatabaseConnection()
+            database_connection.drop_table_users()
+            database_connection.drop_table_entries()
+            database_connection.create_table_users()
+            database_connection.create_table_entries()
+
+    def test_signup_user(self):
+        """Test that a user will be registered"""
+        response = tests_data.registration(
+            self, "david", "david@gmail.com", "1234", "1234")
+
+        self.assertEqual(response.status_code, 201)
+        self.assertIn("Account Created Successfully", str(response.data))
+
+    def test_signup_user_with_existing_name(self):
+        """Test that a user will not be registered with a name that exists"""
+        tests_data.registration(
+            self, "david", "david@gmail.com", "1234", "1234")
+        response = tests_data.registration(
+            self, "david", "david@gmail.com", "1234", "1234")
+
+        self.assertEqual(response.status_code, 409)
+        self.assertIn("username already exists", str(response.data))
+
+    def test_signup_user_with_mismatching_passwords(self):
+        """
+        Test that a user will not be registered
+        with mismatching passwords
+        """
+        response = tests_data.registration(
+            self, "grace", "mark@gmail.com", "1234", "5678")
+
+        self.assertEqual(response.status_code, 400)
+        self.assertIn("passwords dont match", str(response.data))
+
+    def test_login_with_correct_credentials(self):
+        """Test that a user will be logged in when credentials are right"""
+        tests_data.registration(
+            self, "chris", "chris@gmail.com", "1234", "1234")
+        response = tests_data.login_user(self, "chris", "1234")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("Logged in Successfully", str(response.data))
+
+    def test_login_with_wrong_username(self):
+        """Test that a user will not be logged in with wrong username"""
+        tests_data.registration(
+            self, "chris", "chris@gmail.com", "1234", "1234")
+        response = tests_data.login_user(self, "wrong", "1234")
+
+        self.assertEqual(response.status_code, 401)
+        self.assertIn(
+            "Invalid username or password, try again", str(response.data))
+
+    def test_login_with_wrong_password(self):
+        """Test that a user will not be logged in with wrong password"""
+        tests_data.registration(
+            self, "chris", "chris@gmail.com", "1234", "1234")
+        response = tests_data.login_user(self, "chris", "wrong")
+
+        self.assertEqual(response.status_code, 401)
+        self.assertIn(
+            "Password incorrect, try again", str(response.data))
+
+    def test_post_entry(self):
+        """
+        tests that a new entry will not be created
+        if the same title is given
+        """
+        # login user
+        tests_data.registration(
+            self, "chris", "chris@gmail.com", "1234", "1234")
+        login = tests_data.login_user(self, "chris", "1234")
+        user_login_data = json.loads(login.data.decode())
+
+        # post data after being authenticated
+        response = tests_data.post_data(self, user_login_data, "Test post")
+
+        self.assertIn("Entry has been created", str(response.data))
+        self.assertEqual(response.status_code, 201)
+
+    def test_post_with_existing_title(self):
+        """
+        tests that a new entry will not be created
+        if the same title is given
+        """
+        # login user
+        tests_data.registration(
+            self, "chris", "chris@gmail.com", "1234", "1234")
+        login = tests_data.login_user(self, "chris", "1234")
+        user_login_data = json.loads(login.data.decode())
+
+        # post data after being authenticated
+        tests_data.post_data(self, user_login_data, "Test post")
+        response = tests_data.post_data(self, user_login_data, "Test post")
+
+        self.assertIn(
+            "Entry with the same title exists, try again", str(response.data))
+        self.assertEqual(response.status_code, 400)
 
     def test_get_entries(self):
         """Test whether all diary entries are retreived"""
-        response = self.myapp.get('/api/v1/entries')
+        # first login user chris
+        tests_data.registration(
+            self, "chris", "chris@gmail.com", "1234", "1234")
+        login = tests_data.login_user(self, "chris", "1234")
+        user_login_data = json.loads(login.data.decode())
+
+        # post entries
+        tests_data.post_data(self, user_login_data, "Test post")
+        tests_data.post_data(self, user_login_data, "second Test post")
+
+        # get entries for user chris
+        response = tests_data.get_all_records(self, user_login_data)
         self.assertEqual(response.status_code, 200)
 
     def test_get_specific_entry(self):
         """Test whether a specific diary entry is retreived"""
-        self.myapp.post('/api/v1/entry/1',
-                        data=json.dumps(dict(
-                            title='The year 1995',
-                            description='This is when I was born'
-                        )),
-                        content_type='application/json')
-        response = self.myapp.get('/api/v1/entry/{}'.format(1))
+        # login user chris
+        tests_data.registration(
+            self, "chris", "chris@gmail.com", "1234", "1234")
+        login = tests_data.login_user(self, "chris", "1234")
+        user_login_data = json.loads(login.data.decode())
+
+        # post entries
+        tests_data.post_data(self, user_login_data, "Test post")
+        tests_data.post_data(self, user_login_data, "second Test post")
+
+        # get entry
+        response = tests_data.get_specific_record(self, user_login_data, 1)
         self.assertEqual(response.status_code, 200)
 
     def test_get_non_existing_entry(self):
-        """tests whether it will returen status code 404 (not found)
+        """
+        tests whether it will returen status code 404 (not found)
         if a user tries to retreive non existing entry
         """
-        _id = {"entry_id": 9}
-        response = self.myapp.get('/api/v1/entry/{}'.format(_id['entry_id']))
+        # login user
+        tests_data.registration(
+            self, "chris", "chris@gmail.com", "1234", "1234")
+        login = tests_data.login_user(self, "chris", "1234")
+        user_login_data = json.loads(login.data.decode())
+
+        # post entries
+        tests_data.post_data(self, user_login_data, "Test post")
+
+        # get entry
+        response = tests_data.get_specific_record(self, user_login_data, 11)
+        self.assertIn("Entry was not found", str(response.data))
         self.assertEqual(response.status_code, 404)
 
     def test_get_entry_with_missing_key(self):
         """Tests that the api will not get an entry with out id"""
+        # login user
+        tests_data.registration(
+            self, "chris", "chris@gmail.com", "1234", "1234")
+        login = tests_data.login_user(self, "chris", "1234")
+        user_login_data = json.loads(login.data.decode())
+
+        # post entries
+        tests_data.post_data(self, user_login_data, "Test post")
+
         _id = {"entry_id": None}
         response = self.myapp.get('/api/v1/entry/{}'.format(_id['entry_id']))
         self.assertEqual(response.status_code, 404)
 
     def test_get_entry_with_non_integer_key(self):
         """Tests that the api will not get an entry with non integer key"""
+        # login user
+        tests_data.registration(
+            self, "chris", "chris@gmail.com", "1234", "1234")
+        login = tests_data.login_user(self, "chris", "1234")
+        user_login_data = json.loads(login.data.decode())
+
+        # post entries
+        tests_data.post_data(self, user_login_data, "Test post")
+
         _id = {"entry_id": 'home'}
         response = self.myapp.get('/api/v1/entry/{}'.format(_id['entry_id']))
         self.assertEqual(response.status_code, 404)
 
-    def test_post_new_entry(self):
-        """tests that a new entry will be created"""
-        response = self.myapp.post('/api/v1/entry/5',
-                                   data=json.dumps(dict(
-                                       title='The year 1995',
-                                       description='This is when I was born'
-                                   )),
-                                   content_type='application/json')
+    def test_update_entry_less_than_24hrs(self):
+        """
+        tests that an entry will not be updated
+        if it was created over 24 hours ago
+        """
+        # login user chris
+        tests_data.registration(
+            self, "chris", "chris@gmail.com", "1234", "1234")
+        login = tests_data.login_user(self, "chris", "1234")
+        user_login_data = json.loads(login.data.decode())
 
-        self.assertEqual(response.status_code, 201)
+        # post entries
+        tests_data.post_data(self, user_login_data, "Test post")
 
-    def test_post_with_existing_id(self):
-        """tests that an entry wont be created if an existing id is entered"""
-        self.myapp.post('/api/v1/entry/1',
-                        data=json.dumps(dict(
-                            title='The year 1995',
-                            description='This is when I was born'
-                        )),
-                        content_type='application/json')
-        response = self.myapp.post('/api/v1/entry/1',
-                                   data=json.dumps(dict(
-                                       title='The year 1995',
-                                       description='This is when I was born'
-                                   )),
-                                   content_type='application/json')
-
-        self.assertEqual(response.status_code, 400)
-
-    def test_post_without_id(self):
-        """tests that an entry wont be created without entering id"""
-        response = self.myapp.post('/api/v1/entry/',
-                                   data=json.dumps(dict(
-                                       title='The year 1995',
-                                       description='This is when I was born'
-                                   )),
-                                   content_type='application/json')
-
-        self.assertEqual(response.status_code, 404)
-
-    def test_post_without_string_id(self):
-        """tests that an entry wont be created if a string is entered as id"""
-        response = self.myapp.post('/api/v1/entry/home',
-                                   data=json.dumps(dict(
-                                       title='The year 1995',
-                                       description='This is when I was born'
-                                   )),
-                                   content_type='application/json')
-
-        self.assertEqual(response.status_code, 404)
-
-    def test_put_existing_entry(self):
-        """tests that an entry will be updated"""
-        self.myapp.post('/api/v1/entry/1',
-                        data=json.dumps(dict(
-                            title='The year 1995',
-                            description='This is when I was born'
-                        )),
-                        content_type='application/json')
-        response = self.myapp.put('/api/v1/entry/1',
-                                  data=json.dumps(dict(
-                                      title='This week',
-                                      description='I started practicing flask'
-                                  )),
-                                  content_type='application/json')
+        # edit a record in chris' diary
+        response = tests_data.put_data(self, user_login_data, 1)
 
         self.assertEqual(response.status_code, 200)
-
-    def test_put_with_new_id(self):
-        """tests that a new entry will be created if a new id is used"""
-        response = self.myapp.put('/api/v1/entry/6',
-                                  data=json.dumps(dict(
-                                      title='This week',
-                                      description='I started practicing flask'
-                                  )),
-                                  content_type='application/json')
-
-        self.assertEqual(response.status_code, 404)
+        self.assertIn(
+            "Entry has been updated successfully", str(response.data))
 
     def test_delete_entry(self):
         """Test whether a specific diary entry is deleted"""
-        self.myapp.post('/api/v1/entry/1',
-                        data=json.dumps(dict(
-                            title='The year 1995',
-                            description='This is when I was born'
-                        )),
-                        content_type='application/json')
-        response = self.myapp.delete(
-            '/api/v1/entry/{}'.format(1))
+        # login user chris
+        tests_data.registration(
+            self, "chris", "chris@gmail.com", "1234", "1234")
+        login = tests_data.login_user(self, "chris", "1234")
+        user_login_data = json.loads(login.data.decode())
+
+        # post entries
+        tests_data.post_data(self, user_login_data, "Test post")
+
+        # delete the posted record
+        response = tests_data.delete_data(self, user_login_data, 1)
         self.assertEqual(response.status_code, 200)
-        self.assertIn('Item deleted', str(response.data))
+        self.assertIn('The entry has been deleted', str(response.data))
+
+    def test_delete_entry_that_does_not_exist(self):
+        """Test whether a specific diary entry is deleted"""
+        # login user chris
+        tests_data.registration(
+            self, "chris", "chris@gmail.com", "1234", "1234")
+        login = tests_data.login_user(self, "chris", "1234")
+        user_login_data = json.loads(login.data.decode())
+
+        # post entries
+        tests_data.post_data(self, user_login_data, "Test post")
+
+        # delete the posted record
+        response = tests_data.delete_data(self, user_login_data, 3)
+        self.assertEqual(response.status_code, 404)
+        self.assertIn(
+            'Entry with id {} does not exist'.format(3), str(response.data))
+
+    def tearDown(self):
+        with app.app_context():
+            database_connection = DatabaseConnection()
+            database_connection.drop_table_users()
+            database_connection.drop_table_entries()
+            database_connection.close_db_connection()
 
 
 if __name__ == '__main__':

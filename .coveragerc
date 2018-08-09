@@ -25,3 +25,8 @@ omit = */click/*
         *api\v1\__init__.py
         */http/*
         */flask_restful/*
+        */flask_jwt_extended/*
+        */jwt/*
+        */psycopg2/*
+        */env/*
+        */_strptime.py

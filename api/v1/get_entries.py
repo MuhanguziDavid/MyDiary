@@ -1,13 +1,25 @@
 """Get all entries in MyDiary"""
 from flask import Flask, Request
 from flask_restful import Resource, Api, reqparse
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from api.v1.data import entries
+from api.modals.entry import Entry
+from api.database.db import DatabaseConnection
+
 
 
 class EntryList(Resource):
     """Class for EntryList resource"""
 
+    @jwt_required
     def get(self):
         """method to return all entries"""
-        return {'entries': entries}, 200
+        user_id = get_jwt_identity()
+
+        entry_instance = Entry(None, user_id, None, None, None)
+
+        entries = entry_instance.get_all_entries()
+        if entries:
+            return {"status": "success", "entries": entries}, 200
+        else:
+            return {"message": "You do not have any entries"}, 200

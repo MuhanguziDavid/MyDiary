@@ -1,8 +1,12 @@
 """Update an entry in MyDiary"""
+import re
+import time
+from datetime import datetime
 from flask import Flask, Request
 from flask_restful import Resource, Api, reqparse
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from api.v1.data import entries
+from api.modals.entry import Entry
 
 
 class PutEntry(Resource):
@@ -11,22 +15,52 @@ class PutEntry(Resource):
     parser.add_argument('title',
                         type=str,
                         required=True,
-                        help="This field can not be left blank!"
+                        help="Title field can not be left blank!"
                         ),
     parser.add_argument('description',
                         type=str,
                         required=True,
-                        help="This field can not be left blank!"
+                        help="Description field can not be left blank!"
                         )
 
+    @jwt_required
     def put(self, entry_id):
         """Method to modify an entry"""
         data = PutEntry.parser.parse_args()
 
-        entry = next(
-            filter(lambda x: x['entry_id'] == entry_id, entries), None)
-        if entry is None:
-            return {'message': 'Item does not exist'}, 404
-        else:
-            entry.update(data)
-            return entry, 200
+        if not re.match(r"\S+", data["title"]):
+            return {"message": "Please enter the title"}, 400
+
+        if not re.match(r"\S+", data["description"]):
+            return {"message": "Please enter the description"}, 400
+
+        user_id = get_jwt_identity()
+
+        current_timestamp = time.time()
+
+        entry_instance = Entry(
+            entry_id, user_id, data["title"],
+            data["description"], current_timestamp)
+
+        entry_record = entry_instance.get_entry_by_id()
+
+        if not entry_record:
+            return {"message": "Entry not found, please try again"}, 404
+
+        current_entry = entry_record[0]
+        entry_creation_time = current_entry["creation_time"]
+        entry_datetime = datetime.strptime(
+            entry_creation_time, '%Y-%m-%d %H:%M:%S')
+        entry_creation_timestamp = time.mktime(entry_datetime.timetuple())
+
+        if current_timestamp - entry_creation_timestamp <= 86400:
+            entry_instance.update_an_entry()
+            entry_updated = entry_instance.get_entry_by_id()
+
+            if entry_updated:
+                return {
+                    "message": "Entry has been updated successfully",
+                    "Original entry": entry_record,
+                    "Updated entry": entry_updated}, 200
+        return {
+            "msg": "Entry not updated, it was created over 24 hours ago"}, 200
