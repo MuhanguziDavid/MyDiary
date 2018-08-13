@@ -17,7 +17,7 @@ function submit_user(){
         if(data.message == "Account Created Successfully"){
             window.location.href = "index.html";
         }else{
-            console.log("Data ",data.message)
+            console.log("Data ",data.message);
         }
     })
     .catch(function(error){
