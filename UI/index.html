@@ -9,6 +9,9 @@
 
     <link rel="stylesheet" href="css/style.css">
     <script src="js/dynamic.js"></script>
+    <script src="js/users.js"></script>
+    <script src="js/global.js"></script>
+    <script src="js/cookies.js"></script>
 </head>
 
 <body class="signup">
@@ -17,19 +20,20 @@
         <div class="contents">
             <h2>An online journal where you can pen down your thoughts and feelings</h2>
         </div>
+        <div id="login_feedback"></div>
     </div>
     <div class="signup-box">
         <h2>Login Here</h2>
-        <form id="login" action="home.html">
+        <form id="login">
             <div class="inputBox">
-                <input type="text" name="username" required="required" />
+                <input type="text" name="username" id="username" required="required" />
                 <label>Username</label>
             </div>
             <div class="inputBox">
-                <input type="password" name="password" required="required" />
+                <input type="password" name="password" id="password" required="required" />
                 <label>Password</label>
             </div>
-            <input type="submit" name="login_button" value="Login"/>
+            <button type="button" name="login_button" onclick="login_user()">Login</button>
 
             <p class="link">Dont have an account?
                 <a href="signup.html">Sign Up</a>

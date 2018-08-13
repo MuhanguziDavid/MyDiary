@@ -8,7 +8,9 @@
     <title>MyDiary | Sign Up</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/dynamic.js"></script>
-    <script src="js/signup.js"></script>
+    <script src="js/users.js"></script>
+    <script src="js/global.js"></script>
+    <script src="js/cookies.js"></script>
 </head>
 
 <body class="signup">
@@ -17,6 +19,7 @@
         <div class="contents">
             <h2>An online journal where you can pen down your thoughts and feelings</h2>
         </div>
+        <div id="signup_feedback"></div>
     </div>
     <div class="signup-box">
         <h2>Sign Up Here</h2>
@@ -38,7 +41,7 @@
                 <label>Confirm Password</label>
             </div>
             <!--<input type="submit" name="login_button" value="Sign Up" onclick="submit_user()" />-->
-            <button type="button" name="login_button" onclick="submit_user()">Sign Up</button>
+            <button type="button" name="login_button" onclick="register_user()">Sign Up</button>
 
             <p class="link">Already have an account?
                 <a href="index.html">Login</a>
