@@ -3,7 +3,7 @@ function register_user(){
     fetch(url, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json; charset=UTF-8'
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify({
             "username": document.getElementById("username").value,
@@ -17,7 +17,7 @@ function register_user(){
     })
     .then(function(data){
         if(data.message == "Account Created Successfully"){
-            setCookie("auth_token", data.auth_token, 1);
+            set_cookie("auth_token", data.auth_token, 1);
             window.location.href = "home.html";
             // post_login_message("Logged in Successfully, Welcome");
         }else{
@@ -35,7 +35,7 @@ function login_user(){
     fetch(url, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json; charset=UTF-8'
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify({
             "username": document.getElementById("username").value,
@@ -47,9 +47,10 @@ function login_user(){
     })
     .then(function(data){
         if(data.message == "Logged in Successfully"){
-            setCookie("auth_token", data.auth_token, 1);
-            window.location.href = "home.html";
-            // post_login_message("Logged in Successfully, Welcome");
+            let setthecookie = set_cookie("auth_token", data.auth_token, 1);
+            //window.location.href = "home.html";
+            console.log(setthecookie);
+            //post_login_message("Logged in Successfully, Welcome");
         }else{
             document.getElementById('login_feedback').innerHTML = "Feedback: " + data.message;
             console.log("Feedback: ",data.message);
@@ -60,6 +61,30 @@ function login_user(){
     });
 }
 
-// function post_login_message(message){
-//     document.getElementById('home_feedback').innerHTML = message;
+// function post_login_message(){
+//     document.getElementById('home_feedback').innerHTML = "welcome";
 // }
+
+function get_all_entries(){
+    var url = host_name + "/api/v1/entries";
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'authorization':'Bearer '+get_cookie("auth_token")
+        }
+    })
+    .then(function(response){
+        return response.json();
+    })
+    .then(function(data){
+        if(data.status == "success"){
+            console.log(data);
+        }else{
+            console.log("Feedback: ",data);
+        }
+    })
+    .catch(function(error){
+        console.log(error);
+    });
+}

@@ -13,7 +13,7 @@
     <script src="js/cookies.js"></script>
 </head>
 
-<body class="home">
+<body class="home" onload="post_login_message()">
     <header>
         <div class="container">
             <div id="branding">
@@ -46,6 +46,7 @@
         </section>
         <section class="mainbar">
             <div>
+                <button type="button" name="get_all_entries_button" onclick="get_all_entries()">Get Entries</button>
                 <h1>Entries</h1>
                 <ul>
                     <li>
