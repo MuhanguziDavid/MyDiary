@@ -19,7 +19,7 @@ function register_user(){
         if(data.message == "Account Created Successfully"){
             setCookie("auth_token", data.auth_token, 1);
             window.location.href = "home.html";
-            // document.getElementById('login_feedback').innerHTML = "Feedback: " + data.message;
+            // post_login_message("Logged in Successfully, Welcome");
         }else{
             document.getElementById('signup_feedback').innerHTML = "Feedback: " + data.message;
             console.log("Feedback: ",data.message);
@@ -49,7 +49,7 @@ function login_user(){
         if(data.message == "Logged in Successfully"){
             setCookie("auth_token", data.auth_token, 1);
             window.location.href = "home.html";
-            // document.getElementById('login_feedback').innerHTML = "Feedback: " + data.message;
+            // post_login_message("Logged in Successfully, Welcome");
         }else{
             document.getElementById('login_feedback').innerHTML = "Feedback: " + data.message;
             console.log("Feedback: ",data.message);
@@ -59,3 +59,7 @@ function login_user(){
         console.log(error);
     });
 }
+
+// function post_login_message(message){
+//     document.getElementById('home_feedback').innerHTML = message;
+// }
