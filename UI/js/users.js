@@ -47,9 +47,8 @@ function login_user(){
     })
     .then(function(data){
         if(data.message == "Logged in Successfully"){
-            let setthecookie = set_cookie("auth_token", data.auth_token, 1);
-            //window.location.href = "home.html";
-            console.log(setthecookie);
+            set_cookie("auth_token", data.auth_token, 1);
+            window.location.href = "home.html";
             //post_login_message("Logged in Successfully, Welcome");
         }else{
             document.getElementById('login_feedback').innerHTML = "Feedback: " + data.message;
@@ -68,7 +67,7 @@ function login_user(){
 function get_all_entries(){
     var url = host_name + "/api/v1/entries";
     fetch(url, {
-        method: 'POST',
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json; charset=UTF-8',
             'authorization':'Bearer '+get_cookie("auth_token")
@@ -80,8 +79,20 @@ function get_all_entries(){
     .then(function(data){
         if(data.status == "success"){
             console.log(data);
+            entries = data.entries;
+            entries_list = "";
+            for(var i=0; i<entries.length; i++){
+                entries_list += `
+                    <ul>
+                        <li>Title: ${entries[i]["title"]}</li>
+                        <li>Description: ${entries[i]["description"]}</li>
+                        <li>creation_time: ${entries[i]["creation_time"]}</li>
+                    </ul>
+                `;
+            }
+            document.getElementById("all_entries").innerHTML = entries_list;
         }else{
-            console.log("Feedback: ",data);
+            console.log(data);
         }
     })
     .catch(function(error){

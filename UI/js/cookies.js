@@ -3,8 +3,6 @@ function set_cookie(cookie_name, cookie_value, exdays) {
     date.setTime(date.getTime()+ (exdays*24*60*60*1000));
     expires = date.toGMTString();
     document.cookie = cookie_name + "=" + cookie_value + ";expires=" + expires + ";path=/";
-    var mycookie = document.cookie;
-    return mycookie;
 }
 
 function get_cookie(cookie_name) {
@@ -20,5 +18,17 @@ function get_cookie(cookie_name) {
             return single_cookie.substring(name.length, single_cookie.length);
         }
     }
-    return "no";
+    return "";
+}
+
+function check_cookie(){
+    var username = get_cookie("username");
+    if (username != ""){
+        alert("Welcome " + username);
+    }else{
+        username = prompt("please enter your username:", "");
+        if (username != "" && username != null){
+            set_cookie("username", username, 1);
+        }
+    }
 }

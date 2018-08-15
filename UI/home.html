@@ -13,7 +13,7 @@
     <script src="js/cookies.js"></script>
 </head>
 
-<body class="home" onload="post_login_message()">
+<body class="home" onload="check_cookie()">
     <header>
         <div class="container">
             <div id="branding">
@@ -48,20 +48,7 @@
             <div>
                 <button type="button" name="get_all_entries_button" onclick="get_all_entries()">Get Entries</button>
                 <h1>Entries</h1>
-                <ul>
-                    <li>
-                        <a href="entryContents.html">A day at the mall</a>
-                    </li>
-                    <li>
-                        <a href="entryContents.html">Safari to Kidepo Valley</a>
-                    </li>
-                    <li>
-                        <a href="entryContents.html">My first job interview</a>
-                    </li>
-                    <li>
-                        <a href="entryContents.html">Graduation day drama</a>
-                    </li>
-                </ul>
+                <div id="all_entries"></div>
             </div>
         </section>
     </div>
