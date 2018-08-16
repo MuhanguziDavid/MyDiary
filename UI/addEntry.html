@@ -8,6 +8,9 @@
     <title>MyDiary | Add Entry</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/dynamic.js"></script>
+    <script src="js/entries.js"></script>
+    <script src="js/global.js"></script>
+    <script src="js/cookies.js"></script>
 </head>
 
 <body class="home">
@@ -41,15 +44,15 @@
         <section class="mainbar">
             <div>
                 <h1>Create Entry</h1>
-                <form id="login" action="home.html">
+                <form id="login">
                     <div class="inputBox">
-                        <label for="username">Title</label>
-                        <input type="text" name="username" required="required" />
+                        <label for="entryTitle">Title</label>
+                        <input type="text" name="entryTitle" id="entryTitle"required="required" />
 
                         <label for="entryDetails">Details</label>
-                        <textarea name="entryDetails" cols="30" rows="10" required="required"></textarea>
+                        <textarea name="entryDetails" id="entryDetails" cols="30" rows="10" required="required"></textarea>
                     </div>
-                    <input type="submit" name="login_button" value="Submit" />
+                    <button type="button" name="add_an_entry_button" onclick="add_an_entry()">Submit</button>
                 </form>
             </div>
         </section>
