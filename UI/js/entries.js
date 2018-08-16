@@ -46,11 +46,10 @@ function get_all_entries(){
             entries_list = "";
             for(var i=0; i<entries.length; i++){
                 entries_list += `
-                    <ul>
-                        <li>Title: ${entries[i]["title"]}</li>
-                        <li>Description: ${entries[i]["description"]}</li>
-                        <li>creation_time: ${entries[i]["creation_time"]}</li>
-                    </ul>
+                    <li>
+                        <b><a href="#" onclick="get_an_entry(${entries[i]["entry_id"]})">${entries[i]["title"]}</a></b>
+                        <br/>creation_time: ${entries[i]["creation_time"]}
+                    </li>
                 `;
             }
             document.getElementById("all_entries").innerHTML = entries_list;
@@ -63,3 +62,39 @@ function get_all_entries(){
     });
 }
 
+function get_an_entry(entry_id){
+    var url = host_name + "/api/v1/entries/"+entry_id;
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'authorization':'Bearer '+get_cookie("auth_token")
+        }
+    })
+    .then(function(response){
+        return response.json();
+    })
+    .then(function(data){
+        if(data.status == "success"){
+            console.log(data);
+            entries = data.entries;
+            entries_list = "";
+            for(var i=0; i<entries.length; i++){
+                entries_list += `
+                    <li>
+                        <b>${entries[i]["title"]}</b>
+                        <br/>Description: ${entries[i]["description"]}
+                        <br/>creation_time: ${entries[i]["creation_time"]}
+                        <br/><button type="button" onclick="get_all_entries()">Entry List</button>
+                    </li>
+                `;
+            }
+            document.getElementById("all_entries").innerHTML = entries_list;
+        }else{
+            console.log(data);
+        }
+    })
+    .catch(function(error){
+        console.log(error);
+    });
+}

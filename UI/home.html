@@ -46,9 +46,10 @@
         </section>
         <section class="mainbar">
             <div>
-                <button type="button" name="get_all_entries_button" onclick="get_all_entries()">Get Entries</button>
                 <h1>Entries</h1>
-                <div id="all_entries"></div>
+                <div>
+                    <ul id="all_entries"></ul>
+                </div>
             </div>
         </section>
     </div>
@@ -59,5 +60,11 @@
         </footer>
     </div>
 </body>
+
+<script type="text/javascript">
+    window.onload = function(){
+        get_all_entries();
+    }
+</script>
 
 </html>

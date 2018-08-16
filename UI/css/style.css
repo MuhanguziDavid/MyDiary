@@ -305,6 +305,11 @@ header a:hover {
     outline: none;
 }
 
+.mainbar b {
+    font-size: 18px;
+    color: rgba(162, 218, 255, 0.747);
+}
+
 .mainbar a {
     color: rgba(162, 218, 255, 0.747);
     text-align: center;

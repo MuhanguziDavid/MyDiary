@@ -56,7 +56,7 @@ class DatabaseConnection:
             (entry_id SERIAL PRIMARY KEY,
             user_id INTEGER NOT NULL,
             title VARCHAR(255) NOT NULL,
-            description VARCHAR(255) NOT NULL,
+            description VARCHAR(2000) NOT NULL,
             creation_time timestamp,
             FOREIGN KEY (user_id)
             REFERENCES users
