@@ -44,6 +44,7 @@
                 </button>
 
                 <div id="edit_link_div"></div>
+                <div id="try_title"></div>
             </div>
         </section>
         <section class="mainbar">
@@ -67,9 +68,8 @@
     window.onload = function(){
         get_all_entries();
     }
-
-    function get_an_entry(entry_id){
-        var url = host_name + "/api/v1/entries/"+entry_id;
+    function get_all_entries(){
+        var url = host_name + "/api/v1/entries";
         fetch(url, {
             method: 'GET',
             headers: {
@@ -88,6 +88,45 @@
                 for(var i=0; i<entries.length; i++){
                     entries_list += `
                         <li>
+                            <b><a href="#" onclick="get_an_entry(${entries[i]["entry_id"]})">${entries[i]["title"]}</a></b>
+                            <br/>creation_time: ${entries[i]["creation_time"]}
+                        </li>
+                    `;
+                }
+                document.getElementById("all_entries").innerHTML = entries_list;
+            }else{
+                console.log(data);
+            }
+        })
+        .catch(function(error){
+            console.log(error);
+        });
+    }
+
+
+    function get_an_entry(entry_id){
+        localStorage.setItem("global_entry_id", entry_id);
+        var url = host_name + "/api/v1/entries/"+entry_id;
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+                'authorization':'Bearer '+get_cookie("auth_token")
+            }
+        })
+        .then(function(response){
+            return response.json();
+        })
+        .then(function(data){
+            if(data.status == "success"){
+                console.log(data);
+
+                // get title, creation time. and details
+                entries = data.entries;
+                entries_list = "";
+                for(var i=0; i<entries.length; i++){
+                    entries_list += `
+                        <li>
                             <b>${entries[i]["title"]}</b>
                             <br/>${entries[i]["creation_time"]}
                             <br/><br/>${entries[i]["description"]}
@@ -96,12 +135,29 @@
                 }
                 document.getElementById("all_entries").innerHTML = entries_list;
 
+                // create links in side bar
                 edit_link = "";
                 edit_link += `
                     <a href="editEntry.html">Edit this Entry</a>
                     <br/><a href="#" onclick="get_all_entries()">Entry list</a>
                 `;
                 document.getElementById("edit_link_div").innerHTML = edit_link;
+
+                // get entry title
+                entries_title = data.entries;
+                entry_title = "";
+                for(var i=0; i<entries_title.length; i++){
+                    entry_title += `${entries_title[i]["title"]}`;
+                }
+                localStorage.setItem("global_entry_title", entry_title);
+
+                // get entry description
+                entries_description = data.entries;
+                entry_description = "";
+                for(var i=0; i<entries_description.length; i++){
+                    entry_description += `${entries_description[i]["description"]}`;
+                }
+                localStorage.setItem("global_entry_description", entry_description);
             }else{
                 console.log(data);
             }

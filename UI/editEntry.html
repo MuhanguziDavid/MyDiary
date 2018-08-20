@@ -8,6 +8,9 @@
     <title>MyDiary | Edit Entry</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/dynamic.js"></script>
+    <script src="js/entries.js"></script>
+    <script src="js/global.js"></script>
+    <script src="js/cookies.js"></script>
 </head>
 
 <body class="home" onload="editEntry_autofillEntryFields();">
@@ -50,7 +53,7 @@
                         <textarea name="edit_details" id="edit_details" cols="30" rows="10"></textarea>
                     </div>
                     <!-- <input type="submit" name="login_button" value="Submit" /> -->
-                    <button type="button" name="edit_an_entry_button" onclick="edit_an_entry()">Submit</button>
+                    <button type="button" name="edit_an_entry_button" onclick="edit_an_entry(localStorage.getItem('global_entry_id'))">Submit</button>
                 </form>
             </div>
         </section>
@@ -60,5 +63,45 @@
         <p>David Muhanguzi, Copyright &copy; 2018</p>
     </footer>
 </body>
+
+<script type="text/javascript">
+    window.onload = function(){
+        load_input_fields();
+    }
+
+    function load_input_fields(){
+        document.getElementById('edit_title').value = localStorage.getItem("global_entry_title");
+        document.getElementById('edit_details').value = localStorage.getItem("global_entry_description");
+    }
+
+    function edit_an_entry(entry_id){
+        var url = host_name + "/api/v1/entries/"+entry_id;
+        fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'authorization':'Bearer '+get_cookie("auth_token")
+            },
+            body: JSON.stringify({
+                "title": document.getElementById("edit_title").value,
+                "description": document.getElementById("edit_details").value,
+            })
+        })
+        .then(function(response){
+            return response.json();
+        })
+        .then(function(data){
+            if(data.message == "Entry has been updated successfully"){
+                alert("Entry updated successfully");
+                console.log(data);
+            }else{
+                console.log(data.message);
+            }
+        })
+        .catch(function(error){
+            console.log(error);
+        });
+    }
+</script>
 
 </html>
