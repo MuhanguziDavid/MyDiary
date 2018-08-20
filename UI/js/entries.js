@@ -62,36 +62,28 @@ function get_all_entries(){
     });
 }
 
-function get_an_entry(entry_id){
+function edit_an_entry(entry_id){
     var url = host_name + "/api/v1/entries/"+entry_id;
     fetch(url, {
-        method: 'GET',
+        method: 'PUT',
         headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
+            'Content-Type': 'application/json',
             'authorization':'Bearer '+get_cookie("auth_token")
-        }
+        },
+        body: JSON.stringify({
+            "title": document.getElementById("entryTitle").value,
+            "description": document.getElementById("entryDetails").value,
+        })
     })
     .then(function(response){
         return response.json();
     })
     .then(function(data){
-        if(data.status == "success"){
+        if(data.message == "Entry has been created"){
+            alert("Entry created successfully");
             console.log(data);
-            entries = data.entries;
-            entries_list = "";
-            for(var i=0; i<entries.length; i++){
-                entries_list += `
-                    <li>
-                        <b>${entries[i]["title"]}</b>
-                        <br/>Description: ${entries[i]["description"]}
-                        <br/>creation_time: ${entries[i]["creation_time"]}
-                        <br/><button type="button" onclick="get_all_entries()">Entry List</button>
-                    </li>
-                `;
-            }
-            document.getElementById("all_entries").innerHTML = entries_list;
         }else{
-            console.log(data);
+            console.log(data.message);
         }
     })
     .catch(function(error){

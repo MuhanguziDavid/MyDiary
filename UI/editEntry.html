@@ -43,13 +43,14 @@
                 <h1>Edit Entry</h1>
                 <form id="login" action="home.html">
                     <div class="inputBox">
-                        <label for="username">Title</label>
-                        <input type="text" name="username" id="inputTitle" />
+                        <label for="edit_title">Title</label>
+                        <input type="text" name="edit_title" id="edit_title" />
 
-                        <label for="entryDetails">Details</label>
-                        <textarea name="entryDetails" id="textareaDetails" cols="30" rows="10"></textarea>
+                        <label for="edit_details">Details</label>
+                        <textarea name="edit_details" id="edit_details" cols="30" rows="10"></textarea>
                     </div>
-                    <input type="submit" name="login_button" value="Submit" />
+                    <!-- <input type="submit" name="login_button" value="Submit" /> -->
+                    <button type="button" name="edit_an_entry_button" onclick="edit_an_entry()">Submit</button>
                 </form>
             </div>
         </section>

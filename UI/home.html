@@ -42,6 +42,8 @@
                 <button>
                     <a href="addEntry.html">Create Entry</a>
                 </button>
+
+                <div id="edit_link_div"></div>
             </div>
         </section>
         <section class="mainbar">
@@ -64,6 +66,49 @@
 <script type="text/javascript">
     window.onload = function(){
         get_all_entries();
+    }
+
+    function get_an_entry(entry_id){
+        var url = host_name + "/api/v1/entries/"+entry_id;
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+                'authorization':'Bearer '+get_cookie("auth_token")
+            }
+        })
+        .then(function(response){
+            return response.json();
+        })
+        .then(function(data){
+            if(data.status == "success"){
+                console.log(data);
+                entries = data.entries;
+                entries_list = "";
+                for(var i=0; i<entries.length; i++){
+                    entries_list += `
+                        <li>
+                            <b>${entries[i]["title"]}</b>
+                            <br/>${entries[i]["creation_time"]}
+                            <br/><br/>${entries[i]["description"]}
+                        </li>
+                    `;
+                }
+                document.getElementById("all_entries").innerHTML = entries_list;
+
+                edit_link = "";
+                edit_link += `
+                    <a href="editEntry.html">Edit this Entry</a>
+                    <br/><a href="#" onclick="get_all_entries()">Entry list</a>
+                `;
+                document.getElementById("edit_link_div").innerHTML = edit_link;
+            }else{
+                console.log(data);
+            }
+        })
+        .catch(function(error){
+            console.log(error);
+        });
     }
 </script>
 
