@@ -89,7 +89,7 @@
                     entries_list += `
                         <li>
                             <b><a href="#" onclick="get_an_entry(${entries[i]["entry_id"]})">${entries[i]["title"]}</a></b>
-                            <br/>creation_time: ${entries[i]["creation_time"]}
+                            <br/>${entries[i]["creation_time"]}
                         </li>
                     `;
                 }
@@ -121,6 +121,22 @@
             if(data.status == "success"){
                 console.log(data);
 
+                // get entry title
+                entries_title = data.entries;
+                entry_title = "";
+                for(var i=0; i<entries_title.length; i++){
+                    entry_title += `${entries_title[i]["title"]}`;
+                }
+                localStorage.setItem("global_entry_title", entry_title);
+
+                // get entry description
+                entries_description = data.entries;
+                entry_description = "";
+                for(var i=0; i<entries_description.length; i++){
+                    entry_description += `${entries_description[i]["description"]}`;
+                }
+                localStorage.setItem("global_entry_description", entry_description);
+
                 // get title, creation time. and details
                 entries = data.entries;
                 entries_list = "";
@@ -139,25 +155,10 @@
                 edit_link = "";
                 edit_link += `
                     <a href="editEntry.html">Edit this Entry</a>
+                    <br/><a href="#" onclick="delete_an_entry(localStorage.getItem('global_entry_id'))">Delete this Entry</a>
                     <br/><a href="#" onclick="get_all_entries()">Entry list</a>
                 `;
                 document.getElementById("edit_link_div").innerHTML = edit_link;
-
-                // get entry title
-                entries_title = data.entries;
-                entry_title = "";
-                for(var i=0; i<entries_title.length; i++){
-                    entry_title += `${entries_title[i]["title"]}`;
-                }
-                localStorage.setItem("global_entry_title", entry_title);
-
-                // get entry description
-                entries_description = data.entries;
-                entry_description = "";
-                for(var i=0; i<entries_description.length; i++){
-                    entry_description += `${entries_description[i]["description"]}`;
-                }
-                localStorage.setItem("global_entry_description", entry_description);
             }else{
                 console.log(data);
             }
@@ -165,6 +166,35 @@
         .catch(function(error){
             console.log(error);
         });
+    }
+
+    function delete_an_entry(entry_id){
+        if (window.confirm('Do you really want to delete this entry?')){
+            var url = host_name + "/api/v1/entries/"+entry_id;
+            fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization':'Bearer '+get_cookie("auth_token")
+                },
+            })
+            .then(function(response){
+                return response.json();
+            })
+            .then(function(data){
+                if(data.message == "The entry has been deleted"){
+                    alert("Entry Deleted");
+                    console.log(data);
+                }else{
+                    console.log(data.message);
+                }
+            })
+            .catch(function(error){
+                console.log(error);
+            });
+        }else{
+            get_an_entry(localStorage.getItem('global_entry_id'));
+        }
     }
 </script>
 
