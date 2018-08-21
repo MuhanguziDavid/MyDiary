@@ -82,8 +82,10 @@
         })
         .then(function(data){
             if(data.message == "Entry has been created"){
-                alert("Entry created successfully");
                 console.log(data);
+                if(!alert("Entry created successfully")){
+                    window.location.href = "home.html";
+                }
             }else{
                 console.log(data.message);
             }
