@@ -92,9 +92,12 @@
         })
         .then(function(data){
             if(data.message == "Entry has been updated successfully"){
-                alert("Entry updated successfully");
                 console.log(data);
+                if(!alert("Entry updated successfully")){
+                    window.location.href = "home.html";
+                }
             }else{
+                alert(data.message);
                 console.log(data.message);
             }
         })
