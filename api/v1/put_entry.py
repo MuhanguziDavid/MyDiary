@@ -63,4 +63,4 @@ class PutEntry(Resource):
                     "Original entry": entry_record,
                     "Updated entry": entry_updated}, 200
         return {
-            "msg": "Entry not updated, it was created over 24 hours ago"}, 200
+            "message": "Entry not updated, it was created over 24 hours ago"}, 200
