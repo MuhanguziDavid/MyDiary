@@ -25,11 +25,13 @@
                     <li class="current">
                         <a href="home.html">Home</a>
                     </li>
-                    <li>
-                        <a href="profile.html">Profile</a>
-                    </li>
-                    <li>
-                        <a href="index.html">Logout</a>
+                    <li class="dropdown">
+                        <a href="javascript:void(0)" class="dropbtn" id="loggedin_user"></a>
+                        <div class="dropdown-content">
+                            <a href="profile.html">Profile</a>
+                            <br/>
+                            <a href="index.html">Logout</a>
+                        </div>
                     </li>
                 </ul>
             </nav>
@@ -65,45 +67,46 @@
 </body>
 
 <script type="text/javascript">
-    window.onload = function(){
+    window.onload = function () {
+        document.getElementById("loggedin_user").innerHTML = localStorage.getItem("global_username");
         load_input_fields();
     }
 
-    function load_input_fields(){
+    function load_input_fields() {
         document.getElementById('edit_title').value = localStorage.getItem("global_entry_title");
         document.getElementById('edit_details').value = localStorage.getItem("global_entry_description");
     }
 
-    function edit_an_entry(entry_id){
-        var url = host_name + "/api/v1/entries/"+entry_id;
+    function edit_an_entry(entry_id) {
+        var url = host_name + "/api/v1/entries/" + entry_id;
         fetch(url, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'authorization':'Bearer '+get_cookie("auth_token")
-            },
-            body: JSON.stringify({
-                "title": document.getElementById("edit_title").value,
-                "description": document.getElementById("edit_details").value,
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': 'Bearer ' + get_cookie("auth_token")
+                },
+                body: JSON.stringify({
+                    "title": document.getElementById("edit_title").value,
+                    "description": document.getElementById("edit_details").value,
+                })
             })
-        })
-        .then(function(response){
-            return response.json();
-        })
-        .then(function(data){
-            if(data.message == "Entry has been updated successfully"){
-                console.log(data);
-                if(!alert("Entry updated successfully")){
-                    window.location.href = "home.html";
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                if (data.message == "Entry has been updated successfully") {
+                    console.log(data);
+                    if (!alert("Entry updated successfully")) {
+                        window.location.href = "home.html";
+                    }
+                } else {
+                    alert(data.message);
+                    console.log(data.message);
                 }
-            }else{
-                alert(data.message);
-                console.log(data.message);
-            }
-        })
-        .catch(function(error){
-            console.log(error);
-        });
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 </script>
 

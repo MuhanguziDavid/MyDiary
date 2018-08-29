@@ -25,11 +25,13 @@
                     <li>
                         <a href="home.html">Home</a>
                     </li>
-                    <li class="current">
-                        <a href="profile.html">Profile</a>
-                    </li>
-                    <li>
-                        <a href="index.html">Logout</a>
+                    <li class="dropdown current">
+                        <a href="javascript:void(0)" class="dropbtn" id="loggedin_user"></a>
+                        <div class="dropdown-content">
+                            <a href="profile.html">Profile</a>
+                            <br/>
+                            <a href="index.html">Logout</a>
+                        </div>
                     </li>
                 </ul>
             </nav>
@@ -51,8 +53,9 @@
 </body>
 
 <script type="text/javascript">
-    document.getElementById("profile_username").innerHTML = "Username: "+localStorage.getItem("global_username");
-    document.getElementById("profile_entries").innerHTML = "Number of entries: "+localStorage.getItem("no_of_entries");
+    document.getElementById("loggedin_user").innerHTML = localStorage.getItem("global_username");
+    document.getElementById("profile_username").innerHTML = "Username: " + localStorage.getItem("global_username");
+    document.getElementById("profile_entries").innerHTML = "Number of entries: " + localStorage.getItem("no_of_entries");
 </script>
 
 </html>

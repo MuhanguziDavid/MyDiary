@@ -8,7 +8,6 @@
     <title>MyDiary | Welcome</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/dynamic.js"></script>
-    <script src="js/entries.js"></script>
     <script src="js/global.js"></script>
     <script src="js/cookies.js"></script>
 </head>
@@ -18,19 +17,20 @@
         <div class="container">
             <div id="branding">
                 <h1>
-                    <span class="highlight">My</span>Diary
-                </h1>
+                    <span class="highlight">My</span>Diary</h1>
             </div>
             <nav>
                 <ul>
                     <li class="current">
                         <a href="home.html">Home</a>
                     </li>
-                    <li>
-                        <a id="loggedin_user" href="profile.html"></a>
-                    </li>
-                    <li>
-                        <a href="index.html">Logout</a>
+                    <li class="dropdown">
+                        <a href="javascript:void(0)" class="dropbtn" id="loggedin_user"></a>
+                        <div class="dropdown-content">
+                            <a href="profile.html">Profile</a>
+                            <br/>
+                            <a href="index.html">Logout</a>
+                        </div>
                     </li>
                 </ul>
             </nav>
@@ -66,139 +66,143 @@
 </body>
 
 <script type="text/javascript">
-    window.onload = function(){
+    window.onload = function () {
         document.getElementById("loggedin_user").innerHTML = localStorage.getItem("global_username");
         get_all_entries();
     }
-    function get_all_entries(){
+
+    function get_all_entries() {
         var url = host_name + "/api/v1/entries";
         fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json; charset=UTF-8',
-                'authorization':'Bearer '+get_cookie("auth_token")
-            }
-        })
-        .then(function(response){
-            return response.json();
-        })
-        .then(function(data){
-            if(data.status == "success"){
-                console.log(data);
-                entries = data.entries;
-                entries_list = "";
-                for(var i=0; i<entries.length; i++){
-                    entries_list += `
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8',
+                    'authorization': 'Bearer ' + get_cookie("auth_token")
+                }
+            })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                if (data.status == "success") {
+                    console.log(data);
+                    entries = data.entries;
+                    entries_list = "";
+                    for (var i = 0; i < entries.length; i++) {
+                        entries_list +=
+                            `
                         <li>
                             <b><a href="#" onclick="get_an_entry(${entries[i]["entry_id"]})">${entries[i]["title"]}</a></b>
                             <br/>${entries[i]["creation_time"]}
                         </li>
                     `;
+                    }
+                    document.getElementById("all_entries").innerHTML = entries_list;
+                    document.getElementById("edit_link_div").innerHTML = null;
+                    localStorage.setItem("no_of_entries", data.entries.length);
+                } else {
+                    console.log(data);
                 }
-                document.getElementById("all_entries").innerHTML = entries_list;
-                document.getElementById("edit_link_div").innerHTML = null;
-                localStorage.setItem("no_of_entries", data.entries.length);
-            }else{
-                console.log(data);
-            }
-        })
-        .catch(function(error){
-            console.log(error);
-        });
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
 
-    function get_an_entry(entry_id){
+    function get_an_entry(entry_id) {
         localStorage.setItem("global_entry_id", entry_id);
-        var url = host_name + "/api/v1/entries/"+entry_id;
+        var url = host_name + "/api/v1/entries/" + entry_id;
         fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json; charset=UTF-8',
-                'authorization':'Bearer '+get_cookie("auth_token")
-            }
-        })
-        .then(function(response){
-            return response.json();
-        })
-        .then(function(data){
-            if(data.status == "success"){
-                console.log(data);
-
-                // get entry title
-                entries_title = data.entries;
-                entry_title = "";
-                for(var i=0; i<entries_title.length; i++){
-                    entry_title += `${entries_title[i]["title"]}`;
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8',
+                    'authorization': 'Bearer ' + get_cookie("auth_token")
                 }
-                localStorage.setItem("global_entry_title", entry_title);
+            })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                if (data.status == "success") {
+                    console.log(data);
 
-                // get entry description
-                entries_description = data.entries;
-                entry_description = "";
-                for(var i=0; i<entries_description.length; i++){
-                    entry_description += `${entries_description[i]["description"]}`;
-                }
-                localStorage.setItem("global_entry_description", entry_description);
+                    // get entry title
+                    entries_title = data.entries;
+                    entry_title = "";
+                    for (var i = 0; i < entries_title.length; i++) {
+                        entry_title += `${entries_title[i]["title"]}`;
+                    }
+                    localStorage.setItem("global_entry_title", entry_title);
 
-                // get title, creation time. and details
-                entries = data.entries;
-                entries_list = "";
-                for(var i=0; i<entries.length; i++){
-                    entries_list += `
+                    // get entry description
+                    entries_description = data.entries;
+                    entry_description = "";
+                    for (var i = 0; i < entries_description.length; i++) {
+                        entry_description += `${entries_description[i]["description"]}`;
+                    }
+                    localStorage.setItem("global_entry_description", entry_description);
+
+                    // get title, creation time. and details
+                    entries = data.entries;
+                    entries_list = "";
+                    for (var i = 0; i < entries.length; i++) {
+                        entries_list +=
+                            `
                         <li>
                             <b>${entries[i]["title"]}</b>
                             <br/>${entries[i]["creation_time"]}
                             <br/><br/>${entries[i]["description"]}
                         </li>
                     `;
-                }
-                document.getElementById("all_entries").innerHTML = entries_list;
+                    }
+                    document.getElementById("all_entries").innerHTML = entries_list;
 
-                // create links in side bar
-                edit_link = "";
-                edit_link += `
+                    // create links in side bar
+                    edit_link = "";
+                    edit_link +=
+                        `
                     <a href="editEntry.html">Edit this Entry</a>
                     <br/><a href="#" onclick="delete_an_entry(localStorage.getItem('global_entry_id'))">Delete this Entry</a>
                     <br/><a href="#" onclick="get_all_entries()">Entry list</a>
                 `;
-                document.getElementById("edit_link_div").innerHTML = edit_link;
-            }else{
-                console.log(data);
-            }
-        })
-        .catch(function(error){
-            console.log(error);
-        });
-    }
-
-    function delete_an_entry(entry_id){
-        if (window.confirm('Do you really want to delete this entry?')){
-            var url = host_name + "/api/v1/entries/"+entry_id;
-            fetch(url, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'authorization':'Bearer '+get_cookie("auth_token")
-                },
-            })
-            .then(function(response){
-                return response.json();
-            })
-            .then(function(data){
-                if(data.message == "The entry has been deleted"){
-                    if(!alert("Entry Deleted")){
-                        get_all_entries()
-                    }
+                    document.getElementById("edit_link_div").innerHTML = edit_link;
+                } else {
                     console.log(data);
-                }else{
-                    console.log(data.message);
                 }
             })
-            .catch(function(error){
+            .catch(function (error) {
                 console.log(error);
             });
-        }else{
+    }
+
+    function delete_an_entry(entry_id) {
+        if (window.confirm('Do you really want to delete this entry?')) {
+            var url = host_name + "/api/v1/entries/" + entry_id;
+            fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'authorization': 'Bearer ' + get_cookie("auth_token")
+                    },
+                })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+                    if (data.message == "The entry has been deleted") {
+                        if (!alert("Entry Deleted")) {
+                            get_all_entries()
+                        }
+                        console.log(data);
+                    } else {
+                        console.log(data.message);
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        } else {
             get_an_entry(localStorage.getItem('global_entry_id'));
         }
     }
