@@ -18,7 +18,8 @@
         <div class="container">
             <div id="branding">
                 <h1>
-                    <span class="highlight">My</span>Diary</h1>
+                    <span class="highlight">My</span>Diary
+                </h1>
             </div>
             <nav>
                 <ul>
@@ -26,7 +27,7 @@
                         <a href="home.html">Home</a>
                     </li>
                     <li>
-                        <a href="profile.html">Profile</a>
+                        <a id="loggedin_user" href="profile.html"></a>
                     </li>
                     <li>
                         <a href="index.html">Logout</a>
@@ -66,6 +67,7 @@
 
 <script type="text/javascript">
     window.onload = function(){
+        document.getElementById("loggedin_user").innerHTML = localStorage.getItem("global_username");
         get_all_entries();
     }
     function get_all_entries(){
@@ -95,6 +97,7 @@
                 }
                 document.getElementById("all_entries").innerHTML = entries_list;
                 document.getElementById("edit_link_div").innerHTML = null;
+                localStorage.setItem("no_of_entries", data.entries.length);
             }else{
                 console.log(data);
             }

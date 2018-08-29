@@ -37,6 +37,7 @@ class Log_In(Resource):
             if name_exists['password'] == data['password']:
                 auth_token = create_access_token(name_exists['user_id'])
                 return {
+                    "user" : name_exists,
                     "auth_token": auth_token,
                     "message": "Logged in Successfully"}, 200
             return {

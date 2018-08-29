@@ -42,4 +42,36 @@
     </div>
 </body>
 
+<script type="text/javascript">
+    function login_user(){
+        var url = host_name + "/api/v1/auth/login";
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "username": document.getElementById("username").value,
+                "password": document.getElementById("password").value,
+            })
+        })
+        .then(function(response){
+            return response.json();
+        })
+        .then(function(data){
+            if(data.message == "Logged in Successfully"){
+                set_cookie("auth_token", data.auth_token, 1);
+                localStorage.setItem("global_username", data.user[1]);
+                window.location.href = "home.html";
+            }else{
+                document.getElementById('login_feedback').innerHTML = "Feedback: " + data.message;
+                console.log("Feedback: ",data.message);
+            }
+        })
+        .catch(function(error){
+            console.log(error);
+        });
+    }
+</script>
+
 </html>
