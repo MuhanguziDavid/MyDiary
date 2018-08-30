@@ -55,6 +55,14 @@
                         <textarea name="entryDetails" id="entryDetails" cols="30" rows="10" required="required"></textarea>
                     </div>
                     <button type="button" name="add_an_entry_button" onclick="add_an_entry()">Submit</button>
+
+                    <!-- Modal -->
+                    <div id="myModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <p id="feedback_content"></p>
+                        </div>
+                    </div>
                 </form>
             </div>
         </section>
@@ -69,8 +77,12 @@
     window.onload = function () {
         document.getElementById("loggedin_user").innerHTML = localStorage.getItem("global_username");
     }
-    
+
     function add_an_entry() {
+        var modal = document.getElementById("myModal");
+        var span = document.getElementsByClassName("close")[0];
+        var feedback_content = document.getElementById("feedback_content");
+
         var url = host_name + "/api/v1/entries";
         fetch(url, {
                 method: 'POST',
@@ -89,12 +101,30 @@
             .then(function (data) {
                 if (data.message == "Entry has been created") {
                     console.log(data);
-                    if (!alert("Entry created successfully")) {
+                    feedback_content.innerHTML = "Entry created successfully";
+                    modal.style.display = "block";
+                    span.onclick = function () {
+                        modal.style.display = "none";
                         window.location.href = "home.html";
                     }
+                    window.onclick = function (event) {
+                        if (event.target == modal) {
+                            modal.style.display = "none";
+                            window.location.href = "home.html";
+                        }
+                    }
                 } else {
-                    alert(data.message);
                     console.log(data.message);
+                    feedback_content.innerHTML = data.message;
+                    modal.style.display = "block";
+                    span.onclick = function () {
+                        modal.style.display = "none";
+                    }
+                    window.onclick = function (event) {
+                        if (event.target == modal) {
+                            modal.style.display = "none";
+                        }
+                    }
                 }
             })
             .catch(function (error) {
