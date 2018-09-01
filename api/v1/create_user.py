@@ -2,6 +2,7 @@ import re
 from flask import Flask, request
 from flask_restful import Api, Resource, reqparse
 from flask_jwt_extended import create_access_token
+from cryptography.fernet import Fernet
 
 from api.modals.user import User
 from api.database.db import DatabaseConnection

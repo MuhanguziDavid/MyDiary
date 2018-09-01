@@ -2,6 +2,7 @@ import re
 from flask import Flask, request
 from flask_restful import Api, Resource, reqparse
 from flask_jwt_extended import create_access_token
+from cryptography.fernet import Fernet
 
 from api.modals.user import User
 from api.database.db import DatabaseConnection
@@ -34,7 +35,12 @@ class Log_In(Resource):
         name_exists = user_instance.get_user_by_name()
 
         if name_exists:
-            if name_exists['password'] == data['password']:
+            key = b'pRmgMa8T0INjEAfksaq2aafzoZXEuwKI7wDe4c1F8AY='
+            fernet_cipher = Fernet(key)
+            unciphered_password = fernet_cipher.decrypt(bytes(name_exists['password'], encoding='utf-8'))
+            decoded_password = unciphered_password.decode("utf-8")
+
+            if decoded_password == data["password"]:
                 auth_token = create_access_token(name_exists['user_id'])
                 return {
                     "user" : name_exists,

@@ -43,9 +43,9 @@ class DatabaseConnection:
             """
             CREATE TABLE IF NOT EXISTS users
             (user_id SERIAL PRIMARY KEY,
-            name VARCHAR(20) NOT NULL,
-            email VARCHAR(28) NOT NULL,
-            password VARCHAR(12) NOT NULL)
+            name VARCHAR(255) NOT NULL,
+            email VARCHAR(255) NOT NULL,
+            password VARCHAR(255) NOT NULL)
             """)
         self.cursor.execute(create_table_query_users)
 
