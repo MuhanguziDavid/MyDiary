@@ -58,6 +58,24 @@
         </section>
     </div>
 
+    <!-- Alert Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="feedback_content"></p>
+        </div>
+    </div>
+
+    <!-- Confirm delete Modal -->
+    <div id="confirm_modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="confirm_content"></p>
+            <button id="accept_confirm">Yes</button>
+            <button id="cancel_confirm">Cancel</button>
+        </div>
+    </div>
+
     <div>
         <footer>
             <p>David Muhanguzi, Copyright &copy; 2018</p>
@@ -177,7 +195,17 @@
     }
 
     function delete_an_entry(entry_id) {
-        if (window.confirm('Do you really want to delete this entry?')) {
+        var confirm_modal = document.getElementById("confirm_modal");
+        var modal = document.getElementById("myModal");
+        var span = document.getElementsByClassName("close")[0];
+        var feedback_content = document.getElementById("feedback_content");
+        var accept_confirm = document.getElementById("accept_confirm");
+        var cancel_confirm = document.getElementById("cancel_confirm");
+
+        confirm_content.innerHTML = "Do you really want to delete this entry?";
+        confirm_modal.style.display = "block";
+        
+        accept_confirm.onclick = function () {
             var url = host_name + "/api/v1/entries/" + entry_id;
             fetch(url, {
                     method: 'DELETE',
@@ -191,20 +219,54 @@
                 })
                 .then(function (data) {
                     if (data.message == "The entry has been deleted") {
-                        if (!alert("Entry Deleted")) {
-                            get_all_entries()
-                        }
                         console.log(data);
+                        feedback_content.innerHTML = "Entry Deleted";
+                        confirm_modal.style.display = "none";
+                        modal.style.display = "block";
+                        span.onclick = function () {
+                            modal.style.display = "none";
+                            window.location.href = "home.html";
+                        }
+                        window.onclick = function (event) {
+                            if (event.target == modal) {
+                                modal.style.display = "none";
+                                window.location.href = "home.html";
+                            }
+                        }
                     } else {
                         console.log(data.message);
+                        feedback_content.innerHTML = data.message;
+                        confirm_modal.style.display = "none";
+                        modal.style.display = "block";
+                        span.onclick = function () {
+                            modal.style.display = "none";
+                        }
+                        window.onclick = function (event) {
+                            if (event.target == modal) {
+                                modal.style.display = "none";
+                            }
+                        }
                     }
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
-        } else {
+        }
+
+        cancel_confirm.onclick = function () {
+            confirm_modal.style.display = "none";
             get_an_entry(localStorage.getItem('global_entry_id'));
         }
+
+        span.onclick = function () {
+            confirm_modal.style.display = "none";
+        }
+        window.onclick = function (event) {
+            if (event.target == confirm_modal) {
+                confirm_modal.style.display = "none";
+            }
+        }
+
     }
 </script>
 
