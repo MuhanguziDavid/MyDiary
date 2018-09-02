@@ -121,9 +121,8 @@ button a {
     transition: .5s;
 }
 
-.signup-box .inputBox input:focus ~ label,
-.signup-box .inputBox input:valid ~ label
-{   
+.signup-box .inputBox input:focus~label,
+.signup-box .inputBox input:valid~label {
     top: -18px;
     left: 0;
     color: #03a9f4;
@@ -220,7 +219,7 @@ header {
 header a {
     color: #fff;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 header ul {
@@ -263,8 +262,7 @@ header .dropdown-content {
     position: absolute;
     background-color: rgba(17, 17, 17, 0.8);
     min-width: 160px;
-    text-align: center;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
 
@@ -316,6 +314,11 @@ header .dropdown:hover .dropdown-content {
     border: none;
     border-bottom: 1px solid #fff;
     outline: none;
+}
+
+.mainbar b {
+    font-size: 18px;
+    color: rgba(162, 218, 255, 0.747);
 }
 
 .mainbar a {
@@ -401,6 +404,46 @@ header .dropdown:hover .dropdown-content {
     border-radius: 10px;
 }
 
+/* modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #cecece;
+    color: #000;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, .5);
+    border-radius: 10px;
+}
+
+/* Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 /*Footer*/
 
 footer {
@@ -425,6 +468,12 @@ footer {
         float: none;
         text-align: center;
         width: 100%;
+    }
+    header .dropdown-content {
+        float: none;
+        text-align: left;
+        width: 30%;
+        left: 40%;
     }
     header {
         padding-bottom: 20px;

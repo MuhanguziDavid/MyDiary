@@ -8,6 +8,9 @@
     <title>MyDiary | Edit Entry</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/dynamic.js"></script>
+    <script src="js/entries.js"></script>
+    <script src="js/global.js"></script>
+    <script src="js/cookies.js"></script>
 </head>
 
 <body class="home" onload="editEntry_autofillEntryFields();">
@@ -23,10 +26,11 @@
                         <a href="home.html">Home</a>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:void(0)" class="dropbtn">Dropdown</a>
+                        <a href="javascript:void(0)" class="dropbtn" id="loggedin_user"></a>
                         <div class="dropdown-content">
                             <a href="profile.html">Profile</a>
-                            <br/><a href="index.html">Logout</a>
+                            <br/>
+                            <a href="index.html">Logout</a>
                         </div>
                     </li>
                 </ul>
@@ -44,13 +48,21 @@
                 <h1>Edit Entry</h1>
                 <form id="login" action="home.html">
                     <div class="inputBox">
-                        <label for="username">Title</label>
-                        <input type="text" name="username" id="inputTitle" />
+                        <label for="edit_title">Title</label>
+                        <input type="text" name="edit_title" id="edit_title" />
 
-                        <label for="entryDetails">Details</label>
-                        <textarea name="entryDetails" id="textareaDetails" cols="30" rows="10"></textarea>
+                        <label for="edit_details">Details</label>
+                        <textarea name="edit_details" id="edit_details" cols="30" rows="10"></textarea>
                     </div>
-                    <input type="submit" name="login_button" value="Submit" />
+                    <button type="button" name="edit_an_entry_button" onclick="edit_an_entry(localStorage.getItem('global_entry_id'))">Submit</button>
+
+                    <!-- Modal -->
+                    <div id="myModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <p id="feedback_content"></p>
+                        </div>
+                    </div>
                 </form>
             </div>
         </section>
@@ -60,5 +72,71 @@
         <p>David Muhanguzi, Copyright &copy; 2018</p>
     </footer>
 </body>
+
+<script type="text/javascript">
+    window.onload = function () {
+        document.getElementById("loggedin_user").innerHTML = localStorage.getItem("global_username");
+        load_input_fields();
+    }
+
+    function load_input_fields() {
+        document.getElementById('edit_title').value = localStorage.getItem("global_entry_title");
+        document.getElementById('edit_details').value = localStorage.getItem("global_entry_description");
+    }
+
+    function edit_an_entry(entry_id) {
+        var modal = document.getElementById("myModal");
+        var span = document.getElementsByClassName("close")[0];
+        var feedback_content = document.getElementById("feedback_content");
+
+        var url = host_name + "/api/v1/entries/" + entry_id;
+        fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': 'Bearer ' + get_cookie("auth_token")
+                },
+                body: JSON.stringify({
+                    "title": document.getElementById("edit_title").value,
+                    "description": document.getElementById("edit_details").value,
+                })
+            })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                if (data.message == "Entry has been updated successfully") {
+                    console.log(data);
+                    feedback_content.innerHTML = "Entry updated successfully";
+                    modal.style.display = "block";
+                    span.onclick = function () {
+                        modal.style.display = "none";
+                        window.location.href = "home.html";
+                    }
+                    window.onclick = function (event) {
+                        if (event.target == modal) {
+                            modal.style.display = "none";
+                            window.location.href = "home.html";
+                        }
+                    }
+                } else {
+                    console.log(data.message);
+                    feedback_content.innerHTML = data.message;
+                    modal.style.display = "block";
+                    span.onclick = function () {
+                        modal.style.display = "none";
+                    }
+                    window.onclick = function (event) {
+                        if (event.target == modal) {
+                            modal.style.display = "none";
+                        }
+                    }
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+</script>
 
 </html>

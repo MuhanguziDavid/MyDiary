@@ -1,0 +1,32 @@
+[run]
+
+[report]
+omit = */click/*
+        */asyncio/*
+        */concurrent/*
+        */ctypes/*
+        */decimal.py
+        */encodings/*
+        */hmac.py
+        */html/*
+        */mimetypes.py
+        */multiprocessing/*
+        */numbers.py
+        */flask/*
+        */itsdangerous.py
+        */jinja2/*
+        */markupsafe/*
+        */werkzeug/*
+        */stringprep.py
+        */uuid.py
+        */colorama/*
+        */six.py
+        */api\__init__.py
+        *api\v1\__init__.py
+        */http/*
+        */flask_restful/*
+        */flask_jwt_extended/*
+        */jwt/*
+        */psycopg2/*
+        */env/*
+        */_strptime.py

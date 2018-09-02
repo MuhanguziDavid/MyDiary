@@ -8,9 +8,11 @@
     <title>MyDiary | Welcome</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/dynamic.js"></script>
+    <script src="js/global.js"></script>
+    <script src="js/cookies.js"></script>
 </head>
 
-<body class="home">
+<body class="home" onload="check_cookie()">
     <header>
         <div class="container">
             <div id="branding">
@@ -23,10 +25,11 @@
                         <a href="home.html">Home</a>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:void(0)" class="dropbtn">Dropdown</a>
+                        <a href="javascript:void(0)" class="dropbtn" id="loggedin_user"></a>
                         <div class="dropdown-content">
                             <a href="profile.html">Profile</a>
-                            <br/><a href="index.html">Logout</a>
+                            <br/>
+                            <a href="index.html">Logout</a>
                         </div>
                     </li>
                 </ul>
@@ -35,31 +38,42 @@
     </header>
     <div class="container">
         <section class="sidebar">
+            <div id="home_feedback"></div>
             <div>
                 <button>
                     <a href="addEntry.html">Create Entry</a>
                 </button>
+
+                <div id="edit_link_div"></div>
+                <div id="try_title"></div>
             </div>
         </section>
         <section class="mainbar">
             <div>
                 <h1>Entries</h1>
-                <ul>
-                    <li>
-                        <a href="entryContents.html">A day at the mall</a>
-                    </li>
-                    <li>
-                        <a href="entryContents.html">Safari to Kidepo Valley</a>
-                    </li>
-                    <li>
-                        <a href="entryContents.html">My first job interview</a>
-                    </li>
-                    <li>
-                        <a href="entryContents.html">Graduation day drama</a>
-                    </li>
-                </ul>
+                <div>
+                    <ul id="all_entries"></ul>
+                </div>
             </div>
         </section>
+    </div>
+
+    <!-- Alert Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="feedback_content"></p>
+        </div>
+    </div>
+
+    <!-- Confirm delete Modal -->
+    <div id="confirm_modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="confirm_content"></p>
+            <button id="accept_confirm">Yes</button>
+            <button id="cancel_confirm">Cancel</button>
+        </div>
     </div>
 
     <div>
@@ -68,5 +82,192 @@
         </footer>
     </div>
 </body>
+
+<script type="text/javascript">
+    window.onload = function () {
+        document.getElementById("loggedin_user").innerHTML = localStorage.getItem("global_username");
+        get_all_entries();
+    }
+
+    function get_all_entries() {
+        var url = host_name + "/api/v1/entries";
+        fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8',
+                    'authorization': 'Bearer ' + get_cookie("auth_token")
+                }
+            })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                if (data.status == "success") {
+                    console.log(data);
+                    entries = data.entries;
+                    entries_list = "";
+                    for (var i = 0; i < entries.length; i++) {
+                        entries_list +=
+                            `
+                        <li>
+                            <b><a href="#" onclick="get_an_entry(${entries[i]["entry_id"]})">${entries[i]["title"]}</a></b>
+                            <br/>${entries[i]["creation_time"]}
+                        </li>
+                    `;
+                    }
+                    document.getElementById("all_entries").innerHTML = entries_list;
+                    document.getElementById("edit_link_div").innerHTML = null;
+                    localStorage.setItem("no_of_entries", data.entries.length);
+                } else {
+                    console.log(data);
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+
+    function get_an_entry(entry_id) {
+        localStorage.setItem("global_entry_id", entry_id);
+        var url = host_name + "/api/v1/entries/" + entry_id;
+        fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8',
+                    'authorization': 'Bearer ' + get_cookie("auth_token")
+                }
+            })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                if (data.status == "success") {
+                    console.log(data);
+
+                    // get entry title
+                    entries_title = data.entries;
+                    entry_title = "";
+                    for (var i = 0; i < entries_title.length; i++) {
+                        entry_title += `${entries_title[i]["title"]}`;
+                    }
+                    localStorage.setItem("global_entry_title", entry_title);
+
+                    // get entry description
+                    entries_description = data.entries;
+                    entry_description = "";
+                    for (var i = 0; i < entries_description.length; i++) {
+                        entry_description += `${entries_description[i]["description"]}`;
+                    }
+                    localStorage.setItem("global_entry_description", entry_description);
+
+                    // get title, creation time. and details
+                    entries = data.entries;
+                    entries_list = "";
+                    for (var i = 0; i < entries.length; i++) {
+                        entries_list +=
+                            `
+                        <li>
+                            <b>${entries[i]["title"]}</b>
+                            <br/>${entries[i]["creation_time"]}
+                            <br/><br/>${entries[i]["description"]}
+                        </li>
+                    `;
+                    }
+                    document.getElementById("all_entries").innerHTML = entries_list;
+
+                    // create links in side bar
+                    edit_link = "";
+                    edit_link +=
+                        `
+                    <a href="editEntry.html">Edit this Entry</a>
+                    <br/><a href="#" onclick="delete_an_entry(localStorage.getItem('global_entry_id'))">Delete this Entry</a>
+                    <br/><a href="#" onclick="get_all_entries()">Entry list</a>
+                `;
+                    document.getElementById("edit_link_div").innerHTML = edit_link;
+                } else {
+                    console.log(data);
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    function delete_an_entry(entry_id) {
+        var confirm_modal = document.getElementById("confirm_modal");
+        var modal = document.getElementById("myModal");
+        var span = document.getElementsByClassName("close")[0];
+        var feedback_content = document.getElementById("feedback_content");
+        var accept_confirm = document.getElementById("accept_confirm");
+        var cancel_confirm = document.getElementById("cancel_confirm");
+
+        confirm_content.innerHTML = "Do you really want to delete this entry?";
+        confirm_modal.style.display = "block";
+        
+        accept_confirm.onclick = function () {
+            var url = host_name + "/api/v1/entries/" + entry_id;
+            fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'authorization': 'Bearer ' + get_cookie("auth_token")
+                    },
+                })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+                    if (data.message == "The entry has been deleted") {
+                        console.log(data);
+                        feedback_content.innerHTML = "Entry Deleted";
+                        confirm_modal.style.display = "none";
+                        modal.style.display = "block";
+                        span.onclick = function () {
+                            modal.style.display = "none";
+                            window.location.href = "home.html";
+                        }
+                        window.onclick = function (event) {
+                            if (event.target == modal) {
+                                modal.style.display = "none";
+                                window.location.href = "home.html";
+                            }
+                        }
+                    } else {
+                        console.log(data.message);
+                        feedback_content.innerHTML = data.message;
+                        confirm_modal.style.display = "none";
+                        modal.style.display = "block";
+                        span.onclick = function () {
+                            modal.style.display = "none";
+                        }
+                        window.onclick = function (event) {
+                            if (event.target == modal) {
+                                modal.style.display = "none";
+                            }
+                        }
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+
+        cancel_confirm.onclick = function () {
+            confirm_modal.style.display = "none";
+            get_an_entry(localStorage.getItem('global_entry_id'));
+        }
+
+        span.onclick = function () {
+            confirm_modal.style.display = "none";
+        }
+        window.onclick = function (event) {
+            if (event.target == confirm_modal) {
+                confirm_modal.style.display = "none";
+            }
+        }
+
+    }
+</script>
 
 </html>

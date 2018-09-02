@@ -8,9 +8,12 @@
     <title>MyDiary | Profile</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/dynamic.js"></script>
+    <script src="js/entries.js"></script>
+    <script src="js/global.js"></script>
+    <script src="js/cookies.js"></script>
 </head>
 
-<body class="home" onload="entryContents_getTextFromEntry();">
+<body class="home">
     <header>
         <div class="container">
             <div id="branding">
@@ -23,7 +26,7 @@
                         <a href="home.html">Home</a>
                     </li>
                     <li class="dropdown current">
-                        <a href="javascript:void(0)" class="dropbtn">Dropdown</a>
+                        <a href="javascript:void(0)" class="dropbtn" id="loggedin_user"></a>
                         <div class="dropdown-content">
                             <a href="profile.html">Profile</a>
                             <br/>
@@ -37,9 +40,8 @@
     <div class="container">
         <section class="profile">
             <div>
-                <h1>Samuel Rukundo</h1>
-                <p>Account created: 15/07/18</p>
-                <p>Number of Entries: 4</p>
+                <h1 id="profile_username"></h1>
+                <p id="profile_entries"></p>
                 <button onclick="setReminderField()">Set Reminder</button>
             </div>
         </section>
@@ -49,5 +51,11 @@
         <p>David Muhanguzi, Copyright &copy; 2018</p>
     </footer>
 </body>
+
+<script type="text/javascript">
+    document.getElementById("loggedin_user").innerHTML = localStorage.getItem("global_username");
+    document.getElementById("profile_username").innerHTML = "Username: " + localStorage.getItem("global_username");
+    document.getElementById("profile_entries").innerHTML = "Number of entries: " + localStorage.getItem("no_of_entries");
+</script>
 
 </html>
