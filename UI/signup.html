@@ -71,6 +71,7 @@
         .then(function(data){
             if(data.message == "Account Created Successfully"){
                 set_cookie("auth_token", data.auth_token, 1);
+                localStorage.setItem("global_username", data.user[1]);
                 window.location.href = "home.html";
             }else{
                 document.getElementById('signup_feedback').innerHTML = "Feedback: " + data.message;
