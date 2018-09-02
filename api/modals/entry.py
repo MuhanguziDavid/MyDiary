@@ -81,9 +81,9 @@ class Entry:
         Returns a specific entry based on title
         and can be viewed in dictionary form
         """
-        query = "SELECT * FROM entries WHERE title = %s "
+        query = "SELECT * FROM entries WHERE title = %s AND user_id = %s"
         try:
-            Entry.dict_cursor.execute(query, [self.title])
+            Entry.dict_cursor.execute(query, [self.title, self.user_id])
             row = Entry.dict_cursor.fetchone()
 
             db_entry = []
