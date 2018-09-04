@@ -45,7 +45,7 @@ class DatabaseConnection:
             (user_id SERIAL PRIMARY KEY,
             name VARCHAR(255) NOT NULL,
             email VARCHAR(255) NOT NULL,
-            password VARCHAR(255) NOT NULL)
+            password VARCHAR(500) NOT NULL)
             """)
         self.cursor.execute(create_table_query_users)
 
