@@ -2,6 +2,7 @@
 from flask import Flask, Request
 from flask_restful import Resource, Api, reqparse
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS, cross_origin
 
 from api.database.db import DatabaseConnection
 from api.v1.get_entries import EntryList
@@ -14,6 +15,7 @@ from api.v1.login import Log_In
 
 app = Flask(__name__)
 api = Api(app)
+CORS(app)
 
 secret_key = 'david'
 app.config['JWT_SECRET_KEY'] = secret_key

@@ -19,18 +19,18 @@ class DatabaseConnection:
                     port='5432')
             else:
                 print("debug")
-                self.connection = psycopg2.connect(
-                    database="dcj5j9131ehsr8",
-                    user='dzumlflyzfbctj',
-                    password='6f0b68b3b6153e062f54e04ae499516fbdfbf866f390cde2432fb4c1d01fa5f4',
-                    host='ec2-54-163-227-253.compute-1.amazonaws.com',
-                    port='5432')
                 # self.connection = psycopg2.connect(
-                #     database="mydiary",
-                #     user='postgres',
-                #     password='12345',
-                #     host='localhost',
+                #     database="dcj5j9131ehsr8",
+                #     user='dzumlflyzfbctj',
+                #     password='6f0b68b3b6153e062f54e04ae499516fbdfbf866f390cde2432fb4c1d01fa5f4',
+                #     host='ec2-54-163-227-253.compute-1.amazonaws.com',
                 #     port='5432')
+                self.connection = psycopg2.connect(
+                    database="mydiary",
+                    user='postgres',
+                    password='12345',
+                    host='localhost',
+                    port='5432')
             self.connection.autocommit = True
             self.cursor = self.connection.cursor()
             self.dict_cursor = self.connection.cursor(
@@ -43,9 +43,9 @@ class DatabaseConnection:
             """
             CREATE TABLE IF NOT EXISTS users
             (user_id SERIAL PRIMARY KEY,
-            name VARCHAR(20) NOT NULL,
-            email VARCHAR(28) NOT NULL,
-            password VARCHAR(12) NOT NULL)
+            name VARCHAR(255) NOT NULL,
+            email VARCHAR(255) NOT NULL,
+            password VARCHAR(255) NOT NULL)
             """)
         self.cursor.execute(create_table_query_users)
 
@@ -56,7 +56,7 @@ class DatabaseConnection:
             (entry_id SERIAL PRIMARY KEY,
             user_id INTEGER NOT NULL,
             title VARCHAR(255) NOT NULL,
-            description VARCHAR(255) NOT NULL,
+            description VARCHAR(2000) NOT NULL,
             creation_time timestamp,
             FOREIGN KEY (user_id)
             REFERENCES users

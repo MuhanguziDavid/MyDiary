@@ -54,13 +54,18 @@ class PutEntry(Resource):
         entry_creation_timestamp = time.mktime(entry_datetime.timetuple())
 
         if current_timestamp - entry_creation_timestamp <= 86400:
-            entry_instance.update_an_entry()
-            entry_updated = entry_instance.get_entry_by_id()
+            title_exists = entry_instance.get_entry_by_title()
 
-            if entry_updated:
-                return {
-                    "message": "Entry has been updated successfully",
-                    "Original entry": entry_record,
-                    "Updated entry": entry_updated}, 200
+            if not title_exists:
+                entry_instance.update_an_entry()
+                entry_updated = entry_instance.get_entry_by_id()
+
+                if entry_updated:
+                    return {
+                        "message": "Entry has been updated successfully",
+                        "Original entry": entry_record,
+                        "Updated entry": entry_updated}, 200
+            return {
+                "message": "Entry with the same title exists, try again"}, 400
         return {
-            "msg": "Entry not updated, it was created over 24 hours ago"}, 200
+            "message": "Entry not updated, it was created over 24 hours ago"}, 200
